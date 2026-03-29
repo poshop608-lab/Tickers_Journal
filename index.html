@@ -6985,13 +6985,14 @@ function showConfig(){
   console.log('Config: URL =', SUPABASE_URL);
 }
 
-function initSupabase(url,key){
+function initSupabase(url,key,autoCheck=false){
   try{
     SB=window.supabase.createClient(url,key,{
-      auth:{persistSession:true,autoRefreshToken:true},
+      auth:{persistSession:false,autoRefreshToken:false},
       realtime:{params:{eventsPerSecond:10}}
     });
-    checkSession();
+    // Only auto-check session when explicitly requested (i.e. after sign-in, not on page load)
+    if(autoCheck) checkSession();
   }catch(e){console.error('Supabase init error:',e);}
 }
 
@@ -7473,28 +7474,61 @@ const PLAN_FEATURES = {
 };
 
 function applyPlanRestrictions(plan){
-  // Admins get full access regardless of plan
+  // Admins always get full access
   const effectivePlan = (typeof isAdmin === 'function' && isAdmin()) ? 'shadow' : plan;
   const allowed = PLAN_FEATURES[effectivePlan] || PLAN_FEATURES['free'];
-  // Update NAV_ITEMS locked status based on plan
+
+  // 1. Update nav items locked state and re-render
   NAV_ITEMS.forEach(item=>{
     if(!item.id) return;
     item.planLocked = !allowed.includes(item.id);
   });
   renderNavItems();
-  // Show plan badge in sidebar
-  const foot=document.querySelector('.sb-foot');
+
+  // 2. Music player — Shadow only
+  const musicBtn = document.getElementById('music-toggle-btn');
+  if(musicBtn) musicBtn.style.display = allowed.includes('music') ? '' : 'none';
+
+  // 3. Import button — Phantom+
+  document.querySelectorAll(".ni[onclick*=\"import\"]").forEach(b=>{
+    b.style.display = allowed.includes('import') ? '' : 'none';
+  });
+
+  // 4. Update plan badge in sidebar footer
+  const foot = document.querySelector('.sb-foot');
   if(foot){
-    let badge=document.getElementById('plan-badge');
+    let badge = document.getElementById('plan-badge');
     if(!badge){
-      badge=document.createElement('div');
-      badge.id='plan-badge';
-      badge.style.cssText='font-family:var(--fm);font-size:9px;letter-spacing:.12em;text-transform:uppercase;text-align:center;padding:5px 10px;border-radius:6px;margin-bottom:6px;';
-      foot.insertBefore(badge,foot.firstChild);
+      badge = document.createElement('div');
+      badge.id = 'plan-badge';
+      badge.style.cssText = 'font-family:var(--fm);font-size:9px;letter-spacing:.12em;text-transform:uppercase;text-align:center;padding:5px 10px;border-radius:6px;margin-bottom:6px;';
+      foot.insertBefore(badge, foot.firstChild);
     }
-    if(plan==='shadow'){badge.textContent='◆ Shadow';badge.style.background='rgba(167,139,250,0.12)';badge.style.color='var(--purple)';}
-    else if(plan==='phantom'){badge.textContent='◈ Phantom';badge.style.background='rgba(232,224,208,0.08)';badge.style.color='var(--gold)';}
-    else{badge.textContent='◈ Free Plan';badge.style.background='var(--g1)';badge.style.color='var(--text3)';}
+    if(effectivePlan==='shadow'){
+      badge.textContent = isAdmin() ? '◆ Admin' : '◆ Shadow';
+      badge.style.background = 'rgba(167,139,250,0.12)';
+      badge.style.color = 'var(--purple)';
+    } else if(effectivePlan==='phantom'){
+      badge.textContent = '◈ Phantom';
+      badge.style.background = 'rgba(232,224,208,0.08)';
+      badge.style.color = 'var(--gold)';
+    } else {
+      badge.textContent = '◈ Free Plan';
+      badge.style.background = 'var(--g1)';
+      badge.style.color = 'var(--text3)';
+    }
+  }
+
+  // 5. Update role label in sidebar footer
+  const roleEl = document.querySelector('.u-role');
+  if(roleEl && currentUser){
+    if(isAdmin()){
+      roleEl.innerHTML = '<span style="color:var(--gold);letter-spacing:.08em">◆ Admin</span>';
+    } else {
+      const planColor = effectivePlan==='shadow'?'var(--purple)':effectivePlan==='phantom'?'var(--gold)':'var(--text3)';
+      const planLabel = effectivePlan==='shadow'?'◆ Shadow':effectivePlan==='phantom'?'◈ Phantom':'◈ Free';
+      roleEl.innerHTML = '<span style="color:'+planColor+';letter-spacing:.08em">'+planLabel+'</span>';
+    }
   }
 }
 
@@ -7798,24 +7832,20 @@ function closeNavEditor(){
 // ── Init Auth on Load ──
 
 function initAuth(){
-  // Landing page handles auth — just boot Supabase
-  localStorage.setItem('yz_sb_url', SUPABASE_URL);
-  localStorage.setItem('yz_sb_key', SUPABASE_KEY);
-  // Guard against old auth elements that no longer exist
+  // Boot Supabase client only — do NOT auto-login, user must sign in manually
   const cfgView = document.getElementById('auth-config-view');
   const loginView = document.getElementById('auth-login-view');
   if(cfgView) cfgView.style.display='none';
   if(loginView) loginView.style.display='none';
-  // Wait for Supabase CDN script to be ready (handles slow/cached loads)
   if(window.supabase){
-    initSupabase(SUPABASE_URL, SUPABASE_KEY);
+    initSupabase(SUPABASE_URL, SUPABASE_KEY, false);
   } else {
     let attempts=0;
     const waitForSB=setInterval(()=>{
       attempts++;
       if(window.supabase){
         clearInterval(waitForSB);
-        initSupabase(SUPABASE_URL, SUPABASE_KEY);
+        initSupabase(SUPABASE_URL, SUPABASE_KEY, false);
       } else if(attempts>20){
         clearInterval(waitForSB);
         console.warn('Supabase CDN failed to load');
@@ -9763,12 +9793,13 @@ async function admSetPlan(userId, email, plan){
       badges.forEach(b=>{ b.className=`adm-badge adm-badge-${plan}`; b.textContent=plan.toUpperCase(); });
     }
 
-    // 4. If changing own plan, apply immediately without reload
+    // 4. If changing own plan, apply all feature gates immediately
     if(userId === currentUser?.id){
       S._plan = plan;
       window._userPlan = plan;
       if(typeof applyPlanRestrictions==='function') applyPlanRestrictions(plan);
     }
+    // 5. For any user: if their data is live-synced via realtime, it will auto-apply on their end
   }catch(e){ toast('⚠ Plan update failed: '+e.message); }
 }
 
