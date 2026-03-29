@@ -1493,9 +1493,11 @@ input:focus,select:focus,textarea:focus{border-color:rgba(232,224,208,0.3)!impor
 .spark{position:absolute;border-radius:50%;pointer-events:none;animation:sparkFloat linear infinite;opacity:0}
 @keyframes sparkFloat{0%{transform:translateY(100vh) translateX(0);opacity:0}8%{opacity:.9}85%{opacity:.3}100%{transform:translateY(-80px) translateX(var(--dx));opacity:0}}
 
-/* NAV */
-nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:20px 48px;display:flex;align-items:center;justify-content:space-between;transition:background .3s,backdrop-filter .3s}
-nav.scrolled{background:rgba(20,20,20,.95);backdrop-filter:blur(20px);border-bottom:1px solid var(--bdr)}
+/* NAV — scoped to landing screen only */
+#landing-screen nav, #main-nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:20px 48px;display:flex;align-items:center;justify-content:space-between;transition:background .3s,backdrop-filter .3s}
+#landing-screen nav.scrolled, #main-nav.scrolled{background:rgba(20,20,20,.95);backdrop-filter:blur(20px);border-bottom:1px solid var(--bdr)}
+/* Sidebar nav must NOT be affected by landing nav styles */
+#sidebar-nav{position:static!important;display:block!important;top:auto!important;left:auto!important;right:auto!important;z-index:auto!important;padding:0!important;flex-direction:column!important;justify-content:flex-start!important;background:none!important;backdrop-filter:none!important;border:none!important;flex:1;overflow-y:auto}
 .nav-logo{font-family:var(--fd);font-size:26px;letter-spacing:.1em;background:linear-gradient(135deg,#c8bfaf,#ede5d8,#c8bfaf);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;filter:drop-shadow(0 0 8px rgba(212,200,180,.2));text-decoration:none}
 .nav-links{display:flex;align-items:center;gap:32px}
 .nav-links a{font-family:var(--fm);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--text2);text-decoration:none;transition:color .2s}
