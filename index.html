@@ -75,13 +75,14 @@ body.auth-open .orb{display:none}
 
 /* ── SIDEBAR ── */
 .sidebar{
-  width:230px;min-width:230px;max-width:230px;flex-shrink:0;
+  width:230px;min-width:230px;
   background:rgba(16,15,14,0.93);
   backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);
   border-right:1px solid rgba(232,224,208,0.08);
   background-image:linear-gradient(180deg,rgba(232,224,208,0.025) 0%,transparent 40%);
   display:flex;flex-direction:column;height:100vh;
-  position:sticky;top:0;overflow-y:auto;z-index:100;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;
+  position:sticky;top:0;overflow-y:auto;z-index:100;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;contain:layout style;
+  contain:layout style;
 }
 
 .logo-wrap{padding:22px 18px 18px;border-bottom:1px solid var(--bdr)}
@@ -1480,430 +1481,434 @@ input:focus,select:focus,textarea:focus{border-color:rgba(232,224,208,0.3)!impor
   tbody tr:hover{box-shadow:none!important}
 }
 
-/* ══ LANDING PAGE STYLES ══ */
-#landing-screen { display:block; }
-#landing-screen.hidden { display:none !important; }
-#app-shell.hidden { display:none !important; }
-
+/* ══ LANDING PAGE — OBSIDIAN THEME ══ */
+#landing-screen{position:fixed;inset:0;overflow-y:auto;overflow-x:hidden;z-index:10;background:#0a0a0b;}
+#landing-screen.hidden{display:none!important}
+#app-shell.hidden{display:none!important}
 #bg-canvas{position:fixed;inset:0;z-index:0;pointer-events:none}
-.noise{position:fixed;inset:0;z-index:1;pointer-events:none;opacity:.03;
-  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-  background-size:180px}
+.noise{position:fixed;inset:0;z-index:1;pointer-events:none;opacity:.025;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-size:180px}
 #sparks{position:fixed;inset:0;z-index:1;pointer-events:none;overflow:hidden}
 .spark{position:absolute;border-radius:50%;pointer-events:none;animation:sparkFloat linear infinite;opacity:0}
-@keyframes sparkFloat{0%{transform:translateY(100vh) translateX(0);opacity:0}8%{opacity:.9}85%{opacity:.3}100%{transform:translateY(-80px) translateX(var(--dx));opacity:0}}
+@keyframes sparkFloat{0%{transform:translateY(100vh) translateX(0);opacity:0}8%{opacity:.7}85%{opacity:.2}100%{transform:translateY(-80px) translateX(var(--dx));opacity:0}}
 
-/* NAV — scoped to landing screen only */
-#landing-screen nav, #main-nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:20px 48px;display:flex;align-items:center;justify-content:space-between;transition:background .3s,backdrop-filter .3s}
-#landing-screen nav.scrolled, #main-nav.scrolled{background:rgba(20,20,20,.95);backdrop-filter:blur(20px);border-bottom:1px solid var(--bdr)}
-/* Sidebar nav must NOT be affected by landing nav styles */
-#sidebar-nav{position:static!important;display:block!important;top:auto!important;left:auto!important;right:auto!important;z-index:auto!important;padding:0!important;flex-direction:column!important;justify-content:flex-start!important;background:none!important;backdrop-filter:none!important;border:none!important;flex:1;overflow-y:auto}
-.nav-logo{font-family:var(--fd);font-size:26px;letter-spacing:.1em;background:linear-gradient(135deg,#c8bfaf,#ede5d8,#c8bfaf);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;filter:drop-shadow(0 0 8px rgba(212,200,180,.2));text-decoration:none}
-.nav-links{display:flex;align-items:center;gap:32px}
-.nav-links a{font-family:var(--fm);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--text2);text-decoration:none;transition:color .2s}
-.nav-links a:hover{color:var(--text)}
-.nav-cta{display:flex;align-items:center;gap:12px}
-.btn-nav-ghost{font-family:var(--fm);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--text2);background:none;border:1px solid var(--bdr);padding:8px 20px;border-radius:6px;text-decoration:none;transition:all .2s;cursor:pointer}
-.btn-nav-ghost:hover{color:var(--text);border-color:rgba(232,224,208,0.18);background:var(--g1)}
-.btn-nav-gold{font-family:var(--fm);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#141414;background:linear-gradient(135deg,#c8bfaf,#ede5d8);border:none;padding:8px 20px;border-radius:6px;text-decoration:none;box-shadow:0 0 14px rgba(212,200,180,.18);transition:all .2s;cursor:pointer}
-.btn-nav-gold:hover{box-shadow:0 0 24px rgba(212,200,180,.28);transform:translateY(-1px)}
+/* ── NAV ── */
+.l-nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:20px 52px;display:flex;align-items:center;justify-content:space-between;transition:all .35s}
+.l-nav.scrolled{background:rgba(10,10,11,.96);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border-bottom:1px solid rgba(255,255,255,.06)}
+.l-nav-logo{font-family:var(--fd);font-size:28px;letter-spacing:.1em;background:linear-gradient(135deg,#c8bfaf,#f0ead8,#c8bfaf);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;text-decoration:none;filter:drop-shadow(0 0 10px rgba(232,224,208,.15))}
+.l-nav-links{display:flex;align-items:center;gap:36px}
+.l-nav-links a{font-family:var(--fm);font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:rgba(240,234,216,.45);text-decoration:none;transition:color .2s,text-shadow .2s}
+.l-nav-links a:hover{color:var(--text);text-shadow:0 0 14px rgba(232,224,208,.2)}
+.l-nav-cta{display:flex;align-items:center;gap:10px}
+.l-btn-ghost{font-family:var(--fm);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:rgba(240,234,216,.5);background:none;border:1px solid rgba(255,255,255,.08);padding:9px 22px;border-radius:8px;transition:all .2s;cursor:pointer}
+.l-btn-ghost:hover{color:var(--text);border-color:rgba(232,224,208,.2);background:rgba(232,224,208,.04);transform:translateY(-1px)}
+.l-btn-primary{font-family:var(--fm);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:#0a0a0b;background:linear-gradient(135deg,#c8bfaf,#ede5d8,#f5f0e8);border:none;padding:9px 22px;border-radius:8px;box-shadow:0 0 20px rgba(232,224,208,.18),0 4px 12px rgba(0,0,0,.3);transition:all .22s;cursor:pointer;font-weight:600}
+.l-btn-primary:hover{box-shadow:0 0 34px rgba(232,224,208,.28),0 8px 24px rgba(0,0,0,.4);transform:translateY(-2px) scale(1.03)}
+.l-btn-primary:active{transform:translateY(0) scale(.97)}
 
-/* HERO */
-#hero{position:relative;z-index:10;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:120px 24px 80px}
-.hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(34,211,160,0.08);border:1px solid rgba(34,211,160,0.2);border-radius:30px;padding:6px 16px;margin-bottom:32px;font-family:var(--fm);font-size:9px;letter-spacing:.28em;color:var(--green);text-transform:uppercase;opacity:0;animation:fadeUp .7s ease .2s forwards}
-.hero-badge-dot{width:6px;height:6px;border-radius:50%;background:var(--green);box-shadow:0 0 8px var(--green-glow);animation:bdot 1.6s ease-in-out infinite}
-@keyframes bdot{0%,100%{opacity:1}50%{opacity:.25}}
-.hero-eyebrow{display:inline-flex;align-items:center;gap:14px;font-family:var(--fm);font-size:9px;letter-spacing:.35em;color:var(--text3);text-transform:uppercase;margin-bottom:20px;opacity:0;animation:fadeUp .7s ease .35s forwards}
-.hero-eyebrow::before,.hero-eyebrow::after{content:'';height:1px;width:40px;background:linear-gradient(90deg,transparent,rgba(232,224,208,0.25))}
-.hero-eyebrow::after{transform:scaleX(-1)}
-.hero-h1{font-family:var(--fd);font-size:clamp(60px,10vw,118px);letter-spacing:.03em;line-height:.92;color:#f0ead8;margin-bottom:12px;opacity:0;animation:fadeUp .8s ease .5s forwards}
-.gold-shine{background:linear-gradient(135deg,#b8aa94,#ede5d8,#b8aa94);background-size:200% auto;-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;filter:drop-shadow(0 0 20px rgba(212,200,180,.25));animation:shimmer 4s linear infinite}
-@keyframes shimmer{0%{background-position:0%}100%{background-position:200%}}
-.gold-shine-text{background:linear-gradient(135deg,#c8bfaf,#ede5d8);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-.hero-sub{font-size:17px;color:var(--text2);max-width:540px;margin:24px auto 0;line-height:1.8;opacity:0;animation:fadeUp .7s ease .75s forwards}
-.hero-sub strong{color:var(--text);font-weight:600}
-.hero-actions{display:flex;align-items:center;gap:14px;margin-top:44px;justify-content:center;opacity:0;animation:fadeUp .7s ease .9s forwards}
-.btn-hero-primary{font-family:var(--ff);font-size:14px;font-weight:600;color:#141414;background:linear-gradient(135deg,#c8bfaf,#ede5d8,#c8bfaf);border:none;padding:16px 36px;border-radius:12px;box-shadow:0 0 28px rgba(212,200,180,.2),0 8px 20px rgba(0,0,0,.4);transition:all .25s;text-decoration:none;display:inline-flex;align-items:center;gap:8px;cursor:pointer}
-.btn-hero-primary:hover{box-shadow:0 0 44px rgba(212,200,180,.28),0 12px 32px rgba(0,0,0,.45);transform:translateY(-2px)}
-.btn-hero-ghost{font-family:var(--ff);font-size:14px;font-weight:500;color:var(--text2);background:var(--g1);border:1px solid var(--bdr2);padding:16px 32px;border-radius:12px;text-decoration:none;display:inline-flex;align-items:center;gap:8px;transition:all .2s;cursor:pointer}
-.btn-hero-ghost:hover{background:var(--g2);color:var(--text);border-color:rgba(232,224,208,0.22)}
-.hero-trust{margin-top:60px;opacity:0;animation:fadeUp .7s ease 1.1s forwards}
-.hero-trust-label{font-family:var(--fm);font-size:9px;letter-spacing:.25em;color:var(--text3);text-transform:uppercase;margin-bottom:16px}
-.hero-trust-row{display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap}
-.trust-stat{display:flex;align-items:center;gap:8px;padding:8px 18px;background:var(--g1);border:1px solid var(--bdr);border-radius:20px;font-family:var(--fm);font-size:11px;color:var(--text2)}
-.trust-stat strong{color:var(--text);font-family:var(--fd);font-size:16px;letter-spacing:.04em}
-.trust-divider{width:1px;height:20px;background:var(--bdr)}
-.scroll-hint{position:absolute;bottom:36px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:8px;font-family:var(--fm);font-size:9px;letter-spacing:.2em;color:var(--text3);text-transform:uppercase;opacity:0;animation:fadeIn 1s ease 1.8s forwards;text-decoration:none}
-.scroll-arrow{width:24px;height:24px;border-right:1px solid var(--text3);border-bottom:1px solid var(--text3);transform:rotate(45deg);animation:scrollBounce 1.5s ease-in-out infinite}
-@keyframes scrollBounce{0%,100%{transform:rotate(45deg) translateY(0)}50%{transform:rotate(45deg) translateY(5px)}}
-@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
-@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+/* ── HERO ── */
+.l-hero{position:relative;z-index:10;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:130px 24px 90px}
+.l-hero-badge{display:inline-flex;align-items:center;gap:9px;background:rgba(34,211,160,.07);border:1px solid rgba(34,211,160,.18);border-radius:30px;padding:7px 18px;margin-bottom:36px;font-family:var(--fm);font-size:9px;letter-spacing:.28em;color:var(--green);text-transform:uppercase;opacity:0;animation:lFadeUp .8s ease .1s forwards}
+.l-hero-live{width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 8px var(--green);animation:lPulse 1.8s ease-in-out infinite}
+@keyframes lPulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(.7)}}
+.l-hero-eyebrow{font-family:var(--fm);font-size:9px;letter-spacing:.38em;color:rgba(240,234,216,.35);text-transform:uppercase;margin-bottom:18px;opacity:0;animation:lFadeUp .7s ease .25s forwards}
+.l-hero-h1{font-family:var(--fd);font-size:clamp(64px,10vw,122px);letter-spacing:.03em;line-height:.90;color:#f0ead8;margin-bottom:0;opacity:0;animation:lFadeUp .9s ease .4s forwards}
+.l-hero-accent{background:linear-gradient(135deg,#b8aa94,#f5f0e8,#ffffff,#ede5d8);background-size:200% auto;-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;animation:lShimmer 5s linear infinite;filter:drop-shadow(0 0 24px rgba(232,224,208,.2))}
+@keyframes lShimmer{0%{background-position:0%}100%{background-position:200%}}
+.l-hero-sub{font-size:17px;color:rgba(240,234,216,.55);max-width:560px;margin:28px auto 0;line-height:1.85;opacity:0;animation:lFadeUp .7s ease .6s forwards}
+.l-hero-sub strong{color:var(--text);font-weight:600}
+.l-hero-actions{display:flex;align-items:center;gap:16px;margin-top:48px;justify-content:center;flex-wrap:wrap;opacity:0;animation:lFadeUp .7s ease .8s forwards}
+.l-btn-hero{font-family:var(--ff);font-size:15px;font-weight:700;color:#0a0a0b;background:linear-gradient(135deg,#c0b8a8,#ede5d8,#f8f4ee);border:none;padding:17px 40px;border-radius:14px;box-shadow:0 0 32px rgba(232,224,208,.22),0 10px 28px rgba(0,0,0,.45);transition:all .26s cubic-bezier(.34,1.56,.64,1);cursor:pointer;position:relative;overflow:hidden}
+.l-btn-hero::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,.18),transparent);pointer-events:none;border-radius:inherit}
+.l-btn-hero:hover{box-shadow:0 0 50px rgba(232,224,208,.32),0 16px 40px rgba(0,0,0,.5);transform:translateY(-3px) scale(1.02)}
+.l-btn-hero:active{transform:translateY(0) scale(.97)}
+.l-btn-outline{font-family:var(--ff);font-size:15px;font-weight:500;color:rgba(240,234,216,.65);background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.12);padding:17px 36px;border-radius:14px;text-decoration:none;display:inline-flex;align-items:center;gap:10px;transition:all .22s cubic-bezier(.34,1.56,.64,1);cursor:pointer}
+.l-btn-outline:hover{background:rgba(255,255,255,.08);color:var(--text);border-color:rgba(232,224,208,.22);transform:translateY(-2px) scale(1.02)}
+.l-btn-outline:active{transform:translateY(0) scale(.97)}
 
-/* MARQUEE */
-.marquee-section{position:relative;z-index:10;border-top:1px solid var(--bdr);border-bottom:1px solid var(--bdr);background:rgba(255,255,255,.015);overflow:hidden}
-.marquee-track{display:flex;align-items:center;animation:marquee 28s linear infinite;width:max-content}
-.marquee-track:hover{animation-play-state:paused}
-.marquee-item{display:flex;align-items:center;gap:12px;padding:18px 40px;font-family:var(--fm);font-size:11px;letter-spacing:.18em;color:var(--text3);text-transform:uppercase;white-space:nowrap;border-right:1px solid var(--bdr)}
-.marquee-item span{font-size:18px}
-.marquee-item.gold{color:var(--text2)}
-@keyframes marquee{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+/* trust row */
+.l-trust{margin-top:64px;opacity:0;animation:lFadeUp .7s ease 1.1s forwards}
+.l-trust-lbl{font-family:var(--fm);font-size:8px;letter-spacing:.28em;color:rgba(255,255,255,.2);text-transform:uppercase;margin-bottom:16px}
+.l-trust-row{display:flex;align-items:center;justify-content:center;gap:6px;flex-wrap:wrap}
+.l-trust-pill{display:flex;align-items:center;gap:8px;padding:8px 18px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.06);border-radius:20px;font-family:var(--fm);font-size:10px;color:rgba(240,234,216,.45);transition:all .2s}
+.l-trust-pill:hover{border-color:rgba(232,224,208,.15);background:rgba(232,224,208,.05);color:rgba(240,234,216,.7)}
+.l-trust-pill strong{color:var(--text);font-family:var(--fd);font-size:15px;letter-spacing:.04em}
+.l-trust-divider{width:1px;height:18px;background:rgba(255,255,255,.07)}
+.l-scroll-hint{position:absolute;bottom:32px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:8px;text-decoration:none;opacity:0;animation:lFadeIn 1s ease 1.9s forwards}
+.l-scroll-line{width:1px;height:44px;background:linear-gradient(180deg,rgba(232,224,208,.3),transparent);animation:lScrollLine 1.6s ease-in-out infinite}
+@keyframes lScrollLine{0%{transform:scaleY(0);transform-origin:top}50%{transform:scaleY(1);transform-origin:top}51%{transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
+@keyframes lFadeUp{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:none}}
+@keyframes lFadeIn{from{opacity:0}to{opacity:.6}}
 
-/* SECTIONS */
-.section{position:relative;z-index:10;padding:120px 48px;max-width:1280px;margin:0 auto}
-.eyebrow{display:inline-flex;align-items:center;gap:12px;font-family:var(--fm);font-size:9px;letter-spacing:.32em;color:var(--text3);text-transform:uppercase;margin-bottom:16px}
-.eyebrow::before,.eyebrow::after{content:'';height:1px;width:30px;background:linear-gradient(90deg,transparent,rgba(232,224,208,0.2))}
-.eyebrow::after{transform:scaleX(-1)}
-.section-title{font-family:var(--fd);font-size:clamp(42px,5vw,68px);letter-spacing:.04em;line-height:1;color:var(--text);margin-bottom:16px}
-.section-sub{font-size:15px;color:var(--text2);max-width:520px;line-height:1.8}
-.sr{opacity:0;transform:translateY(28px);transition:opacity .7s ease,transform .7s ease}
-.sr.vis{opacity:1;transform:none}
+/* ── MARQUEE ── */
+.l-marquee{position:relative;z-index:10;border-top:1px solid rgba(255,255,255,.05);border-bottom:1px solid rgba(255,255,255,.05);background:rgba(255,255,255,.01);overflow:hidden;padding:0}
+.l-marquee-track{display:flex;align-items:center;animation:lMarquee 30s linear infinite;width:max-content}
+.l-marquee-track:hover{animation-play-state:paused}
+.l-marquee-item{display:flex;align-items:center;gap:11px;padding:18px 44px;font-family:var(--fm);font-size:10px;letter-spacing:.18em;color:rgba(255,255,255,.22);text-transform:uppercase;white-space:nowrap;border-right:1px solid rgba(255,255,255,.04);transition:color .2s}
+.l-marquee-item:hover{color:rgba(240,234,216,.55)}
+.l-marquee-item span{font-size:16px;opacity:.7}
+.l-marquee-item.accent{color:rgba(232,224,208,.35)}
+@keyframes lMarquee{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
 
-/* PROBLEM */
-.problem-grid{display:grid;grid-template-columns:1fr 1fr;gap:2px;margin-top:60px;border:1px solid var(--bdr);border-radius:20px;overflow:hidden}
-.problem-item{padding:32px 36px;background:var(--g1);border-right:1px solid var(--bdr);border-bottom:1px solid var(--bdr);transition:background .2s;position:relative;overflow:hidden}
-.problem-item:nth-child(even){border-right:none}
-.problem-item:nth-last-child(-n+2){border-bottom:none}
-.problem-item::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--red-glow),transparent);opacity:0;transition:opacity .3s}
-.problem-item:hover{background:rgba(248,113,113,.03)}
-.problem-item:hover::before{opacity:1}
-.problem-icon{font-size:28px;margin-bottom:14px;display:block}
-.problem-title{font-family:var(--fd);font-size:22px;letter-spacing:.04em;color:var(--red);margin-bottom:8px}
-.problem-text{font-size:13px;color:var(--text3);line-height:1.7}
+/* ── SECTIONS ── */
+.l-section{position:relative;z-index:10;padding:120px 52px;max-width:1320px;margin:0 auto}
+.l-eyebrow{display:inline-flex;align-items:center;gap:14px;font-family:var(--fm);font-size:8px;letter-spacing:.34em;color:rgba(232,224,208,.4);text-transform:uppercase;margin-bottom:18px}
+.l-eyebrow::before,.l-eyebrow::after{content:'';height:1px;width:32px;background:linear-gradient(90deg,transparent,rgba(232,224,208,.25))}
+.l-eyebrow::after{transform:scaleX(-1)}
+.l-section-title{font-family:var(--fd);font-size:clamp(44px,5vw,72px);letter-spacing:.04em;line-height:.97;color:var(--text);margin-bottom:18px}
+.l-section-sub{font-size:15px;color:rgba(240,234,216,.45);max-width:520px;line-height:1.85}
+.l-sr{opacity:0;transform:translateY(30px);transition:opacity .75s ease,transform .75s ease}
+.l-sr.vis{opacity:1;transform:none}
 
-/* BENTO */
-.bento-grid{display:grid;grid-template-columns:repeat(12,1fr);gap:16px;margin-top:60px}
-.bento{background:rgba(255,255,255,.03);border:1px solid var(--bdr);border-radius:20px;overflow:hidden;position:relative;transition:border-color .25s,box-shadow .25s,transform .25s}
-.bento:hover{border-color:rgba(232,224,208,.20);box-shadow:0 16px 48px rgba(0,0,0,.55),0 0 40px rgba(232,224,208,.06),inset 0 0 20px rgba(232,224,208,.02);transform:translateY(-4px)}
-.bento::before{content:'';position:absolute;inset:0;border-radius:20px;background:linear-gradient(135deg,rgba(255,255,255,.025) 0%,transparent 60%);pointer-events:none}
-.bento-content{padding:28px;position:relative;z-index:1}
-.bento-icon{font-size:28px;margin-bottom:14px;display:block}
-.bento-tag{display:inline-flex;align-items:center;font-family:var(--fm);font-size:8px;letter-spacing:.2em;text-transform:uppercase;padding:3px 10px;border-radius:4px;margin-bottom:12px}
-.bento-tag.gold{background:var(--gold-dim);color:var(--gold);border:1px solid rgba(232,224,208,.13)}
-.bento-tag.green{background:var(--green-dim);color:var(--green);border:1px solid rgba(34,211,160,.2)}
-.bento-tag.purple{background:var(--purple-dim);color:var(--purple);border:1px solid rgba(167,139,250,.2)}
-.bento-tag.blue{background:var(--blue-dim);color:var(--blue);border:1px solid rgba(96,165,250,.2)}
-.bento-title{font-family:var(--fd);font-size:24px;letter-spacing:.04em;color:var(--text);margin-bottom:8px}
-.bento-text{font-size:13px;color:var(--text2);line-height:1.7}
-.bento-1{grid-column:span 5}.bento-2{grid-column:span 7}.bento-3{grid-column:span 4}.bento-4{grid-column:span 4}.bento-5{grid-column:span 4}.bento-6{grid-column:span 7}.bento-7{grid-column:span 5}
-.mini-chart{margin-top:20px;height:80px;display:flex;align-items:flex-end;gap:4px}
-.mc-bar{flex:1;border-radius:3px 3px 0 0;animation:barGrow 1s ease forwards;transform-origin:bottom}
-@keyframes barGrow{from{transform:scaleY(0)}to{transform:scaleY(1)}}
-.mini-cal{margin-top:16px;display:grid;grid-template-columns:repeat(5,1fr);gap:3px}
-.mc-day{height:32px;border-radius:5px;display:flex;align-items:center;justify-content:center;font-family:var(--fm);font-size:9px;font-weight:500}
-.mc-day.pos{background:rgba(34,211,160,.15);color:var(--green)}
-.mc-day.neg{background:rgba(248,113,113,.15);color:var(--red)}
-.mc-day.empty{background:rgba(255,255,255,.03);color:var(--text3)}
-.score-ring-wrap{display:flex;align-items:center;gap:24px;margin-top:20px}
-.score-ring{position:relative;width:90px;height:90px;flex-shrink:0}
-.score-ring svg{transform:rotate(-90deg)}
-.score-ring-label{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
-.score-ring-val{font-family:var(--fd);font-size:24px;color:var(--green)}
-.score-ring-sub{font-family:var(--fm);font-size:8px;color:var(--text3);letter-spacing:.1em}
-.pill-list{display:flex;flex-wrap:wrap;gap:6px;margin-top:16px}
-.feature-pill{padding:5px 12px;border-radius:20px;font-family:var(--fm);font-size:10px;background:var(--g2);border:1px solid var(--bdr);color:var(--text2)}
+/* ── STATS BELT ── */
+.l-stats{position:relative;z-index:10;background:linear-gradient(135deg,rgba(232,224,208,.03),rgba(255,255,255,.01));border-top:1px solid rgba(255,255,255,.05);border-bottom:1px solid rgba(255,255,255,.05);padding:72px 52px}
+.l-stats-inner{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr)}
+.l-stat{text-align:center;padding:24px 32px;border-right:1px solid rgba(255,255,255,.05);position:relative;transition:transform .2s}
+.l-stat:last-child{border-right:none}
+.l-stat:hover{transform:translateY(-3px)}
+.l-stat::before{content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);width:40px;height:1px;background:linear-gradient(90deg,transparent,rgba(232,224,208,.25),transparent)}
+.l-stat-val{font-family:var(--fd);font-size:62px;letter-spacing:.02em;line-height:1;background:linear-gradient(135deg,#c8bfaf,#f5f0e8);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.l-stat-lbl{font-family:var(--fm);font-size:8px;letter-spacing:.22em;color:rgba(255,255,255,.28);text-transform:uppercase;margin-top:8px}
 
-/* STATS */
-.stats-belt{position:relative;z-index:10;background:linear-gradient(135deg,rgba(212,200,180,.04),rgba(255,255,255,.02));border-top:1px solid var(--bdr);border-bottom:1px solid var(--bdr);padding:64px 48px}
-.stats-belt-inner{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr)}
-.stat-item{text-align:center;padding:24px 32px;border-right:1px solid var(--bdr);position:relative}
-.stat-item:last-child{border-right:none}
-.stat-item::after{content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);width:40px;height:2px;background:linear-gradient(90deg,transparent,rgba(232,224,208,0.3),transparent)}
-.stat-val{font-family:var(--fd);font-size:58px;letter-spacing:.02em;line-height:1;background:linear-gradient(135deg,var(--gold2),var(--gold3),var(--gold));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-.stat-label{font-family:var(--fm);font-size:9px;letter-spacing:.2em;color:var(--text3);text-transform:uppercase;margin-top:8px}
+/* ── FEATURES BENTO ── */
+.l-bento-grid{display:grid;grid-template-columns:repeat(12,1fr);gap:14px;margin-top:64px}
+.l-bento{background:rgba(255,255,255,.025);border:1px solid rgba(255,255,255,.06);border-radius:22px;overflow:hidden;position:relative;transition:border-color .28s,box-shadow .28s,transform .28s cubic-bezier(.34,1.3,.64,1)}
+.l-bento::before{content:'';position:absolute;inset:0;border-radius:22px;background:linear-gradient(135deg,rgba(255,255,255,.02) 0%,transparent 60%);pointer-events:none}
+.l-bento:hover{border-color:rgba(232,224,208,.18);box-shadow:0 20px 56px rgba(0,0,0,.6),0 0 40px rgba(232,224,208,.05),inset 0 0 24px rgba(232,224,208,.02);transform:translateY(-5px)}
+.l-bento-content{padding:30px;position:relative;z-index:1}
+.l-bento-icon{font-size:30px;margin-bottom:16px;display:block;filter:grayscale(.2)}
+.l-bento-tag{display:inline-flex;align-items:center;font-family:var(--fm);font-size:7px;letter-spacing:.22em;text-transform:uppercase;padding:3px 10px;border-radius:4px;margin-bottom:14px}
+.l-bento-tag.cream{background:rgba(232,224,208,.08);color:rgba(232,224,208,.6);border:1px solid rgba(232,224,208,.12)}
+.l-bento-tag.green{background:rgba(34,211,160,.08);color:var(--green);border:1px solid rgba(34,211,160,.18)}
+.l-bento-tag.purple{background:rgba(167,139,250,.08);color:var(--purple);border:1px solid rgba(167,139,250,.18)}
+.l-bento-tag.blue{background:rgba(96,165,250,.08);color:var(--blue);border:1px solid rgba(96,165,250,.18)}
+.l-bento-title{font-family:var(--fd);font-size:26px;letter-spacing:.04em;color:var(--text);margin-bottom:10px}
+.l-bento-text{font-size:13px;color:rgba(240,234,216,.45);line-height:1.75}
+.l-b1{grid-column:span 5}.l-b2{grid-column:span 7}.l-b3{grid-column:span 4}.l-b4{grid-column:span 4}.l-b5{grid-column:span 4}.l-b6{grid-column:span 7}.l-b7{grid-column:span 5}
+.l-mini-cal{margin-top:18px;display:grid;grid-template-columns:repeat(5,1fr);gap:3px}
+.l-mc-day{height:34px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-family:var(--fm);font-size:9px;font-weight:600}
+.l-mc-day.p{background:rgba(34,211,160,.13);color:var(--green);border:1px solid rgba(34,211,160,.15)}
+.l-mc-day.n{background:rgba(248,113,113,.13);color:var(--red);border:1px solid rgba(248,113,113,.15)}
+.l-mc-day.e{background:rgba(255,255,255,.03);color:rgba(255,255,255,.2)}
+.l-mini-chart{margin-top:18px;height:82px;display:flex;align-items:flex-end;gap:4px}
+.l-mc-bar{flex:1;border-radius:3px 3px 0 0;transition:height .4s ease}
+.l-pill-list{display:flex;flex-wrap:wrap;gap:6px;margin-top:18px}
+.l-pill{padding:5px 13px;border-radius:20px;font-family:var(--fm);font-size:9px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);color:rgba(240,234,216,.45);transition:all .18s}
+.l-pill:hover{border-color:rgba(232,224,208,.18);color:rgba(240,234,216,.7);background:rgba(232,224,208,.05)}
+.l-score-ring-wrap{display:flex;align-items:center;gap:24px;margin-top:18px}
+.l-score-ring{position:relative;width:90px;height:90px;flex-shrink:0}
+.l-score-ring svg{transform:rotate(-90deg)}
+.l-score-ring-label{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.l-score-ring-val{font-family:var(--fd);font-size:26px;color:var(--green)}
+.l-score-ring-sub{font-family:var(--fm);font-size:8px;color:rgba(255,255,255,.3);letter-spacing:.1em}
 
-/* HOW */
-.steps-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:60px;position:relative}
-.steps-grid::before{content:'';position:absolute;top:44px;left:calc(16.66% + 24px);right:calc(16.66% + 24px);height:1px;background:linear-gradient(90deg,var(--gold),rgba(232,224,208,.13),var(--gold));z-index:0}
-.step-card{background:var(--g1);border:1px solid var(--bdr);border-radius:20px;padding:32px;position:relative;text-align:center;transition:border-color .25s,box-shadow .25s,transform .25s}
-.step-card:hover{border-color:rgba(232,224,208,.20);box-shadow:0 8px 40px rgba(0,0,0,.4),0 0 30px rgba(232,224,208,.05)}
-.step-num{width:52px;height:52px;border-radius:50%;margin:0 auto 20px;background:rgba(232,224,208,0.12);border:1px solid rgba(232,224,208,0.3);display:flex;align-items:center;justify-content:center;font-family:var(--fd);font-size:26px;color:var(--text);box-shadow:none;position:relative;z-index:1}
-.step-title{font-family:var(--fd);font-size:22px;letter-spacing:.04em;margin-bottom:10px}
-.step-text{font-size:13px;color:var(--text2);line-height:1.7}
+/* ── PROBLEM ── */
+.l-problem-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;margin-top:64px;border:1px solid rgba(255,255,255,.06);border-radius:22px;overflow:hidden}
+.l-problem-item{padding:36px 40px;background:rgba(255,255,255,.02);border-right:1px solid rgba(255,255,255,.05);border-bottom:1px solid rgba(255,255,255,.05);transition:background .22s;position:relative;overflow:hidden}
+.l-problem-item:nth-child(even){border-right:none}
+.l-problem-item:nth-last-child(-n+2){border-bottom:none}
+.l-problem-item::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,rgba(248,113,113,.5),transparent);opacity:0;transition:opacity .3s}
+.l-problem-item:hover{background:rgba(248,113,113,.03)}
+.l-problem-item:hover::before{opacity:1}
+.l-problem-icon{font-size:26px;margin-bottom:16px;display:block;opacity:.8}
+.l-problem-title{font-family:var(--fd);font-size:22px;letter-spacing:.04em;color:var(--red);margin-bottom:10px}
+.l-problem-text{font-size:13px;color:rgba(240,234,216,.38);line-height:1.75}
 
-/* TESTIMONIALS */
-.testi-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:60px}
-.testi-card{background:var(--g1);border:1px solid var(--bdr);border-radius:18px;padding:28px;transition:border-color .2s,box-shadow .2s,transform .2s;position:relative}
-.testi-card::before{content:'\201C';position:absolute;top:16px;right:22px;font-family:Georgia,serif;font-size:60px;color:var(--gold);opacity:.15;line-height:1}
-.testi-card:hover{border-color:rgba(232,224,208,.13);box-shadow:0 8px 30px rgba(0,0,0,.3),0 0 20px rgba(232,224,208,0.03)}
-.testi-stars{color:rgba(232,224,208,0.6);font-size:13px;letter-spacing:2px;margin-bottom:14px}
-.testi-text{font-size:13px;color:var(--text2);line-height:1.75;margin-bottom:20px}
-.testi-author{display:flex;align-items:center;gap:12px}
-.testi-av{width:38px;height:38px;border-radius:50%;background:rgba(232,224,208,0.12);border:1px solid rgba(232,224,208,0.2);display:flex;align-items:center;justify-content:center;font-family:var(--fd);font-size:18px;color:var(--text);flex-shrink:0}
-.testi-name{font-size:13px;font-weight:600;color:var(--text)}
-.testi-handle{font-family:var(--fm);font-size:10px;color:var(--text3)}
+/* ── HOW IT WORKS ── */
+.l-steps-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:64px;position:relative}
+.l-steps-grid::before{content:'';position:absolute;top:42px;left:calc(16.66% + 22px);right:calc(16.66% + 22px);height:1px;background:linear-gradient(90deg,rgba(232,224,208,.2),rgba(232,224,208,.06),rgba(232,224,208,.2));z-index:0}
+.l-step-card{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-radius:22px;padding:34px;position:relative;text-align:center;transition:border-color .28s,box-shadow .28s,transform .28s cubic-bezier(.34,1.3,.64,1)}
+.l-step-card:hover{border-color:rgba(232,224,208,.18);box-shadow:0 16px 50px rgba(0,0,0,.5),0 0 40px rgba(232,224,208,.06);transform:translateY(-5px)}
+.l-step-num{width:52px;height:52px;border-radius:50%;margin:0 auto 22px;background:rgba(232,224,208,.08);border:1px solid rgba(232,224,208,.18);display:flex;align-items:center;justify-content:center;font-family:var(--fd);font-size:26px;color:rgba(232,224,208,.7);position:relative;z-index:1;transition:all .28s}
+.l-step-card:hover .l-step-num{background:rgba(232,224,208,.12);box-shadow:0 0 20px rgba(232,224,208,.12);color:var(--text)}
+.l-step-title{font-family:var(--fd);font-size:22px;letter-spacing:.04em;margin-bottom:12px;color:var(--text)}
+.l-step-text{font-size:13px;color:rgba(240,234,216,.42);line-height:1.75}
 
-/* PLANS */
-.plans-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:60px;align-items:start}
-.plan-card{border:1px solid var(--bdr);border-radius:24px;background:rgba(18,18,20,.7);backdrop-filter:blur(20px);padding:32px 28px;position:relative;overflow:hidden;transition:transform .3s cubic-bezier(.34,1.3,.64,1),box-shadow .3s,border-color .3s;opacity:0;transform:translateY(36px)}
-.plan-card.reveal{opacity:1;transform:none;transition:opacity .6s ease,transform .6s cubic-bezier(.34,1.3,.64,1),box-shadow .3s,border-color .3s}
-.plan-card:hover{transform:translateY(-8px);box-shadow:0 24px 64px rgba(0,0,0,.65)!important}
-.plan-card::after{content:'';position:absolute;inset:0;border-radius:24px;pointer-events:none;background:radial-gradient(ellipse 60% 40% at 50% 0%,rgba(255,255,255,.04),transparent 65%)}
-.plan-top-line{position:absolute;top:0;left:0;right:0;height:2px}
-.plan-glow{position:absolute;width:360px;height:360px;border-radius:50%;filter:blur(80px);pointer-events:none;opacity:0;transition:opacity .5s;bottom:-130px;right:-130px}
-.plan-card:hover .plan-glow{opacity:1}
-.plan-card.free .plan-top-line{background:linear-gradient(90deg,transparent,rgba(255,255,255,.2),transparent)}
-.plan-card.free:hover{border-color:rgba(255,255,255,.2);box-shadow:0 24px 60px rgba(0,0,0,.6)}
-.plan-card.free .plan-glow{background:rgba(160,160,200,.1)}
-.plan-card.free .plan-name{color:var(--text)}
-.plan-card.free .plan-price{color:var(--text)}
-.plan-card.phantom{border-color:rgba(212,200,180,.22);box-shadow:0 0 50px rgba(212,200,180,.05)}
-.plan-card.phantom .plan-top-line{background:linear-gradient(90deg,transparent,rgba(232,224,208,0.49),rgba(232,200,112,.5),transparent)}
-.plan-card.phantom:hover{border-color:rgba(232,224,208,0.39);box-shadow:0 28px 70px rgba(0,0,0,.6),0 0 100px rgba(232,224,208,.10)}
-.plan-card.phantom .plan-glow{background:rgba(232,224,208,.09)}
-.plan-card.phantom .plan-name{background:linear-gradient(135deg,var(--gold2),var(--gold),var(--gold3));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;filter:drop-shadow(0 0 12px rgba(232,224,208,.35))}
-.plan-card.phantom .plan-price{color:var(--text)}
-.plan-card.shadow{border-color:rgba(167,139,250,.25);box-shadow:0 0 60px rgba(167,139,250,.05)}
-.plan-card.shadow .plan-top-line{background:linear-gradient(90deg,transparent,rgba(167,139,250,.7),transparent)}
-.plan-card.shadow:hover{border-color:rgba(167,139,250,.5);box-shadow:0 28px 70px rgba(0,0,0,.6),0 0 100px rgba(167,139,250,.12)}
-.plan-card.shadow .plan-glow{background:rgba(167,139,250,.12)}
-.plan-card.shadow .plan-name{background:linear-gradient(135deg,#7c3aed,var(--purple),#c4b5fd);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;filter:drop-shadow(0 0 12px rgba(167,139,250,.45))}
-.plan-card.shadow .plan-price{color:var(--purple)}
-.popular-ribbon{position:absolute;top:0;left:50%;transform:translateX(-50%);background:linear-gradient(135deg,#c8bfaf,#ede5d8,#f5f0e8);color:#141414;font-family:var(--fd);font-size:11px;letter-spacing:.2em;padding:5px 22px;border-radius:0 0 12px 12px;box-shadow:0 4px 20px var(--gold-glow)}
-.plan-icon{font-size:34px;margin-bottom:12px;display:block}
-.plan-name{font-family:var(--fd);font-size:36px;letter-spacing:.06em;line-height:1;margin-bottom:5px}
-.plan-tag{font-size:12px;color:var(--text2);font-style:italic;line-height:1.5;margin-bottom:20px}
-.plan-price-block{padding:18px 0;border-top:1px solid var(--bdr);border-bottom:1px solid var(--bdr);margin-bottom:22px}
-.plan-price{font-family:var(--fd);font-size:56px;letter-spacing:.02em;line-height:1;display:flex;align-items:flex-start;gap:4px}
-.plan-price-cur{font-family:var(--fm);font-size:18px;color:var(--text2);margin-top:8px}
-.plan-price-per{font-family:var(--fm);font-size:11px;color:var(--text3);align-self:flex-end;margin-bottom:5px}
-.plan-price-note{font-family:var(--fm);font-size:9px;color:var(--text3);margin-top:6px}
-.plan-btn{width:100%;padding:14px;border-radius:12px;border:none;font-family:var(--ff);font-size:13px;font-weight:600;transition:all .25s;margin-bottom:22px;display:flex;align-items:center;justify-content:center;gap:8px;position:relative;overflow:hidden;cursor:pointer}
-.plan-card.free .plan-btn{background:var(--g2);color:var(--text);border:1px solid var(--bdr2)}
-.plan-card.free .plan-btn:hover{background:var(--g3)}
-.plan-card.phantom .plan-btn{background:linear-gradient(135deg,#c8bfaf,#ede5d8,#f5f0e8);color:#141414;box-shadow:0 0 20px rgba(232,224,208,.2)}
-.plan-card.phantom .plan-btn:hover{box-shadow:0 0 30px rgba(232,224,208,.3);transform:translateY(-1px)}
-.plan-card.shadow .plan-btn{background:linear-gradient(135deg,#6d28d9,var(--purple),#c4b5fd);color:#fff;box-shadow:0 0 28px var(--purple-glow)}
-.plan-card.shadow .plan-btn:hover{box-shadow:0 0 44px var(--purple-glow);transform:translateY(-1px)}
-.plan-feat{display:flex;align-items:flex-start;gap:9px;margin-bottom:8px;font-size:12px;line-height:1.5}
-.plan-feat-ic{width:17px;height:17px;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:9px;flex-shrink:0;margin-top:1px}
-.plan-feat.yes .plan-feat-ic{background:var(--green-dim);color:var(--green)}
-.plan-feat.yes.g .plan-feat-ic{background:var(--gold-dim);color:var(--gold)}
-.plan-feat.yes.p .plan-feat-ic{background:var(--purple-dim);color:var(--purple)}
-.plan-feat.no .plan-feat-ic{background:rgba(255,255,255,.03);color:var(--text3)}
-.plan-feat.no .plan-feat-tx{color:var(--text3)}
-.plan-feats-lbl{font-family:var(--fm);font-size:8px;letter-spacing:.22em;color:var(--text3);text-transform:uppercase;margin-bottom:12px;display:flex;align-items:center;gap:8px}
-.plan-feats-lbl::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,var(--bdr),transparent)}
+/* ── TESTIMONIALS ── */
+.l-testi-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:64px}
+.l-testi-card{background:rgba(255,255,255,.025);border:1px solid rgba(255,255,255,.06);border-radius:20px;padding:30px;transition:all .28s cubic-bezier(.34,1.3,.64,1);position:relative;overflow:hidden}
+.l-testi-card::before{content:'C';position:absolute;top:14px;right:20px;font-family:Georgia,serif;font-size:64px;color:rgba(232,224,208,.08);line-height:1}
+.l-testi-card:hover{border-color:rgba(232,224,208,.16);box-shadow:0 16px 44px rgba(0,0,0,.45),0 0 32px rgba(232,224,208,.05);transform:translateY(-4px)}
+.l-testi-stars{font-size:12px;letter-spacing:2px;margin-bottom:16px;color:rgba(232,224,208,.5)}
+.l-testi-text{font-size:13px;color:rgba(240,234,216,.5);line-height:1.8;margin-bottom:22px}
+.l-testi-author{display:flex;align-items:center;gap:12px}
+.l-testi-av{width:38px;height:38px;border-radius:50%;background:rgba(232,224,208,.1);border:1px solid rgba(232,224,208,.18);display:flex;align-items:center;justify-content:center;font-family:var(--fd);font-size:18px;color:rgba(232,224,208,.7);flex-shrink:0}
+.l-testi-name{font-size:13px;font-weight:600;color:var(--text)}
+.l-testi-handle{font-family:var(--fm);font-size:9px;color:rgba(255,255,255,.25)}
 
-/* CTA */
-.cta-section{position:relative;z-index:10;padding:160px 48px;text-align:center}
-.cta-glow{position:absolute;width:700px;height:400px;border-radius:50%;background:radial-gradient(ellipse,rgba(212,200,180,.06),transparent 70%);top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none}
-.cta-title{font-family:var(--fd);font-size:clamp(52px,7vw,92px);letter-spacing:.04em;line-height:.95;color:var(--text);margin-bottom:20px}
-.cta-sub{font-size:16px;color:var(--text2);max-width:460px;margin:0 auto 44px;line-height:1.8}
-.cta-note{font-family:var(--fm);font-size:10px;color:var(--text3);letter-spacing:.1em;margin-top:20px;opacity:0.7}
+/* ── PLANS ── */
+.l-plans-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:64px;align-items:start}
+.l-plan-card{border:1px solid rgba(255,255,255,.07);border-radius:26px;background:rgba(255,255,255,.025);backdrop-filter:blur(20px);padding:34px 30px;position:relative;overflow:hidden;transition:transform .32s cubic-bezier(.34,1.3,.64,1),box-shadow .32s,border-color .32s;opacity:0;transform:translateY(40px)}
+.l-plan-card.reveal{opacity:1;transform:none;transition:opacity .65s ease,transform .65s cubic-bezier(.34,1.3,.64,1),box-shadow .32s,border-color .32s}
+.l-plan-card:hover{transform:translateY(-8px)}
+.l-plan-top-line{position:absolute;top:0;left:0;right:0;height:2px}
+.l-plan-glow{position:absolute;width:300px;height:300px;border-radius:50%;filter:blur(70px);pointer-events:none;opacity:0;transition:opacity .5s;bottom:-120px;right:-80px}
+.l-plan-card:hover .l-plan-glow{opacity:1}
+/* Free */
+.l-plan-card.free .l-plan-top-line{background:linear-gradient(90deg,transparent,rgba(255,255,255,.18),transparent)}
+.l-plan-card.free:hover{border-color:rgba(255,255,255,.14);box-shadow:0 24px 60px rgba(0,0,0,.5)}
+.l-plan-card.free .l-plan-glow{background:rgba(180,180,200,.08)}
+/* Phantom */
+.l-plan-card.phantom{border-color:rgba(232,224,208,.14);box-shadow:0 0 40px rgba(232,224,208,.04)}
+.l-plan-card.phantom .l-plan-top-line{background:linear-gradient(90deg,transparent,rgba(232,224,208,.5),rgba(245,240,232,.3),transparent)}
+.l-plan-card.phantom:hover{border-color:rgba(232,224,208,.28);box-shadow:0 28px 68px rgba(0,0,0,.55),0 0 80px rgba(232,224,208,.07)}
+.l-plan-card.phantom .l-plan-glow{background:rgba(232,224,208,.1)}
+.l-plan-card.phantom .l-plan-icon{color:rgba(232,224,208,.8)}
+.l-plan-card.phantom .l-plan-name{background:linear-gradient(135deg,#c8bfaf,#f5f0e8,#ffffff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.l-plan-card.phantom .l-plan-price{color:rgba(232,224,208,.85)}
+/* Shadow */
+.l-plan-card.shadow{border-color:rgba(167,139,250,.2);box-shadow:0 0 50px rgba(167,139,250,.04)}
+.l-plan-card.shadow .l-plan-top-line{background:linear-gradient(90deg,transparent,rgba(167,139,250,.6),transparent)}
+.l-plan-card.shadow:hover{border-color:rgba(167,139,250,.42);box-shadow:0 28px 68px rgba(0,0,0,.55),0 0 80px rgba(167,139,250,.1)}
+.l-plan-card.shadow .l-plan-glow{background:rgba(167,139,250,.1)}
+.l-plan-card.shadow .l-plan-icon{color:rgba(167,139,250,.8)}
+.l-plan-card.shadow .l-plan-name{background:linear-gradient(135deg,#7c3aed,var(--purple),#c4b5fd);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.l-plan-card.shadow .l-plan-price{color:var(--purple)}
 
-/* FOOTER */
-footer{position:relative;z-index:10;border-top:1px solid var(--bdr);padding:60px 48px 40px}
-.footer-inner{max-width:1280px;margin:0 auto;display:flex;align-items:flex-start;justify-content:space-between;gap:40px}
-.footer-brand{max-width:260px}
-.footer-logo{font-family:var(--fd);font-size:26px;letter-spacing:.1em;background:linear-gradient(135deg,#c8bfaf,#ede5d8,#c8bfaf);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;filter:drop-shadow(0 0 6px rgba(212,200,180,.15));margin-bottom:12px}
-.footer-tagline{font-size:12px;color:var(--text3);line-height:1.7}
-.footer-col h4{font-family:var(--fm);font-size:9px;letter-spacing:.22em;color:var(--text3);text-transform:uppercase;margin-bottom:14px}
-.footer-col a{display:block;font-size:13px;color:var(--text2);text-decoration:none;margin-bottom:8px;transition:color .2s}
-.footer-col a:hover{color:var(--text2)}
-.footer-bottom{max-width:1280px;margin:36px auto 0;padding-top:20px;border-top:1px solid var(--bdr);display:flex;align-items:center;justify-content:space-between}
-.footer-copy{font-family:var(--fm);font-size:10px;color:var(--text3);letter-spacing:.1em}
+.l-popular-ribbon{position:absolute;top:0;left:50%;transform:translateX(-50%);background:linear-gradient(135deg,#b8aa94,#ede5d8,#f5f0e8);color:#0a0a0b;font-family:var(--fd);font-size:10px;letter-spacing:.24em;padding:5px 22px;border-radius:0 0 12px 12px;font-weight:700}
+.l-plan-icon{font-family:var(--fd);font-size:38px;margin-bottom:12px;display:block;color:rgba(255,255,255,.3);letter-spacing:.06em}
+.l-plan-name{font-family:var(--fd);font-size:38px;letter-spacing:.06em;line-height:1;margin-bottom:6px;color:var(--text)}
+.l-plan-tag{font-size:12px;color:rgba(240,234,216,.38);font-style:italic;line-height:1.5;margin-bottom:22px}
+.l-plan-price-block{padding:18px 0;border-top:1px solid rgba(255,255,255,.06);border-bottom:1px solid rgba(255,255,255,.06);margin-bottom:24px}
+.l-plan-price{font-family:var(--fd);font-size:58px;letter-spacing:.02em;line-height:1;display:flex;align-items:flex-start;gap:4px;color:rgba(255,255,255,.6)}
+.l-plan-price-cur{font-family:var(--fm);font-size:18px;color:rgba(255,255,255,.35);margin-top:8px}
+.l-plan-price-per{font-family:var(--fm);font-size:11px;color:rgba(255,255,255,.28);align-self:flex-end;margin-bottom:6px}
+.l-plan-price-note{font-family:var(--fm);font-size:9px;color:rgba(255,255,255,.22);margin-top:6px}
+.l-plan-btn{width:100%;padding:15px;border-radius:13px;border:none;font-family:var(--ff);font-size:13px;font-weight:600;transition:all .26s cubic-bezier(.34,1.56,.64,1);margin-bottom:24px;display:flex;align-items:center;justify-content:center;gap:8px;cursor:pointer}
+.l-plan-card.free .l-plan-btn{background:rgba(255,255,255,.07);color:var(--text);border:1px solid rgba(255,255,255,.1)}
+.l-plan-card.free .l-plan-btn:hover{background:rgba(255,255,255,.12);transform:translateY(-2px) scale(1.02)}
+.l-plan-card.phantom .l-plan-btn{background:linear-gradient(135deg,#b8aa94,#ede5d8,#f5f0e8);color:#0a0a0b;box-shadow:0 0 24px rgba(232,224,208,.18)}
+.l-plan-card.phantom .l-plan-btn:hover{box-shadow:0 0 38px rgba(232,224,208,.28);transform:translateY(-2px) scale(1.02)}
+.l-plan-card.shadow .l-plan-btn{background:linear-gradient(135deg,#6d28d9,var(--purple),#c4b5fd);color:#fff;box-shadow:0 0 24px rgba(167,139,250,.25)}
+.l-plan-card.shadow .l-plan-btn:hover{box-shadow:0 0 40px rgba(167,139,250,.38);transform:translateY(-2px) scale(1.02)}
+.l-plan-feat{display:flex;align-items:flex-start;gap:10px;margin-bottom:9px;font-size:12px;line-height:1.5}
+.l-plan-feat-ic{width:17px;height:17px;border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:9px;flex-shrink:0;margin-top:1px}
+.l-plan-feat.yes .l-plan-feat-ic{background:rgba(34,211,160,.12);color:var(--green)}
+.l-plan-feat.yes.g .l-plan-feat-ic{background:rgba(232,224,208,.10);color:rgba(232,224,208,.7)}
+.l-plan-feat.yes.p .l-plan-feat-ic{background:rgba(167,139,250,.12);color:var(--purple)}
+.l-plan-feat.no .l-plan-feat-ic{background:rgba(255,255,255,.03);color:rgba(255,255,255,.2)}
+.l-plan-feat.no .l-plan-feat-tx{color:rgba(255,255,255,.2)}
+.l-plan-feats-lbl{font-family:var(--fm);font-size:8px;letter-spacing:.22em;color:rgba(255,255,255,.25);text-transform:uppercase;margin-bottom:14px;display:flex;align-items:center;gap:8px}
+.l-plan-feats-lbl::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,rgba(255,255,255,.06),transparent)}
 
-/* ════════════════════════════════════
-   AUTH DRAWER — slides up from bottom
-════════════════════════════════════ */
-.auth-overlay{position:fixed;inset:0;z-index:9000;background:rgba(14,14,14,.92);backdrop-filter:blur(16px);display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .3s}
-.auth-overlay.open{opacity:1;pointer-events:all}
-.auth-drawer{width:calc(100% - 32px);max-width:500px;background:#1c1c1c;border:1px solid var(--bdr2);border-radius:28px;transform:translateY(24px) scale(.98);transition:transform .45s cubic-bezier(.34,1.2,.64,1);position:relative;max-height:92vh;overflow-y:auto;overflow-x:hidden}
-.auth-overlay.open .auth-drawer{transform:translateY(0) scale(1)}
+/* ── CTA ── */
+.l-cta-section{position:relative;z-index:10;padding:160px 52px;text-align:center;overflow:hidden}
+.l-cta-bg{position:absolute;inset:0;background:radial-gradient(ellipse 70% 50% at 50% 50%,rgba(232,224,208,.04),transparent 70%);pointer-events:none}
+.l-cta-title{font-family:var(--fd);font-size:clamp(52px,7vw,96px);letter-spacing:.04em;line-height:.94;color:var(--text);margin-bottom:22px}
+.l-cta-sub{font-size:16px;color:rgba(240,234,216,.45);max-width:480px;margin:0 auto 48px;line-height:1.85}
+.l-cta-note{font-family:var(--fm);font-size:9px;color:rgba(255,255,255,.2);letter-spacing:.12em;margin-top:22px}
 
-.auth-plan-bar{height:3px;width:100%}
-.auth-plan-bar.free{background:linear-gradient(90deg,transparent,rgba(255,255,255,.25),transparent)}
-.auth-plan-bar.phantom{background:linear-gradient(90deg,transparent,rgba(232,224,208,0.4),rgba(232,224,208,0.6),rgba(232,224,208,0.4),transparent)}
-.auth-plan-bar.shadow{background:linear-gradient(90deg,transparent,#7c3aed,var(--purple),#c4b5fd,transparent)}
-.auth-plan-bar.signin{background:linear-gradient(90deg,transparent,rgba(255,255,255,.15),transparent)}
+/* ── FOOTER ── */
+.l-footer{position:relative;z-index:10;border-top:1px solid rgba(255,255,255,.05);padding:64px 52px 40px}
+.l-footer-inner{max-width:1320px;margin:0 auto;display:flex;align-items:flex-start;justify-content:space-between;gap:40px}
+.l-footer-brand{max-width:260px}
+.l-footer-logo{font-family:var(--fd);font-size:28px;letter-spacing:.1em;background:linear-gradient(135deg,#b8aa94,#ede5d8,#b8aa94);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:14px}
+.l-footer-tagline{font-size:12px;color:rgba(255,255,255,.22);line-height:1.75}
+.l-footer-col h4{font-family:var(--fm);font-size:8px;letter-spacing:.24em;color:rgba(255,255,255,.22);text-transform:uppercase;margin-bottom:16px}
+.l-footer-col a{display:block;font-size:13px;color:rgba(255,255,255,.28);text-decoration:none;margin-bottom:9px;transition:color .2s}
+.l-footer-col a:hover{color:rgba(240,234,216,.65)}
+.l-footer-bottom{max-width:1320px;margin:36px auto 0;padding-top:22px;border-top:1px solid rgba(255,255,255,.04);display:flex;align-items:center;justify-content:space-between}
+.l-footer-copy{font-family:var(--fm);font-size:9px;color:rgba(255,255,255,.2);letter-spacing:.1em}
 
-.auth-handle{width:40px;height:4px;border-radius:2px;background:rgba(255,255,255,.12);margin:14px auto 0}
-.auth-close-btn{position:absolute;top:16px;right:16px;width:30px;height:30px;border-radius:8px;background:var(--g2);border:1px solid var(--bdr);color:var(--text3);font-size:14px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .2s;z-index:10}
-.auth-close-btn:hover{background:var(--g3);color:var(--text)}
+/* ── AUTH DRAWER ── */
+.l-auth-overlay{position:fixed;inset:0;z-index:9000;background:rgba(6,6,8,.94);backdrop-filter:blur(18px);display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .3s}
+.l-auth-overlay.open{opacity:1;pointer-events:all}
+.l-auth-drawer{width:calc(100% - 32px);max-width:500px;background:#111114;border:1px solid rgba(255,255,255,.09);border-radius:28px;transform:translateY(28px) scale(.97);transition:transform .45s cubic-bezier(.34,1.2,.64,1);position:relative;max-height:92vh;overflow-y:auto;overflow-x:hidden}
+.l-auth-overlay.open .l-auth-drawer{transform:translateY(0) scale(1)}
+.l-auth-plan-bar{height:3px;width:100%}
+.l-auth-plan-bar.free{background:linear-gradient(90deg,transparent,rgba(255,255,255,.2),transparent)}
+.l-auth-plan-bar.phantom{background:linear-gradient(90deg,transparent,#c8bfaf,#ede5d8,#c8bfaf,transparent)}
+.l-auth-plan-bar.shadow{background:linear-gradient(90deg,transparent,#7c3aed,var(--purple),#c4b5fd,transparent)}
+.l-auth-plan-bar.signin{background:linear-gradient(90deg,transparent,rgba(255,255,255,.12),transparent)}
+.l-auth-handle{width:38px;height:4px;border-radius:2px;background:rgba(255,255,255,.1);margin:14px auto 0}
+.l-auth-close{position:absolute;top:16px;right:16px;width:30px;height:30px;border-radius:8px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);color:rgba(255,255,255,.35);font-size:14px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .2s;z-index:10}
+.l-auth-close:hover{background:rgba(255,255,255,.08);color:var(--text)}
+.l-auth-inner{padding:22px 32px 38px}
+.l-auth-badge{display:inline-flex;align-items:center;gap:7px;border-radius:24px;padding:5px 14px;margin-bottom:20px;font-family:var(--fm);font-size:9px;letter-spacing:.22em;text-transform:uppercase}
+.l-auth-badge.free{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.09);color:rgba(255,255,255,.4)}
+.l-auth-badge.phantom{background:rgba(232,224,208,.07);border:1px solid rgba(232,224,208,.18);color:rgba(232,224,208,.75)}
+.l-auth-badge.shadow{background:rgba(167,139,250,.08);border:1px solid rgba(167,139,250,.22);color:var(--purple)}
+.l-auth-badge.signin{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);color:rgba(255,255,255,.3)}
+.l-auth-title{font-family:var(--fd);font-size:38px;letter-spacing:.04em;line-height:1;margin-bottom:8px;color:var(--text)}
+.l-auth-title.phantom{background:linear-gradient(135deg,#c8bfaf,#f5f0e8);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.l-auth-title.shadow{background:linear-gradient(135deg,#7c3aed,var(--purple),#c4b5fd);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.l-auth-sub{font-size:13px;color:rgba(240,234,216,.38);margin-bottom:24px;line-height:1.65}
+.l-auth-perks{background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.06);border-radius:14px;padding:14px 16px;margin-bottom:24px}
+.l-auth-perk{display:flex;align-items:center;gap:10px;margin-bottom:8px;font-size:12px;color:rgba(240,234,216,.5)}
+.l-auth-perk:last-child{margin-bottom:0}
+.l-auth-perk-ic{width:17px;height:17px;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:9px;flex-shrink:0}
+.l-auth-perk-ic.g{background:rgba(232,224,208,.08);color:rgba(232,224,208,.6)}
+.l-auth-perk-ic.p{background:rgba(167,139,250,.1);color:var(--purple)}
+.l-auth-perk-ic.n{background:rgba(34,211,160,.08);color:var(--green)}
+.l-auth-tabs{display:flex;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);border-radius:12px;padding:4px;gap:4px;margin-bottom:22px}
+.l-auth-tab{flex:1;padding:9px;text-align:center;border-radius:9px;cursor:pointer;font-size:12px;font-weight:500;color:rgba(255,255,255,.3);transition:all .2s;font-family:var(--ff)}
+.l-auth-tab.active{background:rgba(255,255,255,.07);color:var(--text);border:1px solid rgba(255,255,255,.09)}
+.l-auth-google{width:100%;padding:13px;border-radius:12px;border:1px solid rgba(255,255,255,.09);background:rgba(255,255,255,.04);color:var(--text);font-family:var(--ff);font-size:13px;font-weight:500;display:flex;align-items:center;justify-content:center;gap:10px;cursor:pointer;transition:all .22s;margin-bottom:16px}
+.l-auth-google:hover{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.16);transform:translateY(-1px)}
+.l-auth-divider{display:flex;align-items:center;gap:12px;margin-bottom:16px;color:rgba(255,255,255,.14);font-size:9px;font-family:var(--fm);letter-spacing:.12em}
+.l-auth-divider::before,.l-auth-divider::after{content:'';flex:1;height:1px;background:rgba(255,255,255,.06)}
+.l-auth-field{margin-bottom:11px}
+.l-auth-field label{display:block;font-family:var(--fm);font-size:8px;letter-spacing:.2em;color:rgba(255,255,255,.25);text-transform:uppercase;margin-bottom:6px}
+.l-auth-input{width:100%;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:13px 16px;font-family:var(--ff);font-size:14px;color:var(--text);outline:none;transition:all .22s}
+.l-auth-input::placeholder{color:rgba(255,255,255,.15)}
+.l-auth-input:focus{border-color:rgba(232,224,208,.28);box-shadow:0 0 0 3px rgba(232,224,208,.05)}
+.l-auth-input.err{border-color:rgba(248,113,113,.45)!important;box-shadow:0 0 0 3px rgba(248,113,113,.06)!important}
+.l-auth-submit{width:100%;padding:15px;border-radius:12px;border:none;font-family:var(--ff);font-size:14px;font-weight:700;cursor:pointer;transition:all .26s cubic-bezier(.34,1.56,.64,1);margin-top:6px;display:flex;align-items:center;justify-content:center;gap:8px}
+.l-auth-submit:disabled{opacity:.45;cursor:not-allowed;transform:none!important}
+.l-auth-submit.free{background:rgba(255,255,255,.09);color:var(--text);border:1px solid rgba(255,255,255,.1)}
+.l-auth-submit.free:hover:not(:disabled){background:rgba(255,255,255,.14);transform:translateY(-1px)}
+.l-auth-submit.phantom{background:linear-gradient(135deg,#b8aa94,#ede5d8,#f5f0e8);color:#0a0a0b;box-shadow:0 0 20px rgba(232,224,208,.18)}
+.l-auth-submit.phantom:hover:not(:disabled){box-shadow:0 0 34px rgba(232,224,208,.28);transform:translateY(-2px)}
+.l-auth-submit.shadow{background:linear-gradient(135deg,#6d28d9,var(--purple),#c4b5fd);color:#fff;box-shadow:0 0 20px rgba(167,139,250,.25)}
+.l-auth-submit.shadow:hover:not(:disabled){box-shadow:0 0 36px rgba(167,139,250,.38);transform:translateY(-2px)}
+.l-auth-submit.signin{background:rgba(255,255,255,.07);color:var(--text);border:1px solid rgba(255,255,255,.1)}
+.l-auth-submit.signin:hover:not(:disabled){background:rgba(255,255,255,.11);transform:translateY(-1px)}
+.l-auth-note{font-family:var(--fm);font-size:9px;color:rgba(255,255,255,.2);letter-spacing:.1em;text-align:center;margin-top:13px;line-height:1.7}
+.l-auth-msg{display:none;border-radius:10px;padding:10px 14px;font-family:var(--fm);font-size:11px;margin-bottom:13px;line-height:1.5}
+.l-auth-msg.show{display:block;animation:lFadeIn .2s ease}
+.l-auth-msg.err{background:rgba(248,113,113,.07);border:1px solid rgba(248,113,113,.22);color:var(--red)}
+.l-auth-msg.ok{background:rgba(34,211,160,.07);border:1px solid rgba(34,211,160,.22);color:var(--green);text-align:center}
+.l-spin{display:none;width:16px;height:16px;border:2px solid rgba(255,255,255,.12);border-top-color:currentColor;border-radius:50%;animation:lSpin .7s linear infinite;flex-shrink:0}
+.l-spin.on{display:inline-block}
+@keyframes lSpin{to{transform:rotate(360deg)}}
+.l-auth-confirm{text-align:center;padding:8px 0}
+.l-auth-confirm-icon{font-size:50px;margin-bottom:16px}
+.l-auth-confirm-title{font-family:var(--fd);font-size:28px;letter-spacing:.04em;color:var(--text);margin-bottom:10px}
+.l-auth-confirm-sub{font-size:13px;color:rgba(255,255,255,.32);margin-bottom:24px;line-height:1.75}
+.l-auth-confirm-email{color:rgba(232,224,208,.75);font-weight:600}
+.l-auth-confirm-steps{background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.06);border-radius:12px;padding:14px 16px;margin-bottom:22px;text-align:left}
+.l-auth-cstep{display:flex;align-items:center;gap:10px;padding:5px 0;font-size:12px;font-family:var(--fm);color:rgba(255,255,255,.38)}
+.l-auth-cstep-n{width:22px;height:22px;border-radius:50%;background:rgba(232,224,208,.1);border:1px solid rgba(232,224,208,.2);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:rgba(232,224,208,.7);flex-shrink:0}
+.l-auth-cstep-n.dim{background:rgba(255,255,255,.05);border-color:rgba(255,255,255,.07);color:rgba(255,255,255,.22)}
+.l-auth-confirm-btns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.l-auth-confirm-btns button{font-size:11px;font-family:var(--fm);color:rgba(255,255,255,.3);background:none;border:1px solid rgba(255,255,255,.07);border-radius:8px;padding:8px 16px;cursor:pointer;transition:all .2s}
+.l-auth-confirm-btns button:hover{border-color:rgba(232,224,208,.22);color:rgba(240,234,216,.65)}
 
-.auth-inner{padding:20px 32px 36px}
-
-.auth-plan-badge{display:inline-flex;align-items:center;gap:7px;border-radius:24px;padding:5px 14px;margin-bottom:18px;font-family:var(--fm);font-size:9px;letter-spacing:.22em;text-transform:uppercase}
-.auth-plan-badge.free{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);color:var(--text2)}
-.auth-plan-badge.phantom{background:var(--gold-dim);border:1px solid rgba(232,224,208,.16);color:var(--gold)}
-.auth-plan-badge.shadow{background:var(--purple-dim);border:1px solid rgba(167,139,250,.25);color:var(--purple)}
-.auth-plan-badge.signin{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);color:var(--text3)}
-
-.auth-drawer-title{font-family:var(--fd);font-size:36px;letter-spacing:.04em;line-height:1;margin-bottom:6px;color:var(--text)}
-.auth-drawer-title.phantom{color:var(--text)}
-.auth-drawer-title.shadow{background:linear-gradient(135deg,#7c3aed,var(--purple),#c4b5fd);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-.auth-drawer-sub{font-size:13px;color:var(--text2);margin-bottom:22px;line-height:1.6}
-
-/* plan perks */
-.auth-perks{background:rgba(255,255,255,.025);border:1px solid var(--bdr);border-radius:14px;padding:14px 16px;margin-bottom:22px}
-.auth-perk{display:flex;align-items:center;gap:10px;margin-bottom:7px;font-size:12px;color:var(--text2)}
-.auth-perk:last-child{margin-bottom:0}
-.auth-perk-ic{width:17px;height:17px;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:9px;flex-shrink:0}
-.auth-perk-ic.g{background:rgba(232,224,208,0.10);color:var(--text2)}
-.auth-perk-ic.p{background:var(--purple-dim);color:var(--purple)}
-.auth-perk-ic.n{background:var(--green-dim);color:var(--green)}
-
-/* tabs */
-.auth-tabs{display:flex;background:var(--g1);border:1px solid var(--bdr);border-radius:12px;padding:4px;gap:4px;margin-bottom:20px}
-.auth-tab{flex:1;padding:9px;text-align:center;border-radius:9px;cursor:pointer;font-size:12px;font-weight:500;color:var(--text3);transition:all .2s;font-family:var(--ff)}
-.auth-tab.active{background:var(--g3);color:var(--text);border:1px solid var(--bdr2)}
-
-/* google */
-.auth-google-btn{width:100%;padding:13px;border-radius:12px;border:1px solid var(--bdr2);background:var(--g1);color:var(--text);font-family:var(--ff);font-size:14px;font-weight:500;display:flex;align-items:center;justify-content:center;gap:10px;cursor:pointer;transition:all .2s;margin-bottom:16px}
-.auth-google-btn:hover{background:var(--g2);border-color:rgba(255,255,255,.25)}
-
-.auth-divider{display:flex;align-items:center;gap:12px;margin-bottom:16px;color:rgba(255,255,255,.18);font-size:10px;font-family:var(--fm);letter-spacing:.1em}
-.auth-divider::before,.auth-divider::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,.08),transparent)}
-
-/* inputs */
-.auth-field{margin-bottom:10px}
-.auth-field label{display:block;font-family:var(--fm);font-size:8px;letter-spacing:.2em;color:var(--text3);text-transform:uppercase;margin-bottom:5px}
-.auth-input{width:100%;background:rgba(255,255,255,.04);border:1px solid var(--bdr);border-radius:12px;padding:13px 16px;font-family:var(--ff);font-size:14px;color:var(--text);outline:none;transition:border-color .2s,box-shadow .2s}
-.auth-input::placeholder{color:rgba(255,255,255,.18)}
-.auth-input:focus{border-color:rgba(232,224,208,.35);box-shadow:0 0 0 3px rgba(232,224,208,.04)}
-.auth-input.shadow-focus:focus{border-color:rgba(167,139,250,.45);box-shadow:0 0 0 3px rgba(167,139,250,.07)}
-.auth-input.err{border-color:rgba(248,113,113,.5)!important;box-shadow:0 0 0 3px rgba(248,113,113,.06)!important}
-
-/* submit */
-.auth-submit{width:100%;padding:15px;border-radius:12px;border:none;font-family:var(--ff);font-size:14px;font-weight:700;cursor:pointer;transition:all .25s;margin-top:6px;display:flex;align-items:center;justify-content:center;gap:8px}
-.auth-submit:disabled{opacity:.5;cursor:not-allowed;transform:none!important;box-shadow:none!important}
-.auth-submit.free{background:rgba(255,255,255,.1);color:var(--text);border:1px solid var(--bdr2)}
-.auth-submit.free:hover{background:rgba(255,255,255,.16)}
-.auth-submit.phantom{background:linear-gradient(135deg,#c8bfaf,#ede5d8,#c8bfaf);color:#141414;box-shadow:0 0 18px rgba(232,224,208,.2)}
-.auth-submit.phantom:hover{box-shadow:0 0 28px rgba(212,200,180,.3);transform:translateY(-1px)}
-.auth-submit.shadow{background:linear-gradient(135deg,#6d28d9,var(--purple),#c4b5fd);color:#fff;box-shadow:0 0 28px var(--purple-glow)}
-.auth-submit.shadow:hover{box-shadow:0 0 44px var(--purple-glow);transform:translateY(-1px)}
-.auth-submit.signin{background:var(--g2);color:var(--text);border:1px solid var(--bdr2)}
-.auth-submit.signin:hover{background:var(--g3)}
-
-.auth-note{font-family:var(--fm);font-size:9px;color:var(--text3);letter-spacing:.1em;text-align:center;margin-top:12px;line-height:1.7}
-
-/* error / success */
-.auth-msg{display:none;border-radius:10px;padding:10px 14px;font-family:var(--fm);font-size:11px;margin-bottom:12px;line-height:1.5}
-.auth-msg.show{display:block;animation:fadeIn .2s ease}
-.auth-msg.err{background:rgba(248,113,113,.08);border:1px solid rgba(248,113,113,.25);color:var(--red)}
-.auth-msg.ok{background:rgba(34,211,160,.08);border:1px solid rgba(34,211,160,.25);color:var(--green);text-align:center}
-@keyframes fadeIn{from{opacity:0}to{opacity:1}}
-
-/* spinner */
-.spin{display:none;width:16px;height:16px;border:2px solid rgba(255,255,255,.15);border-top-color:currentColor;border-radius:50%;animation:spinAnim .7s linear infinite;flex-shrink:0}
-.spin.on{display:inline-block}
-@keyframes spinAnim{to{transform:rotate(360deg)}}
-
-/* confirm screen */
-.auth-confirm{text-align:center;padding:8px 0}
-.auth-confirm-icon{font-size:52px;margin-bottom:14px}
-.auth-confirm-title{font-family:var(--fd);font-size:28px;letter-spacing:.04em;color:var(--text);margin-bottom:8px}
-.auth-confirm-sub{font-size:13px;color:var(--text3);font-family:var(--fm);margin-bottom:22px;line-height:1.7}
-.auth-confirm-email-hi{color:var(--text);font-weight:600}
-.auth-confirm-steps{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-radius:12px;padding:14px 16px;margin-bottom:20px;text-align:left}
-.auth-cstep{display:flex;align-items:center;gap:10px;padding:5px 0;font-size:12px;font-family:var(--fm);color:var(--text2)}
-.auth-cstep-n{width:22px;height:22px;border-radius:50%;background:rgba(232,224,208,0.15);border:1px solid rgba(232,224,208,0.3);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:var(--text);flex-shrink:0}
-.auth-cstep-n.dim{background:rgba(255,255,255,.08);color:var(--text3)}
-.auth-confirm-btns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
-.auth-confirm-btns button{font-size:11px;font-family:var(--fm);color:var(--text3);background:none;border:1px solid var(--bdr);border-radius:8px;padding:8px 16px;cursor:pointer;transition:all .2s}
-.auth-confirm-btns button:hover{border-color:rgba(232,224,208,0.3);color:var(--text)}
-
-/* TOAST */
-.toast{position:fixed;bottom:32px;left:50%;transform:translateX(-50%) translateY(80px);background:#0d1020;border:1px solid rgba(34,211,160,.3);border-radius:12px;padding:14px 24px;font-family:var(--fm);font-size:12px;color:var(--green);letter-spacing:.08em;z-index:99999;transition:transform .4s cubic-bezier(.34,1.3,.64,1),opacity .4s;box-shadow:0 8px 40px rgba(0,0,0,.5),0 0 30px rgba(34,211,160,.1);opacity:0;display:flex;align-items:center;gap:10px;white-space:nowrap}
-.toast.show{transform:translateX(-50%) translateY(0);opacity:1}
-
-
-/* ── LANDING GLOW ENHANCEMENTS ── */
-.section{position:relative}
-.section::before{content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);width:1px;height:60px;background:linear-gradient(180deg,transparent,rgba(232,224,208,0.15),transparent);pointer-events:none}
-
-/* Glowing underline on eyebrow */
-.eyebrow{position:relative}
-
-/* Stats belt number glow */
-.stat-item:hover .stat-val{filter:drop-shadow(0 0 12px rgba(232,224,208,0.3))}
-.stat-item{transition:transform .2s ease}
-.stat-item:hover{transform:translateY(-2px)}
-
-/* Nav link glow on hover */
-.nav-links a:hover{color:var(--text);text-shadow:0 0 12px rgba(232,224,208,0.2)}
-
-/* Problem grid hover — red glow stays */
-.problem-item:hover{background:rgba(248,113,113,.03);box-shadow:inset 0 0 30px rgba(248,113,113,.03)}
-
-/* Feature pills on hover */
-.feature-pill:hover{border-color:rgba(232,224,208,0.2);color:var(--text);background:rgba(232,224,208,0.06);transition:all .15s}
-
-/* CTA glow pulse */
-.btn-hero-primary{position:relative;overflow:hidden}
-.btn-hero-primary::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,0.15),transparent);pointer-events:none;border-radius:inherit}
-
-/* Marquee item gold hover */
-.marquee-item:hover{color:var(--gold);transition:color .2s}
-
-/* Trust stats shimmer on hover */
-.trust-stat:hover{border-color:rgba(232,224,208,0.18);background:rgba(232,224,208,0.04);transition:all .2s}
-.trust-stat:hover strong{text-shadow:0 0 10px rgba(232,224,208,0.25)}
+/* ── TOAST ── */
+.l-toast{position:fixed;bottom:32px;left:50%;transform:translateX(-50%) translateY(80px);background:#111114;border:1px solid rgba(34,211,160,.25);border-radius:12px;padding:14px 26px;font-family:var(--fm);font-size:12px;color:var(--green);letter-spacing:.08em;z-index:99999;transition:transform .42s cubic-bezier(.34,1.3,.64,1),opacity .42s;box-shadow:0 10px 40px rgba(0,0,0,.5);opacity:0;display:flex;align-items:center;gap:10px;white-space:nowrap}
+.l-toast.show{transform:translateX(-50%) translateY(0);opacity:1}
 
 @media(max-width:900px){
-  .bento-1,.bento-2,.bento-3,.bento-4,.bento-5,.bento-6,.bento-7{grid-column:span 12}
-  .plans-grid,.testi-grid,.steps-grid{grid-template-columns:1fr;max-width:480px;margin-left:auto;margin-right:auto}
-  .stats-belt-inner{grid-template-columns:repeat(2,1fr)}
-  .problem-grid{grid-template-columns:1fr}
-  .nav-links{display:none}
-  .section{padding:80px 24px}
-  .stats-belt{padding:48px 24px}
-  footer{padding:48px 24px 32px}
-  .footer-inner{flex-direction:column;gap:32px}
-  .steps-grid::before{display:none}
-  .footer-bottom{flex-direction:column;gap:12px;text-align:center}
-  .hero-actions{flex-direction:column;align-items:center}
-  .auth-inner{padding:16px 20px 30px}
+  .l-b1,.l-b2,.l-b3,.l-b4,.l-b5,.l-b6,.l-b7{grid-column:span 12}
+  .l-plans-grid,.l-testi-grid,.l-steps-grid{grid-template-columns:1fr;max-width:480px;margin-left:auto;margin-right:auto}
+  .l-stats-inner{grid-template-columns:repeat(2,1fr)}
+  .l-problem-grid{grid-template-columns:1fr}
+  .l-nav-links{display:none}
+  .l-section{padding:80px 24px}
+  .l-stats{padding:52px 24px}
+  .l-footer{padding:52px 24px 32px}
+  .l-footer-inner{flex-direction:column;gap:32px}
+  .l-steps-grid::before{display:none}
+  .l-footer-bottom{flex-direction:column;gap:12px;text-align:center}
+  .l-hero-actions{flex-direction:column;align-items:center}
+  .l-nav{padding:16px 24px}
+  .l-auth-inner{padding:16px 22px 32px}
 }
 
-/* ── UNIVERSAL BUTTON POP + GLOW ── */
-.btn{
-  transition:transform .18s cubic-bezier(.34,1.56,.64,1), box-shadow .18s ease, background .15s, border-color .15s !important;
+/* ── LANDING EXTRA POLISH ── */
+
+/* Bento top-accent line on hover */
+.l-bento::after{
+  content:'';position:absolute;top:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(232,224,208,.25),transparent);
+  opacity:0;transition:opacity .3s;
 }
-.btn:hover{
-  transform:translateY(-2px) scale(1.03) !important;
+.l-bento:hover::after{opacity:1}
+
+/* Stat item top line pulse */
+.l-stat::after{content:'';position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:0;height:1px;background:rgba(232,224,208,.2);transition:width .4s ease}
+.l-stat:hover::after{width:60%}
+
+/* Trust pill focus */
+.l-trust-pill{cursor:default;transition:all .22s cubic-bezier(.34,1.3,.64,1)}
+
+/* Eyebrow line animation */
+.l-eyebrow::before{transition:width .4s ease}
+.l-sr.vis .l-eyebrow::before{width:32px}
+
+/* Feature pill interactive */
+.l-pill{cursor:default;transition:all .18s ease}
+
+/* Plan card phantom shimmer */
+.l-plan-card.phantom::after{
+  content:'';position:absolute;inset:-1px;border-radius:27px;
+  background:linear-gradient(135deg,rgba(232,224,208,.08),transparent 40%,transparent 60%,rgba(232,224,208,.04));
+  z-index:-1;opacity:.6;pointer-events:none;
 }
-.btn:active{
-  transform:translateY(0) scale(0.97) !important;
-  transition-duration:.08s !important;
+
+/* Plan card shadow glow pulse */
+.l-plan-card.shadow{
+  animation:shadowCardPulse 4s ease-in-out infinite;
+}
+@keyframes shadowCardPulse{
+  0%,100%{box-shadow:0 0 50px rgba(167,139,250,.04)}
+  50%{box-shadow:0 0 70px rgba(167,139,250,.08)}
+}
+
+/* Hero actions gap on mobile */
+@media(max-width:640px){
+  .l-hero-h1{font-size:clamp(52px,14vw,88px)}
+  .l-btn-hero,.l-btn-outline{width:100%;justify-content:center}
+}
+
+/* Smooth scroll */
+html{scroll-behavior:smooth}
+
+/* Journal sidebar — make active nav items use subtle cream instead of harsh gold */
+.ni.active{
+  color:rgba(232,224,208,.85) !important;
+  background:linear-gradient(90deg,rgba(232,224,208,.07),transparent) !important;
+  border-left-color:rgba(232,224,208,.4) !important;
+  text-shadow:none !important;
+  box-shadow:inset 3px 0 16px rgba(232,224,208,.06) !important;
+}
+.ni:hover{
+  color:rgba(240,234,216,.75) !important;
+  background:linear-gradient(90deg,rgba(232,224,208,.04),transparent) !important;
+  box-shadow:none !important;
+}
+
+/* Journal topbar bottom line — subtle cream */
+.topbar::after{
+  background:linear-gradient(90deg,transparent,rgba(232,224,208,.1),transparent) !important;
+}
+
+/* Journal buttons - make btn-gold look better */
+.btn-gold{
+  background:rgba(232,224,208,.1) !important;
+  color:rgba(240,234,216,.9) !important;
+  border:1px solid rgba(232,224,208,.2) !important;
+  box-shadow:none !important;
 }
 .btn-gold:hover{
-  box-shadow:0 0 18px rgba(232,224,208,0.18), 0 6px 20px rgba(0,0,0,0.3) !important;
-  background:rgba(232,224,208,0.18) !important;
+  background:rgba(232,224,208,.16) !important;
+  border-color:rgba(232,224,208,.3) !important;
+  box-shadow:0 0 16px rgba(232,224,208,.1) !important;
 }
-.btn-glass:hover{
-  box-shadow:0 0 12px rgba(255,255,255,0.06), 0 4px 16px rgba(0,0,0,0.25) !important;
-  border-color:rgba(232,224,208,0.22) !important;
+
+/* Journal calendar today cell */
+.cc.today{
+  border-color:rgba(232,224,208,.35) !important;
+  background:rgba(232,224,208,.04) !important;
+  box-shadow:0 0 14px rgba(232,224,208,.06) !important;
 }
-.btn-red:hover{
-  box-shadow:0 0 16px rgba(248,113,113,0.3), 0 4px 16px rgba(0,0,0,0.3) !important;
+
+/* Journal cal month title */
+.cal-month{
+  color:var(--text) !important;
+  background:none !important;
+  -webkit-text-fill-color:var(--text) !important;
+  filter:none !important;
 }
-.btn-hero-primary:hover{
-  transform:translateY(-3px) scale(1.02) !important;
-  box-shadow:0 0 40px rgba(212,200,180,.30), 0 14px 36px rgba(0,0,0,.5) !important;
+
+/* Make journal cards slightly warmer */
+.card,.sc{
+  background:rgba(255,255,255,.03) !important;
+  border-color:rgba(255,255,255,.06) !important;
 }
-.btn-hero-ghost:hover{
-  transform:translateY(-2px) scale(1.02) !important;
-  box-shadow:0 4px 20px rgba(0,0,0,.3) !important;
+.card:hover,.sc:hover{
+  border-color:rgba(232,224,208,.12) !important;
 }
-.btn-nav-gold:hover{
-  transform:translateY(-2px) scale(1.03) !important;
-  box-shadow:0 0 22px rgba(212,200,180,.25) !important;
-}
-.btn-nav-ghost:hover{
-  transform:translateY(-1px) scale(1.02) !important;
-}
-.plan-btn:hover{
-  transform:translateY(-2px) scale(1.02) !important;
-}
-/* Prevent hover transform on icon-only circle buttons */
-.btn-ic:hover{
-  transform:translateY(-1px) scale(1.06) !important;
-}
-#music-toggle-btn:hover{
-  box-shadow:0 0 14px rgba(232,224,208,0.15) !important;
-}
+
 </style>
 </head>
 <body class="auth-open">
@@ -1916,280 +1921,379 @@ footer{position:relative;z-index:10;border-top:1px solid var(--bdr);padding:60px
 <div id="sparks"></div>
 
 <!-- ══ AUTH DRAWER ══ -->
-<div class="auth-overlay" id="auth-overlay">
-  <div class="auth-drawer" id="auth-drawer">
-    <div class="auth-plan-bar" id="auth-plan-bar"></div>
-    <div class="auth-handle"></div>
-    <button class="auth-close-btn" onclick="closeAuth()">✕</button>
-
-    <div class="auth-inner">
-      <div class="auth-plan-badge" id="auth-badge"></div>
-      <div class="auth-drawer-title" id="auth-title"></div>
-      <div class="auth-drawer-sub" id="auth-sub"></div>
-
-      <!-- Plan perks -->
-      <div class="auth-perks" id="auth-perks" style="display:none"></div>
-
-      <!-- Messages -->
-      <div class="auth-msg err" id="auth-err"></div>
-      <div class="auth-msg ok" id="auth-ok"></div>
-
-      <!-- LOGIN VIEW -->
+<div class="l-auth-overlay" id="auth-overlay">
+  <div class="l-auth-drawer" id="auth-drawer">
+    <div class="l-auth-plan-bar" id="auth-plan-bar"></div>
+    <div class="l-auth-handle"></div>
+    <button class="l-auth-close" onclick="closeAuth()">✕</button>
+    <div class="l-auth-inner">
+      <div class="l-auth-badge" id="auth-badge"></div>
+      <div class="l-auth-title" id="auth-title"></div>
+      <div class="l-auth-sub" id="auth-sub"></div>
+      <div class="l-auth-perks" id="auth-perks" style="display:none"></div>
+      <div class="l-auth-msg err" id="auth-err"></div>
+      <div class="l-auth-msg ok" id="auth-ok"></div>
       <div id="view-login">
-        <div class="auth-tabs">
-          <div class="auth-tab active" id="tab-in" onclick="switchTab('in')">Sign In</div>
-          <div class="auth-tab" id="tab-up" onclick="switchTab('up')">Create Account</div>
+        <div class="l-auth-tabs">
+          <div class="l-auth-tab active" id="tab-in" onclick="switchTab('in')">Sign In</div>
+          <div class="l-auth-tab" id="tab-up" onclick="switchTab('up')">Create Account</div>
         </div>
-
-        <button class="auth-google-btn" onclick="doGoogle()">
+        <button class="l-auth-google" onclick="doGoogle()">
           <svg width="20" height="20" viewBox="0 0 24 24"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
           Continue with Google
         </button>
-
-        <div class="auth-divider">or with email</div>
-
-        <div class="auth-field" id="name-field" style="display:none">
+        <div class="l-auth-divider">or with email</div>
+        <div class="l-auth-field" id="name-field" style="display:none">
           <label>Your Name</label>
-          <input class="auth-input" id="inp-name" type="text" placeholder="e.g. Marcus" />
+          <input class="l-auth-input" id="inp-name" type="text" placeholder="e.g. Marcus" />
         </div>
-        <div class="auth-field">
+        <div class="l-auth-field">
           <label>Email Address</label>
-          <input class="auth-input" id="inp-email" type="email" placeholder="you@email.com" onkeydown="if(event.key==='Enter')doSubmit()" />
+          <input class="l-auth-input" id="inp-email" type="email" placeholder="you@email.com" onkeydown="if(event.key==='Enter')doSubmit()" />
         </div>
-        <div class="auth-field">
+        <div class="l-auth-field">
           <label>Password</label>
-          <input class="auth-input" id="inp-pass" type="password" placeholder="••••••••" onkeydown="if(event.key==='Enter')doSubmit()" />
+          <input class="l-auth-input" id="inp-pass" type="password" placeholder="••••••••" onkeydown="if(event.key==='Enter')doSubmit()" />
         </div>
-
-        <button class="auth-submit" id="auth-submit-btn" onclick="doSubmit()">
-          <span class="spin" id="auth-spin"></span>
+        <button class="l-auth-submit" id="auth-submit-btn" onclick="doSubmit()">
+          <span class="l-spin" id="auth-spin"></span>
           <span id="submit-label">Sign In →</span>
         </button>
-
-        <p class="auth-note" id="auth-note-txt">By continuing you agree to our Terms &amp; Privacy Policy. Your data is encrypted at rest.</p>
+        <p class="l-auth-note" id="auth-note-txt">By continuing you agree to our Terms &amp; Privacy Policy.</p>
       </div>
-
-      <!-- CONFIRM VIEW -->
       <div id="view-confirm" style="display:none">
-        <div class="auth-confirm">
-          <div class="auth-confirm-icon">✉️</div>
-          <div class="auth-confirm-title">Check Your Email</div>
-          <div class="auth-confirm-sub">We sent a confirmation link to<br><span class="auth-confirm-email-hi" id="confirm-addr"></span></div>
-          <div class="auth-confirm-steps">
-            <div class="auth-cstep"><div class="auth-cstep-n">1</div>Open your inbox</div>
-            <div class="auth-cstep"><div class="auth-cstep-n dim">2</div>Find the email from YzenNq</div>
-            <div class="auth-cstep"><div class="auth-cstep-n dim">3</div>Click the confirmation link</div>
+        <div class="l-auth-confirm">
+          <div class="l-auth-confirm-icon">✉️</div>
+          <div class="l-auth-confirm-title">Check Your Email</div>
+          <div class="l-auth-confirm-sub">We sent a confirmation link to<br><span class="l-auth-confirm-email" id="confirm-addr"></span></div>
+          <div class="l-auth-confirm-steps">
+            <div class="l-auth-cstep"><div class="l-auth-cstep-n">1</div>Open your inbox</div>
+            <div class="l-auth-cstep"><div class="l-auth-cstep-n dim">2</div>Find the email from YzenNq</div>
+            <div class="l-auth-cstep"><div class="l-auth-cstep-n dim">3</div>Click the confirmation link</div>
           </div>
-          <div class="auth-confirm-btns">
+          <div class="l-auth-confirm-btns">
             <button onclick="resendConfirm()">Resend Email</button>
             <button onclick="backToLogin()">← Back</button>
           </div>
         </div>
       </div>
-
     </div>
   </div>
 </div>
 
 <!-- TOAST -->
-<div class="toast" id="toast"><span>✓</span><span id="toast-msg"></span></div>
+<div class="l-toast" id="toast"><span>✓</span><span id="toast-msg"></span></div>
 
 <!-- NAV -->
-<nav id="main-nav">
-  <a href="#" class="nav-logo">YzenNq</a>
-  <div class="nav-links">
+<nav class="l-nav" id="main-nav">
+  <a href="#" class="l-nav-logo">YzenNq</a>
+  <div class="l-nav-links">
     <a href="#features">Features</a>
     <a href="#how">How It Works</a>
     <a href="#pricing">Pricing</a>
     <a href="#reviews">Reviews</a>
   </div>
-  <div class="nav-cta">
-    <button class="btn-nav-ghost" onclick="openAuth('signin')">Sign In</button>
-    <button class="btn-nav-gold" onclick="openAuth('free')">Get Started →</button>
+  <div class="l-nav-cta">
+    <button class="l-btn-ghost" onclick="openAuth('signin')">Sign In</button>
+    <button class="l-btn-primary" onclick="openAuth('free')">Start Free →</button>
   </div>
 </nav>
 
 <!-- HERO -->
-<section id="hero">
-  <div class="hero-badge"><div class="hero-badge-dot"></div>Now in public beta &mdash; join 2,400+ traders</div>
-  <div class="hero-eyebrow">The Pro Trading Journal</div>
-  <h1 class="hero-h1">Know Every<br><span class="gold-shine">Edge.</span><br>Own The Game.</h1>
-  <p class="hero-sub">Most traders lose because they never actually study themselves. <strong>YzenNq</strong> shows you exactly where you win, where you leak, and what to fix — in one obsessively designed journal.</p>
-  <div class="hero-actions">
-    <button class="btn-hero-primary" onclick="openAuth('free')">Start Free Today →</button>
-    <a href="#features" class="btn-hero-ghost">See Features ↓</a>
+<section class="l-hero" id="hero">
+  <div class="l-hero-badge"><div class="l-hero-live"></div>Live · 2,400+ traders journaling now</div>
+  <div class="l-hero-eyebrow">The Professional Trading Journal</div>
+  <h1 class="l-hero-h1">Know Every<br><span class="l-hero-accent">Edge.</span><br>Own The Game.</h1>
+  <p class="l-hero-sub">Most traders lose because they never study themselves. <strong>YzenNq</strong> shows you exactly where you win, where you leak, and what to fix — in one obsessively designed journal.</p>
+  <div class="l-hero-actions">
+    <button class="l-btn-hero" onclick="openAuth('free')">Start Free Today →</button>
+    <a href="#features" class="l-btn-outline">Explore Features ↓</a>
   </div>
-  <div class="hero-trust">
-    <div class="hero-trust-label">Trusted metrics that matter</div>
-    <div class="hero-trust-row">
-      <div class="trust-stat"><strong>2,400+</strong> Active Traders</div>
-      <div class="trust-divider"></div>
-      <div class="trust-stat"><strong>14</strong> Built-in Tools</div>
-      <div class="trust-divider"></div>
-      <div class="trust-stat"><strong>99.9%</strong> Uptime</div>
-      <div class="trust-divider"></div>
-      <div class="trust-stat"><strong>4.9★</strong> Rating</div>
+  <div class="l-trust">
+    <div class="l-trust-lbl">Trusted by serious traders</div>
+    <div class="l-trust-row">
+      <div class="l-trust-pill"><strong>2,400+</strong> Active Traders</div>
+      <div class="l-trust-divider"></div>
+      <div class="l-trust-pill"><strong>14</strong> Built-in Tools</div>
+      <div class="l-trust-divider"></div>
+      <div class="l-trust-pill"><strong>99.9%</strong> Uptime</div>
+      <div class="l-trust-divider"></div>
+      <div class="l-trust-pill"><strong>4.9★</strong> Rating</div>
     </div>
   </div>
-  <a href="#features" class="scroll-hint"><div class="scroll-arrow"></div>Scroll</a>
+  <a href="#features" class="l-scroll-hint"><div class="l-scroll-line"></div></a>
 </section>
 
 <!-- MARQUEE -->
-<div class="marquee-section">
-  <div class="marquee-track">
-    <div class="marquee-item"><span>📅</span> Trade Calendar</div><div class="marquee-item gold"><span>⚡</span> Real-Time Sync</div><div class="marquee-item"><span>📊</span> Deep Analytics</div><div class="marquee-item"><span>📉</span> Equity Curve</div><div class="marquee-item gold"><span>🤖</span> YzenBot AI Coach</div><div class="marquee-item"><span>⚖️</span> Risk Calculator</div><div class="marquee-item"><span>🎬</span> Trade Replay</div><div class="marquee-item gold"><span>🗂️</span> CSV Import</div><div class="marquee-item"><span>📰</span> Economic Calendar</div><div class="marquee-item"><span>🔭</span> Visualize</div><div class="marquee-item gold"><span>✅</span> Pre-Trade Checklist</div><div class="marquee-item"><span>🎵</span> Focus Music</div>
-    <div class="marquee-item"><span>📅</span> Trade Calendar</div><div class="marquee-item gold"><span>⚡</span> Real-Time Sync</div><div class="marquee-item"><span>📊</span> Deep Analytics</div><div class="marquee-item"><span>📉</span> Equity Curve</div><div class="marquee-item gold"><span>🤖</span> YzenBot AI Coach</div><div class="marquee-item"><span>⚖️</span> Risk Calculator</div><div class="marquee-item"><span>🎬</span> Trade Replay</div><div class="marquee-item gold"><span>🗂️</span> CSV Import</div><div class="marquee-item"><span>📰</span> Economic Calendar</div><div class="marquee-item"><span>🔭</span> Visualize</div><div class="marquee-item gold"><span>✅</span> Pre-Trade Checklist</div><div class="marquee-item"><span>🎵</span> Focus Music</div>
+<div class="l-marquee">
+  <div class="l-marquee-track">
+    <div class="l-marquee-item"><span>📅</span> Trade Calendar</div>
+    <div class="l-marquee-item accent"><span>⚡</span> Real-Time Sync</div>
+    <div class="l-marquee-item"><span>📊</span> Deep Analytics</div>
+    <div class="l-marquee-item"><span>📉</span> Equity Curve</div>
+    <div class="l-marquee-item accent"><span>🤖</span> YzenBot AI</div>
+    <div class="l-marquee-item"><span>⚖️</span> Risk Calculator</div>
+    <div class="l-marquee-item"><span>🎬</span> Trade Replay</div>
+    <div class="l-marquee-item accent"><span>🗂️</span> CSV Import</div>
+    <div class="l-marquee-item"><span>📰</span> Econ Calendar</div>
+    <div class="l-marquee-item"><span>🔭</span> Visualize</div>
+    <div class="l-marquee-item accent"><span>✅</span> Pre-Trade Checklist</div>
+    <div class="l-marquee-item"><span>🎵</span> Focus Music</div>
+    <div class="l-marquee-item"><span>📅</span> Trade Calendar</div>
+    <div class="l-marquee-item accent"><span>⚡</span> Real-Time Sync</div>
+    <div class="l-marquee-item"><span>📊</span> Deep Analytics</div>
+    <div class="l-marquee-item"><span>📉</span> Equity Curve</div>
+    <div class="l-marquee-item accent"><span>🤖</span> YzenBot AI</div>
+    <div class="l-marquee-item"><span>⚖️</span> Risk Calculator</div>
+    <div class="l-marquee-item"><span>🎬</span> Trade Replay</div>
+    <div class="l-marquee-item accent"><span>🗂️</span> CSV Import</div>
+    <div class="l-marquee-item"><span>📰</span> Econ Calendar</div>
+    <div class="l-marquee-item"><span>🔭</span> Visualize</div>
+    <div class="l-marquee-item accent"><span>✅</span> Pre-Trade Checklist</div>
+    <div class="l-marquee-item"><span>🎵</span> Focus Music</div>
   </div>
 </div>
 
 <!-- PROBLEM -->
-<div class="section sr" id="problem">
-  <div class="eyebrow">Sound Familiar?</div>
-  <h2 class="section-title">Why Most Traders<br>Stay Stuck</h2>
-  <p class="section-sub">The same mistakes. The same bad weeks. Without real data, you're flying blind.</p>
-  <div class="problem-grid">
-    <div class="problem-item"><span class="problem-icon">📊</span><div class="problem-title">Spreadsheet Hell</div><p class="problem-text">Manually updating a 40-column Google Sheet that breaks every month and tells you nothing about your actual behaviour.</p></div>
-    <div class="problem-item"><span class="problem-icon">🔁</span><div class="problem-title">Repeating Mistakes</div><p class="problem-text">You KNOW you revenge trade on Fridays after 2pm — but you've never had the data to prove it, so you keep doing it.</p></div>
-    <div class="problem-item"><span class="problem-icon">🎯</span><div class="problem-title">No Setup Discipline</div><p class="problem-text">Taking trades that don't meet your own criteria because there's no system holding you accountable before you click.</p></div>
-    <div class="problem-item"><span class="problem-icon">🧠</span><div class="problem-title">Psychology Blind Spots</div><p class="problem-text">You feel like you're improving but your P&L says otherwise. Without emotion tracking, patterns stay invisible.</p></div>
+<div class="l-section l-sr" id="problem">
+  <div class="l-eyebrow">Sound Familiar?</div>
+  <h2 class="l-section-title">Why Most Traders<br>Stay Stuck</h2>
+  <p class="l-section-sub">The same mistakes. The same bad weeks. Without real data, you're flying blind.</p>
+  <div class="l-problem-grid">
+    <div class="l-problem-item"><span class="l-problem-icon">📊</span><div class="l-problem-title">Spreadsheet Hell</div><p class="l-problem-text">A 40-column Google Sheet that breaks monthly and tells you nothing real about your behaviour.</p></div>
+    <div class="l-problem-item"><span class="l-problem-icon">🔁</span><div class="l-problem-title">Repeating Mistakes</div><p class="l-problem-text">You KNOW you revenge trade on Fridays — but without data to prove it, you keep doing it.</p></div>
+    <div class="l-problem-item"><span class="l-problem-icon">🎯</span><div class="l-problem-title">No Setup Discipline</div><p class="l-problem-text">Taking trades that don't meet your criteria — no system holds you accountable before you click.</p></div>
+    <div class="l-problem-item"><span class="l-problem-icon">🧠</span><div class="l-problem-title">Psychology Blind Spots</div><p class="l-problem-text">You feel like you're improving but your P&L says otherwise. Without emotion tracking, patterns stay invisible.</p></div>
   </div>
 </div>
 
-<!-- FEATURES -->
-<div class="section sr" id="features">
-  <div class="eyebrow">The Full Arsenal</div>
-  <h2 class="section-title">Everything Your<br><span class="gold-shine-text">Edge Needs</span></h2>
-  <p class="section-sub">14 tools in one obsessively crafted platform. Built by traders, for traders who take the craft seriously.</p>
-  <div class="bento-grid">
-    <div class="bento bento-1 sr"><div class="bento-content"><span class="bento-tag gold">Core</span><div class="bento-icon">📅</div><div class="bento-title">Trade Calendar</div><p class="bento-text">See every single trading day at a glance. Profit days glow green. Loss days burn red. Spot patterns instantly.</p><div class="mini-cal"><div class="mc-day pos">+$340</div><div class="mc-day neg">-$120</div><div class="mc-day pos">+$580</div><div class="mc-day empty">—</div><div class="mc-day pos">+$210</div><div class="mc-day pos">+$140</div><div class="mc-day neg">-$80</div><div class="mc-day pos">+$430</div><div class="mc-day pos">+$260</div><div class="mc-day empty">—</div></div></div></div>
-    <div class="bento bento-2 sr"><div class="bento-content"><span class="bento-tag green">Analytics</span><div class="bento-icon">📊</div><div class="bento-title">Deep Analytics</div><p class="bento-text">Win rate by session, by ticker, by day of week. Profit factor. Avg R:R. Find your A+ setup and double down on it.</p><div class="mini-chart"><div class="mc-bar" style="height:55%;background:rgba(34,211,160,0.6)"></div><div class="mc-bar" style="height:80%;background:rgba(34,211,160,0.8)"></div><div class="mc-bar" style="height:40%;background:rgba(248,113,113,0.6)"></div><div class="mc-bar" style="height:90%;background:rgba(34,211,160,0.9)"></div><div class="mc-bar" style="height:65%;background:rgba(34,211,160,0.7)"></div><div class="mc-bar" style="height:30%;background:rgba(248,113,113,0.5)"></div><div class="mc-bar" style="height:75%;background:rgba(34,211,160,0.8)"></div><div class="mc-bar" style="height:95%;background:rgba(232,224,208,0.5)"></div><div class="mc-bar" style="height:60%;background:rgba(34,211,160,0.7)"></div><div class="mc-bar" style="height:85%;background:rgba(34,211,160,0.85)"></div><div class="mc-bar" style="height:45%;background:rgba(248,113,113,0.55)"></div><div class="mc-bar" style="height:70%;background:rgba(34,211,160,0.75)"></div></div></div></div>
-    <div class="bento bento-3 sr"><div class="bento-content"><span class="bento-tag green">Tools</span><div class="bento-icon">✅</div><div class="bento-title">Pre-Trade Checklist</div><p class="bento-text">Lock yourself out of bad trades. Set a minimum score to unlock. Discipline enforced, not suggested.</p><div class="score-ring-wrap"><div class="score-ring"><svg width="90" height="90" viewBox="0 0 90 90"><circle cx="45" cy="45" r="38" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="6"/><circle cx="45" cy="45" r="38" fill="none" stroke="url(#sg)" stroke-width="6" stroke-linecap="round" stroke-dasharray="239" stroke-dashoffset="36"/><defs><linearGradient id="sg" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#22d3a0"/><stop offset="100%" stop-color="#22d3a0"/></linearGradient></defs></svg><div class="score-ring-label"><div class="score-ring-val">85</div><div class="score-ring-sub">/ 100</div></div></div><div><div style="font-family:var(--fd);font-size:22px;color:var(--green)">GO TRADE</div><div style="font-size:11px;color:var(--text3);margin-top:4px;font-family:var(--fm)">7/8 rules met</div></div></div></div></div>
-    <div class="bento bento-4 sr"><div class="bento-content"><span class="bento-tag purple">AI</span><div class="bento-icon">🤖</div><div class="bento-title">YzenBot AI</div><p class="bento-text">Ask your journal anything. "What's my best session?" "When do I revenge trade?" Real answers from your real data.</p><div class="pill-list"><div class="feature-pill">Pattern detection</div><div class="feature-pill">Mistake analysis</div><div class="feature-pill">Edge scoring</div></div></div></div>
-    <div class="bento bento-5 sr"><div class="bento-content"><span class="bento-tag blue">Import</span><div class="bento-icon">🗂️</div><div class="bento-title">CSV Import</div><p class="bento-text">Tradovate, NinjaTrader, Rithmic, generic CSV. Bulk-import your full history in seconds.</p><div class="pill-list"><div class="feature-pill">Tradovate</div><div class="feature-pill">NinjaTrader</div><div class="feature-pill">Rithmic</div><div class="feature-pill">Generic CSV</div></div></div></div>
-    <div class="bento bento-6 sr"><div class="bento-content"><span class="bento-tag gold">Analytics</span><div class="bento-icon">📉</div><div class="bento-title">Equity Curve</div><p class="bento-text">Watch your account grow — or spot the drawdown before it worsens. Visualize every dollar over time.</p><div class="mini-chart" style="height:90px"><div class="mc-bar" style="height:30%;background:rgba(232,224,208,0.3)"></div><div class="mc-bar" style="height:38%;background:rgba(232,224,208,0.35)"></div><div class="mc-bar" style="height:32%;background:rgba(248,113,113,0.45)"></div><div class="mc-bar" style="height:45%;background:rgba(232,224,208,0.42)"></div><div class="mc-bar" style="height:60%;background:rgba(232,224,208,0.49)"></div><div class="mc-bar" style="height:72%;background:rgba(232,224,208,0.56)"></div><div class="mc-bar" style="height:80%;background:rgba(232,224,208,0.59)"></div><div class="mc-bar" style="height:88%;background:rgba(34,211,160,0.85)"></div><div class="mc-bar" style="height:95%;background:rgba(34,211,160,0.9)"></div></div></div></div>
-    <div class="bento bento-7 sr"><div class="bento-content"><span class="bento-tag green">Experience</span><div class="bento-icon">🎵</div><div class="bento-title">Focus Music</div><p class="bento-text">24 built-in lofi tracks engineered for deep work. Upload your own on Shadow. Your journal, your vibe.</p><div class="pill-list"><div class="feature-pill">24 tracks built-in</div><div class="feature-pill">Custom uploads</div><div class="feature-pill">Cloud-synced</div></div></div></div>
+<!-- FEATURES BENTO -->
+<div class="l-section l-sr" id="features">
+  <div class="l-eyebrow">The Full Arsenal</div>
+  <h2 class="l-section-title">Everything Your<br><span style="background:linear-gradient(135deg,#b8aa94,#f5f0e8,#ffffff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">Edge Needs</span></h2>
+  <p class="l-section-sub">14 tools in one obsessively crafted platform. Built by traders, for traders who take the craft seriously.</p>
+  <div class="l-bento-grid">
+    <div class="l-bento l-b1 l-sr">
+      <div class="l-bento-content">
+        <span class="l-bento-tag cream">Core</span>
+        <div class="l-bento-icon">📅</div>
+        <div class="l-bento-title">Trade Calendar</div>
+        <p class="l-bento-text">See every trading day at a glance. Profit days glow green. Loss days burn red. Spot patterns instantly.</p>
+        <div class="l-mini-cal">
+          <div class="l-mc-day p">+$340</div><div class="l-mc-day n">-$120</div><div class="l-mc-day p">+$580</div>
+          <div class="l-mc-day e">—</div><div class="l-mc-day p">+$210</div><div class="l-mc-day p">+$140</div>
+          <div class="l-mc-day n">-$80</div><div class="l-mc-day p">+$430</div><div class="l-mc-day p">+$260</div><div class="l-mc-day e">—</div>
+        </div>
+      </div>
+    </div>
+    <div class="l-bento l-b2 l-sr">
+      <div class="l-bento-content">
+        <span class="l-bento-tag green">Analytics</span>
+        <div class="l-bento-icon">📊</div>
+        <div class="l-bento-title">Deep Analytics</div>
+        <p class="l-bento-text">Win rate by session, ticker, day of week. Profit factor. Avg R:R. Find your A+ setup and double down on it.</p>
+        <div class="l-mini-chart">
+          <div class="l-mc-bar" style="height:55%;background:rgba(34,211,160,0.5)"></div>
+          <div class="l-mc-bar" style="height:80%;background:rgba(34,211,160,0.7)"></div>
+          <div class="l-mc-bar" style="height:40%;background:rgba(248,113,113,0.5)"></div>
+          <div class="l-mc-bar" style="height:92%;background:rgba(34,211,160,0.8)"></div>
+          <div class="l-mc-bar" style="height:65%;background:rgba(34,211,160,0.6)"></div>
+          <div class="l-mc-bar" style="height:30%;background:rgba(248,113,113,0.45)"></div>
+          <div class="l-mc-bar" style="height:75%;background:rgba(34,211,160,0.7)"></div>
+          <div class="l-mc-bar" style="height:95%;background:rgba(232,224,208,0.45)"></div>
+          <div class="l-mc-bar" style="height:60%;background:rgba(34,211,160,0.6)"></div>
+          <div class="l-mc-bar" style="height:88%;background:rgba(34,211,160,0.75)"></div>
+          <div class="l-mc-bar" style="height:45%;background:rgba(248,113,113,0.45)"></div>
+          <div class="l-mc-bar" style="height:70%;background:rgba(34,211,160,0.65)"></div>
+        </div>
+      </div>
+    </div>
+    <div class="l-bento l-b3 l-sr">
+      <div class="l-bento-content">
+        <span class="l-bento-tag green">Tools</span>
+        <div class="l-bento-icon">✅</div>
+        <div class="l-bento-title">Pre-Trade Checklist</div>
+        <p class="l-bento-text">Lock yourself out of bad trades. Set a minimum score. Discipline enforced, not suggested.</p>
+        <div class="l-score-ring-wrap">
+          <div class="l-score-ring">
+            <svg width="90" height="90" viewBox="0 0 90 90"><circle cx="45" cy="45" r="38" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="6"/><circle cx="45" cy="45" r="38" fill="none" stroke="url(#lg1)" stroke-width="6" stroke-linecap="round" stroke-dasharray="239" stroke-dashoffset="36"/><defs><linearGradient id="lg1" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#22d3a0"/><stop offset="100%" stop-color="#22d3a0"/></linearGradient></defs></svg>
+            <div class="l-score-ring-label"><div class="l-score-ring-val">85</div><div class="l-score-ring-sub">/ 100</div></div>
+          </div>
+          <div>
+            <div style="font-family:var(--fd);font-size:22px;color:var(--green)">GO TRADE</div>
+            <div style="font-size:11px;color:rgba(255,255,255,.3);margin-top:4px;font-family:var(--fm)">7/8 rules met</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="l-bento l-b4 l-sr">
+      <div class="l-bento-content">
+        <span class="l-bento-tag purple">AI</span>
+        <div class="l-bento-icon">🤖</div>
+        <div class="l-bento-title">YzenBot AI</div>
+        <p class="l-bento-text">Ask your journal anything. "What's my best session?" "When do I revenge trade?" Real answers from your real data.</p>
+        <div class="l-pill-list"><div class="l-pill">Pattern detection</div><div class="l-pill">Mistake analysis</div><div class="l-pill">Edge scoring</div></div>
+      </div>
+    </div>
+    <div class="l-bento l-b5 l-sr">
+      <div class="l-bento-content">
+        <span class="l-bento-tag blue">Import</span>
+        <div class="l-bento-icon">🗂️</div>
+        <div class="l-bento-title">CSV Import</div>
+        <p class="l-bento-text">Tradovate, NinjaTrader, Rithmic, generic CSV. Bulk-import your full history in seconds.</p>
+        <div class="l-pill-list"><div class="l-pill">Tradovate</div><div class="l-pill">NinjaTrader</div><div class="l-pill">Rithmic</div><div class="l-pill">Generic CSV</div></div>
+      </div>
+    </div>
+    <div class="l-bento l-b6 l-sr">
+      <div class="l-bento-content">
+        <span class="l-bento-tag cream">Analytics</span>
+        <div class="l-bento-icon">📉</div>
+        <div class="l-bento-title">Equity Curve</div>
+        <p class="l-bento-text">Watch your account grow — or spot the drawdown before it worsens. Visualize every dollar over time.</p>
+        <div class="l-mini-chart" style="height:90px">
+          <div class="l-mc-bar" style="height:28%;background:rgba(232,224,208,0.25)"></div>
+          <div class="l-mc-bar" style="height:36%;background:rgba(232,224,208,0.30)"></div>
+          <div class="l-mc-bar" style="height:30%;background:rgba(248,113,113,0.4)"></div>
+          <div class="l-mc-bar" style="height:44%;background:rgba(232,224,208,0.35)"></div>
+          <div class="l-mc-bar" style="height:58%;background:rgba(232,224,208,0.42)"></div>
+          <div class="l-mc-bar" style="height:70%;background:rgba(232,224,208,0.48)"></div>
+          <div class="l-mc-bar" style="height:78%;background:rgba(232,224,208,0.52)"></div>
+          <div class="l-mc-bar" style="height:86%;background:rgba(34,211,160,0.75)"></div>
+          <div class="l-mc-bar" style="height:94%;background:rgba(34,211,160,0.85)"></div>
+        </div>
+      </div>
+    </div>
+    <div class="l-bento l-b7 l-sr">
+      <div class="l-bento-content">
+        <span class="l-bento-tag green">Experience</span>
+        <div class="l-bento-icon">🎵</div>
+        <div class="l-bento-title">Focus Music</div>
+        <p class="l-bento-text">24 built-in lofi tracks engineered for deep work. Upload your own on Shadow. Your journal, your vibe.</p>
+        <div class="l-pill-list"><div class="l-pill">24 tracks built-in</div><div class="l-pill">Custom uploads</div><div class="l-pill">Cloud-synced</div></div>
+      </div>
+    </div>
   </div>
 </div>
 
 <!-- STATS -->
-<div class="stats-belt sr">
-  <div class="stats-belt-inner">
-    <div class="stat-item sr"><div class="stat-val" data-count="2400">0</div><div class="stat-label">Active Traders</div></div>
-    <div class="stat-item sr"><div class="stat-val" data-count="14">0</div><div class="stat-label">Built-in Tools</div></div>
-    <div class="stat-item sr"><div class="stat-val" data-suffix="%">99.9</div><div class="stat-label">Uptime</div></div>
-    <div class="stat-item sr"><div class="stat-val" data-suffix="★">4.9</div><div class="stat-label">Average Rating</div></div>
+<div class="l-stats l-sr">
+  <div class="l-stats-inner">
+    <div class="l-stat l-sr"><div class="l-stat-val" data-count="2400">0</div><div class="l-stat-lbl">Active Traders</div></div>
+    <div class="l-stat l-sr"><div class="l-stat-val" data-count="14">0</div><div class="l-stat-lbl">Built-in Tools</div></div>
+    <div class="l-stat l-sr"><div class="l-stat-val" data-suffix="%">99.9%</div><div class="l-stat-lbl">Uptime</div></div>
+    <div class="l-stat l-sr"><div class="l-stat-val" data-suffix="★">4.9★</div><div class="l-stat-lbl">Average Rating</div></div>
   </div>
 </div>
 
 <!-- HOW -->
-<div class="section sr" id="how">
+<div class="l-section l-sr" id="how">
   <div style="text-align:center">
-    <div class="eyebrow" style="justify-content:center">Simple By Design</div>
-    <h2 class="section-title">Three Steps to<br><span class="gold-shine-text">Clarity</span></h2>
-    <p class="section-sub" style="margin:0 auto">No setup friction. No learning curve. Just log, analyse, improve.</p>
+    <div class="l-eyebrow" style="justify-content:center">Simple By Design</div>
+    <h2 class="l-section-title">Three Steps to<br><span style="background:linear-gradient(135deg,#b8aa94,#f5f0e8);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">Clarity</span></h2>
+    <p class="l-section-sub" style="margin:0 auto">No setup friction. No learning curve. Just log, analyse, improve.</p>
   </div>
-  <div class="steps-grid">
-    <div class="step-card sr"><div class="step-num">1</div><div class="step-title">Log Your Trades</div><p class="step-text">Manual entry in under 60 seconds, or bulk-import via CSV from your broker. Every field that matters — nothing that doesn't.</p></div>
-    <div class="step-card sr"><div class="step-num">2</div><div class="step-title">Analyse Your Patterns</div><p class="step-text">The dashboard surfaces your best setups, worst habits, optimal sessions, and real win rate. No spreadsheet required.</p></div>
-    <div class="step-card sr"><div class="step-num">3</div><div class="step-title">Execute With Edge</div><p class="step-text">Pre-trade checklist locks bad trades out. Weekly report cards keep you accountable. YzenBot spots what you missed.</p></div>
+  <div class="l-steps-grid">
+    <div class="l-step-card l-sr"><div class="l-step-num">1</div><div class="l-step-title">Log Your Trades</div><p class="l-step-text">Manual entry in under 60 seconds, or bulk-import via CSV from your broker. Every field that matters — nothing that doesn't.</p></div>
+    <div class="l-step-card l-sr"><div class="l-step-num">2</div><div class="l-step-title">Analyse Patterns</div><p class="l-step-text">The dashboard surfaces your best setups, worst habits, optimal sessions, and real win rate. No spreadsheet required.</p></div>
+    <div class="l-step-card l-sr"><div class="l-step-num">3</div><div class="l-step-title">Execute With Edge</div><p class="l-step-text">Pre-trade checklist locks bad trades out. Weekly report cards keep you accountable. YzenBot spots what you missed.</p></div>
   </div>
 </div>
 
 <!-- TESTIMONIALS -->
-<div class="section sr" id="reviews">
-  <div class="eyebrow">Real Traders</div>
-  <h2 class="section-title">They Said It,<br>Not Us</h2>
-  <div class="testi-grid">
-    <div class="testi-card sr"><div class="testi-stars">★★★★★</div><p class="testi-text">"I've tried every journal on the market. YzenNq is the only one that actually helped me see I was profitable in the London session and bleeding in New York. Changed my whole schedule."</p><div class="testi-author"><div class="testi-av">M</div><div><div class="testi-name">Marcus T.</div><div class="testi-handle">Forex · NQ Futures</div></div></div></div>
-    <div class="testi-card sr"><div class="testi-stars">★★★★★</div><p class="testi-text">"The pre-trade checklist alone paid for itself in week one. I literally could not take a revenge trade because the score wouldn't let me. This is the accountability partner I never had."</p><div class="testi-author"><div class="testi-av" style="background:linear-gradient(135deg,#7c3aed,var(--purple))">S</div><div><div class="testi-name">Sara K.</div><div class="testi-handle">Prop Firm Trader · Shadow</div></div></div></div>
-    <div class="testi-card sr"><div class="testi-stars">★★★★★</div><p class="testi-text">"The UI is insane. Dark, clean, gold — I actually look forward to opening this. And YzenBot found a pattern in my Thursday losses I'd been ignoring for 6 months."</p><div class="testi-author"><div class="testi-av" style="background:linear-gradient(135deg,#1e40af,var(--blue))">D</div><div><div class="testi-name">Daniel R.</div><div class="testi-handle">Day Trader · ES Futures</div></div></div></div>
+<div class="l-section l-sr" id="reviews">
+  <div class="l-eyebrow">Real Traders</div>
+  <h2 class="l-section-title">They Said It,<br>Not Us</h2>
+  <div class="l-testi-grid">
+    <div class="l-testi-card l-sr"><div class="l-testi-stars">★★★★★</div><p class="l-testi-text">"I've tried every journal on the market. YzenNq is the only one that actually helped me see I was profitable in the London session and bleeding in New York. Changed my whole schedule."</p><div class="l-testi-author"><div class="l-testi-av">M</div><div><div class="l-testi-name">Marcus T.</div><div class="l-testi-handle">Forex · NQ Futures</div></div></div></div>
+    <div class="l-testi-card l-sr"><div class="l-testi-stars">★★★★★</div><p class="l-testi-text">"The pre-trade checklist alone paid for itself in week one. I literally could not take a revenge trade because the score wouldn't let me. This is the accountability partner I never had."</p><div class="l-testi-author"><div class="l-testi-av" style="background:rgba(124,58,237,.2);border-color:rgba(167,139,250,.3);color:var(--purple)">S</div><div><div class="l-testi-name">Sara K.</div><div class="l-testi-handle">Prop Firm Trader · Shadow</div></div></div></div>
+    <div class="l-testi-card l-sr"><div class="l-testi-stars">★★★★★</div><p class="l-testi-text">"The UI is immaculate. Dark, clean, obsidian — I actually look forward to opening this. And YzenBot found a pattern in my Thursday losses I'd been ignoring for 6 months."</p><div class="l-testi-author"><div class="l-testi-av" style="background:rgba(30,64,175,.2);border-color:rgba(96,165,250,.3);color:var(--blue)">D</div><div><div class="l-testi-name">Daniel R.</div><div class="l-testi-handle">Day Trader · ES Futures</div></div></div></div>
   </div>
 </div>
 
 <!-- PRICING -->
-<div class="section sr" id="pricing" style="text-align:center">
-  <div class="eyebrow" style="justify-content:center">Simple Pricing</div>
-  <h2 class="section-title">Pick Your<br><span class="gold-shine-text">Level</span></h2>
-  <p class="section-sub" style="margin:0 auto">Start free. Scale when you're ready. No lock-ins.</p>
-  <div class="plans-grid" style="text-align:left">
-    <div class="plan-card free sr">
-      <div class="plan-top-line"></div><div class="plan-glow"></div>
-      <span class="plan-icon">◈</span><div class="plan-name">Free</div>
-      <div class="plan-tag">Start your journey. No commitment.</div>
-      <div class="plan-price-block"><div class="plan-price"><span class="plan-price-cur">$</span>0<span class="plan-price-per">&nbsp;/mo</span></div><div class="plan-price-note">Free forever — no card required</div></div>
-      <button class="plan-btn" onclick="openAuth('free')">Get Started Free →</button>
-      <div class="plan-feats-lbl">What's included</div>
-      <div class="plan-feat yes"><div class="plan-feat-ic">✓</div><div class="plan-feat-tx">Trade log (up to 25 trades)</div></div>
-      <div class="plan-feat yes"><div class="plan-feat-ic">✓</div><div class="plan-feat-tx">Calendar view</div></div>
-      <div class="plan-feat yes"><div class="plan-feat-ic">✓</div><div class="plan-feat-tx">Basic stats — P&L, WR, streak</div></div>
-      <div class="plan-feat yes"><div class="plan-feat-ic">✓</div><div class="plan-feat-tx">1 trading account</div></div>
-      <div class="plan-feat yes"><div class="plan-feat-ic">✓</div><div class="plan-feat-tx">Pre-trade checklist (view)</div></div>
-      <div class="plan-feat no"><div class="plan-feat-ic">—</div><div class="plan-feat-tx">Deep analytics & equity curve</div></div>
-      <div class="plan-feat no"><div class="plan-feat-ic">—</div><div class="plan-feat-tx">YzenBot AI coach</div></div>
-      <div class="plan-feat no"><div class="plan-feat-ic">—</div><div class="plan-feat-tx">Cloud sync</div></div>
+<div class="l-section l-sr" id="pricing" style="text-align:center">
+  <div class="l-eyebrow" style="justify-content:center">Simple Pricing</div>
+  <h2 class="l-section-title">Pick Your<br><span style="background:linear-gradient(135deg,#b8aa94,#f5f0e8,#ffffff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">Level</span></h2>
+  <p class="l-section-sub" style="margin:0 auto">Start free. Scale when you're ready. No lock-ins.</p>
+  <div class="l-plans-grid" style="text-align:left">
+    <div class="l-plan-card free l-sr">
+      <div class="l-plan-top-line"></div><div class="l-plan-glow"></div>
+      <span class="l-plan-icon">○</span><div class="l-plan-name">Free</div>
+      <div class="l-plan-tag">Start your journey. No commitment.</div>
+      <div class="l-plan-price-block"><div class="l-plan-price"><span class="l-plan-price-cur">$</span>0<span class="l-plan-price-per">&nbsp;/mo</span></div><div class="l-plan-price-note">Free forever — no card required</div></div>
+      <button class="l-plan-btn" onclick="openAuth('free')">Get Started Free →</button>
+      <div class="l-plan-feats-lbl">What's included</div>
+      <div class="l-plan-feat yes"><div class="l-plan-feat-ic">✓</div><div class="l-plan-feat-tx">Trade log (up to 25 trades)</div></div>
+      <div class="l-plan-feat yes"><div class="l-plan-feat-ic">✓</div><div class="l-plan-feat-tx">Calendar view</div></div>
+      <div class="l-plan-feat yes"><div class="l-plan-feat-ic">✓</div><div class="l-plan-feat-tx">Basic stats — P&L, WR, streak</div></div>
+      <div class="l-plan-feat yes"><div class="l-plan-feat-ic">✓</div><div class="l-plan-feat-tx">1 trading account</div></div>
+      <div class="l-plan-feat yes"><div class="l-plan-feat-ic">✓</div><div class="l-plan-feat-tx">Pre-trade checklist</div></div>
+      <div class="l-plan-feat no"><div class="l-plan-feat-ic">—</div><div class="l-plan-feat-tx">Deep analytics & equity curve</div></div>
+      <div class="l-plan-feat no"><div class="l-plan-feat-ic">—</div><div class="l-plan-feat-tx">YzenBot AI coach</div></div>
+      <div class="l-plan-feat no"><div class="l-plan-feat-ic">—</div><div class="l-plan-feat-tx">Cloud sync</div></div>
     </div>
-    <div class="plan-card phantom sr">
-      <div class="popular-ribbon">MOST POPULAR</div>
-      <div class="plan-top-line"></div><div class="plan-glow"></div>
-      <span class="plan-icon">◈</span><div class="plan-name">Phantom</div>
-      <div class="plan-tag">For serious traders tracking every edge.</div>
-      <div class="plan-price-block"><div class="plan-price"><span class="plan-price-cur">$</span>14<span class="plan-price-per">&nbsp;/mo</span></div><div class="plan-price-note">Billed monthly — cancel anytime</div></div>
-      <button class="plan-btn" onclick="openAuth('phantom')">Start Phantom →</button>
-      <div class="plan-feats-lbl">Everything in Free, plus</div>
-      <div class="plan-feat yes g"><div class="plan-feat-ic">✓</div><div class="plan-feat-tx">Unlimited trades & accounts</div></div>
-      <div class="plan-feat yes g"><div class="plan-feat-ic">✓</div><div class="plan-feat-tx">Full summary & deep analytics</div></div>
-      <div class="plan-feat yes g"><div class="plan-feat-ic">✓</div><div class="plan-feat-tx">Equity curve & visualize</div></div>
-      <div class="plan-feat yes g"><div class="plan-feat-ic">✓</div><div class="plan-feat-tx">CSV broker import</div></div>
-      <div class="plan-feat yes g"><div class="plan-feat-ic">✓</div><div class="plan-feat-tx">Risk calculator + econ calendar</div></div>
-      <div class="plan-feat yes g"><div class="plan-feat-ic">✓</div><div class="plan-feat-tx">Cloud sync (Supabase)</div></div>
-      <div class="plan-feat yes g"><div class="plan-feat-ic">✓</div><div class="plan-feat-tx">Music player + 24 built-in tracks</div></div>
-      <div class="plan-feat no"><div class="plan-feat-ic">—</div><div class="plan-feat-tx">YzenBot AI coach</div></div>
+    <div class="l-plan-card phantom l-sr">
+      <div class="l-popular-ribbon">MOST POPULAR</div>
+      <div class="l-plan-top-line"></div><div class="l-plan-glow"></div>
+      <span class="l-plan-icon">◇</span><div class="l-plan-name">Phantom</div>
+      <div class="l-plan-tag">For serious traders tracking every edge.</div>
+      <div class="l-plan-price-block"><div class="l-plan-price"><span class="l-plan-price-cur">$</span>14<span class="l-plan-price-per">&nbsp;/mo</span></div><div class="l-plan-price-note">Billed monthly — cancel anytime</div></div>
+      <button class="l-plan-btn" onclick="openAuth('phantom')">Start Phantom →</button>
+      <div class="l-plan-feats-lbl">Everything in Free, plus</div>
+      <div class="l-plan-feat yes g"><div class="l-plan-feat-ic">✓</div><div class="l-plan-feat-tx">Unlimited trades & accounts</div></div>
+      <div class="l-plan-feat yes g"><div class="l-plan-feat-ic">✓</div><div class="l-plan-feat-tx">Full summary & deep analytics</div></div>
+      <div class="l-plan-feat yes g"><div class="l-plan-feat-ic">✓</div><div class="l-plan-feat-tx">Equity curve & visualize</div></div>
+      <div class="l-plan-feat yes g"><div class="l-plan-feat-ic">✓</div><div class="l-plan-feat-tx">CSV broker import</div></div>
+      <div class="l-plan-feat yes g"><div class="l-plan-feat-ic">✓</div><div class="l-plan-feat-tx">Risk calculator + econ calendar</div></div>
+      <div class="l-plan-feat yes g"><div class="l-plan-feat-ic">✓</div><div class="l-plan-feat-tx">Cloud sync (Supabase)</div></div>
+      <div class="l-plan-feat yes g"><div class="l-plan-feat-ic">✓</div><div class="l-plan-feat-tx">Music player + 24 built-in tracks</div></div>
+      <div class="l-plan-feat no"><div class="l-plan-feat-ic">—</div><div class="l-plan-feat-tx">YzenBot AI coach</div></div>
     </div>
-    <div class="plan-card shadow sr">
-      <div class="plan-top-line"></div><div class="plan-glow"></div>
-      <span class="plan-icon">◆</span><div class="plan-name">Shadow</div>
-      <div class="plan-tag">Full arsenal. For traders who demand it all.</div>
-      <div class="plan-price-block"><div class="plan-price"><span class="plan-price-cur">$</span>29<span class="plan-price-per">&nbsp;/mo</span></div><div class="plan-price-note">Billed monthly — cancel anytime</div></div>
-      <button class="plan-btn" onclick="openAuth('shadow')">Go Shadow →</button>
-      <div class="plan-feats-lbl">Everything in Phantom, plus</div>
-      <div class="plan-feat yes p"><div class="plan-feat-ic">✓</div><div class="plan-feat-tx">YzenBot AI coach</div></div>
-      <div class="plan-feat yes p"><div class="plan-feat-ic">✓</div><div class="plan-feat-tx">Trade Replay — frame by frame</div></div>
-      <div class="plan-feat yes p"><div class="plan-feat-ic">✓</div><div class="plan-feat-tx">Data export (JSON + CSV)</div></div>
-      <div class="plan-feat yes p"><div class="plan-feat-ic">✓</div><div class="plan-feat-tx">Custom music uploads</div></div>
-      <div class="plan-feat yes p"><div class="plan-feat-ic">✓</div><div class="plan-feat-tx">Screenshot uploads per trade</div></div>
-      <div class="plan-feat yes p"><div class="plan-feat-ic">✓</div><div class="plan-feat-tx">Custom nav layout editor</div></div>
-      <div class="plan-feat yes p"><div class="plan-feat-ic">✓</div><div class="plan-feat-tx">Priority support — direct line</div></div>
+    <div class="l-plan-card shadow l-sr">
+      <div class="l-plan-top-line"></div><div class="l-plan-glow"></div>
+      <span class="l-plan-icon">✦</span><div class="l-plan-name">Shadow</div>
+      <div class="l-plan-tag">Full arsenal. For traders who demand it all.</div>
+      <div class="l-plan-price-block"><div class="l-plan-price"><span class="l-plan-price-cur">$</span>29<span class="l-plan-price-per">&nbsp;/mo</span></div><div class="l-plan-price-note">Billed monthly — cancel anytime</div></div>
+      <button class="l-plan-btn" onclick="openAuth('shadow')">Go Shadow →</button>
+      <div class="l-plan-feats-lbl">Everything in Phantom, plus</div>
+      <div class="l-plan-feat yes p"><div class="l-plan-feat-ic">✓</div><div class="l-plan-feat-tx">YzenBot AI coach</div></div>
+      <div class="l-plan-feat yes p"><div class="l-plan-feat-ic">✓</div><div class="l-plan-feat-tx">Trade Replay — frame by frame</div></div>
+      <div class="l-plan-feat yes p"><div class="l-plan-feat-ic">✓</div><div class="l-plan-feat-tx">Data export (JSON + CSV)</div></div>
+      <div class="l-plan-feat yes p"><div class="l-plan-feat-ic">✓</div><div class="l-plan-feat-tx">Custom music uploads</div></div>
+      <div class="l-plan-feat yes p"><div class="l-plan-feat-ic">✓</div><div class="l-plan-feat-tx">Screenshot uploads per trade</div></div>
+      <div class="l-plan-feat yes p"><div class="l-plan-feat-ic">✓</div><div class="l-plan-feat-tx">Custom nav layout editor</div></div>
+      <div class="l-plan-feat yes p"><div class="l-plan-feat-ic">✓</div><div class="l-plan-feat-tx">Priority support — direct line</div></div>
     </div>
   </div>
 </div>
 
 <!-- CTA -->
-<div class="cta-section sr">
-  <div class="cta-glow"></div>
-  <div class="eyebrow" style="justify-content:center">Ready?</div>
-  <h2 class="cta-title">Stop Guessing.<br>Start <span class="gold-shine">Knowing.</span></h2>
-  <p class="cta-sub">Join 2,400+ traders who replaced gut feelings with real data. Your edge is already in your trades — YzenNq just shows you where it is.</p>
-  <div class="hero-actions" style="justify-content:center">
-    <button class="btn-hero-primary" onclick="openAuth('free')">Start Free Today →</button>
-    <a href="#pricing" class="btn-hero-ghost">View Pricing ↓</a>
+<div class="l-cta-section l-sr">
+  <div class="l-cta-bg"></div>
+  <div class="l-eyebrow" style="justify-content:center">Ready?</div>
+  <h2 class="l-cta-title">Stop Guessing.<br>Start <span style="background:linear-gradient(135deg,#b8aa94,#f5f0e8,#ffffff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">Knowing.</span></h2>
+  <p class="l-cta-sub">Join 2,400+ traders who replaced gut feelings with real data. Your edge is already in your trades — YzenNq just shows you where it is.</p>
+  <div class="l-hero-actions" style="justify-content:center">
+    <button class="l-btn-hero" onclick="openAuth('free')">Start Free Today →</button>
+    <a href="#pricing" class="l-btn-outline">View Pricing ↓</a>
   </div>
-  <p class="cta-note">No credit card required · Cancel anytime · Data encrypted at rest</p>
+  <p class="l-cta-note">No credit card required · Cancel anytime · Data encrypted at rest</p>
 </div>
 
 <!-- FOOTER -->
-<footer>
-  <div class="footer-inner">
-    <div class="footer-brand">
-      <div class="footer-logo">YzenNq</div>
-      <p class="footer-tagline">The pro trading journal built for traders who take discipline seriously. Know your edge. Own the game.</p>
+<footer class="l-footer">
+  <div class="l-footer-inner">
+    <div class="l-footer-brand">
+      <div class="l-footer-logo">YzenNq</div>
+      <p class="l-footer-tagline">The pro trading journal built for traders who take discipline seriously. Know your edge. Own the game.</p>
     </div>
-    <div class="footer-col"><h4>Product</h4><a href="#features">Features</a><a href="#pricing">Pricing</a><a href="#">Changelog</a><a href="#">Roadmap</a></div>
-    <div class="footer-col"><h4>Tools</h4><a href="#features">Trade Calendar</a><a href="#features">Deep Analytics</a><a href="#features">YzenBot AI</a><a href="#features">Risk Calculator</a></div>
-    <div class="footer-col"><h4>Company</h4><a href="#">About</a><a href="#">Blog</a><a href="#">Support</a><a href="#">Privacy</a></div>
+    <div class="l-footer-col"><h4>Product</h4><a href="#features">Features</a><a href="#pricing">Pricing</a><a href="#">Changelog</a><a href="#">Roadmap</a></div>
+    <div class="l-footer-col"><h4>Tools</h4><a href="#features">Trade Calendar</a><a href="#features">Deep Analytics</a><a href="#features">YzenBot AI</a><a href="#features">Risk Calculator</a></div>
+    <div class="l-footer-col"><h4>Company</h4><a href="#">About</a><a href="#">Blog</a><a href="#">Support</a><a href="#">Privacy</a></div>
   </div>
-  <div class="footer-bottom">
-    <div class="footer-copy">© 2025 YzenNq Journal · Built for disciplined traders · All rights reserved</div>
-    <div class="footer-copy"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="691a1c1919061b1d2910130c070718470a0604">[email&#160;protected]</a></div>
+  <div class="l-footer-bottom">
+    <div class="l-footer-copy">© 2025 YzenNq Journal · Built for disciplined traders · All rights reserved</div>
+    <div class="l-footer-copy">support@yzennq.com</div>
   </div>
 </footer>
 
@@ -3092,8 +3196,8 @@ footer{position:relative;z-index:10;border-top:1px solid var(--bdr);padding:60px
             <input id="adm-plan-email" placeholder="user@email.com" style="flex:1;min-width:180px;font-size:12px">
             <select id="adm-plan-select-main" class="adm-plan-select" style="padding:8px 12px;font-size:12px">
               <option value="free">◈ Free</option>
-              <option value="phantom">◈ Phantom</option>
-              <option value="shadow">◆ Shadow</option>
+              <option value="phantom">◇ Phantom</option>
+              <option value="shadow">✦ Shadow</option>
             </select>
             <button class="btn adm-btn adm-btn-green" style="padding:7px 14px;font-size:10px" onclick="admSetPlanByEmail()">Set Plan</button>
           </div>
@@ -6985,14 +7089,13 @@ function showConfig(){
   console.log('Config: URL =', SUPABASE_URL);
 }
 
-function initSupabase(url,key,autoCheck=false){
+function initSupabase(url,key){
   try{
     SB=window.supabase.createClient(url,key,{
-      auth:{persistSession:false,autoRefreshToken:false},
+      auth:{persistSession:true,autoRefreshToken:true},
       realtime:{params:{eventsPerSecond:10}}
     });
-    // Only auto-check session when explicitly requested (i.e. after sign-in, not on page load)
-    if(autoCheck) checkSession();
+    checkSession();
   }catch(e){console.error('Supabase init error:',e);}
 }
 
@@ -7013,15 +7116,7 @@ function hideLanding(){
 }
 
 async function checkSession(){
-  // Wait up to 3s for Supabase CDN to load if SB not ready yet
-  if(!SB){
-    let waited=0;
-    while(!SB && waited<3000){
-      await new Promise(r=>setTimeout(r,100));
-      waited+=100;
-    }
-    if(!SB){showLanding();return;}
-  }
+  if(!SB){showLanding();return;}
   try{
     const{data:{session}}=await SB.auth.getSession();
     if(session){
@@ -7118,14 +7213,6 @@ function startRealtimeSync(){
       }
       if(remote.settings)S.settings={...S.settings,...remote.settings};
       if(remote.envFields)S.envFields=remote.envFields;
-      // Apply plan change live if admin updated it remotely
-      if(remote._plan && remote._plan !== S._plan){
-        S._plan = remote._plan;
-        const newPlan = isAdmin() ? 'shadow' : remote._plan;
-        window._userPlan = newPlan;
-        if(typeof applyPlanRestrictions==='function') applyPlanRestrictions(newPlan);
-        toast('🔄 Plan updated: '+newPlan.charAt(0).toUpperCase()+newPlan.slice(1));
-      }
       try{localStorage.setItem('yz4',JSON.stringify(S));}catch(e){}
       // Re-render current page instantly
       refreshCurrentPage();
@@ -7227,8 +7314,8 @@ function switchTab(tab, silent){
   const tabUp = document.getElementById('tab-up');
   const nameField = document.getElementById('name-field');
   const submitLabel = document.getElementById('submit-label');
-  if(tabIn) tabIn.className = 'auth-tab' + (tab==='in'||tab==='login' ? ' active' : '');
-  if(tabUp) tabUp.className = 'auth-tab' + (tab==='up'||tab==='signup' ? ' active' : '');
+  if(tabIn) tabIn.className = 'l-auth-tab' + (tab==='in'||tab==='login' ? ' active' : '');
+  if(tabUp) tabUp.className = 'l-auth-tab' + (tab==='up'||tab==='signup' ? ' active' : '');
   if(nameField) nameField.style.display = (tab==='up'||tab==='signup') ? 'block' : 'none';
   curTab = (tab==='login'?'in':tab==='signup'?'up':tab);
   if(!silent) clearMsgs && clearMsgs();
@@ -7469,66 +7556,31 @@ async function saveToSupabase(silent=false){
 // ══════════════════════════════════════════
 const PLAN_FEATURES = {
   free:    ['calendar','trades','notebook','checklist','settings'],
-  phantom: ['calendar','trades','import','notebook','summary','analytics','equity','visualize','data','checklist','risk','news','deposit','report','settings','feedback'],
+  phantom: ['calendar','trades','import','notebook','summary','analytics','equity','visualize','data','checklist','risk','news','deposit','report','settings','feedback','music'],
   shadow:  ['calendar','trades','import','notebook','replay','summary','analytics','equity','visualize','data','checklist','risk','news','deposit','report','settings','feedback','aibot','admin','music']
 };
 
 function applyPlanRestrictions(plan){
-  // Admins always get full access
-  const effectivePlan = (typeof isAdmin === 'function' && isAdmin()) ? 'shadow' : plan;
-  const allowed = PLAN_FEATURES[effectivePlan] || PLAN_FEATURES['free'];
-
-  // 1. Update nav items locked state and re-render
+  const allowed = PLAN_FEATURES[plan] || PLAN_FEATURES['free'];
+  // Update NAV_ITEMS locked status based on plan
   NAV_ITEMS.forEach(item=>{
     if(!item.id) return;
     item.planLocked = !allowed.includes(item.id);
   });
   renderNavItems();
-
-  // 2. Music player — Shadow only
-  const musicBtn = document.getElementById('music-toggle-btn');
-  if(musicBtn) musicBtn.style.display = allowed.includes('music') ? '' : 'none';
-
-  // 3. Import button — Phantom+
-  document.querySelectorAll(".ni[onclick*=\"import\"]").forEach(b=>{
-    b.style.display = allowed.includes('import') ? '' : 'none';
-  });
-
-  // 4. Update plan badge in sidebar footer
-  const foot = document.querySelector('.sb-foot');
+  // Show plan badge in sidebar
+  const foot=document.querySelector('.sb-foot');
   if(foot){
-    let badge = document.getElementById('plan-badge');
+    let badge=document.getElementById('plan-badge');
     if(!badge){
-      badge = document.createElement('div');
-      badge.id = 'plan-badge';
-      badge.style.cssText = 'font-family:var(--fm);font-size:9px;letter-spacing:.12em;text-transform:uppercase;text-align:center;padding:5px 10px;border-radius:6px;margin-bottom:6px;';
-      foot.insertBefore(badge, foot.firstChild);
+      badge=document.createElement('div');
+      badge.id='plan-badge';
+      badge.style.cssText='font-family:var(--fm);font-size:9px;letter-spacing:.12em;text-transform:uppercase;text-align:center;padding:5px 10px;border-radius:6px;margin-bottom:6px;';
+      foot.insertBefore(badge,foot.firstChild);
     }
-    if(effectivePlan==='shadow'){
-      badge.textContent = isAdmin() ? '◆ Admin' : '◆ Shadow';
-      badge.style.background = 'rgba(167,139,250,0.12)';
-      badge.style.color = 'var(--purple)';
-    } else if(effectivePlan==='phantom'){
-      badge.textContent = '◈ Phantom';
-      badge.style.background = 'rgba(232,224,208,0.08)';
-      badge.style.color = 'var(--gold)';
-    } else {
-      badge.textContent = '◈ Free Plan';
-      badge.style.background = 'var(--g1)';
-      badge.style.color = 'var(--text3)';
-    }
-  }
-
-  // 5. Update role label in sidebar footer
-  const roleEl = document.querySelector('.u-role');
-  if(roleEl && currentUser){
-    if(isAdmin()){
-      roleEl.innerHTML = '<span style="color:var(--gold);letter-spacing:.08em">◆ Admin</span>';
-    } else {
-      const planColor = effectivePlan==='shadow'?'var(--purple)':effectivePlan==='phantom'?'var(--gold)':'var(--text3)';
-      const planLabel = effectivePlan==='shadow'?'◆ Shadow':effectivePlan==='phantom'?'◈ Phantom':'◈ Free';
-      roleEl.innerHTML = '<span style="color:'+planColor+';letter-spacing:.08em">'+planLabel+'</span>';
-    }
+    if(plan==='shadow'){badge.textContent='✦ Shadow';badge.style.background='rgba(167,139,250,0.12)';badge.style.color='var(--purple)';}
+    else if(plan==='phantom'){badge.textContent='◇ Phantom';badge.style.background='rgba(232,224,208,0.08)';badge.style.color='var(--gold)';}
+    else{badge.textContent='○ Free';badge.style.background='var(--g1)';badge.style.color='var(--text3)';}
   }
 }
 
@@ -7541,15 +7593,13 @@ function enterApp(){
   // ── PLAN GATING — read from user_metadata first, then data column, then default free ──
   const metaPlan = (currentUser?.user_metadata?.plan||'').toLowerCase();
   const dataPlan = (S?._plan||'').toLowerCase();
-  let userPlan = (['free','phantom','shadow'].includes(metaPlan) ? metaPlan :
+  const userPlan = (['free','phantom','shadow'].includes(metaPlan) ? metaPlan :
                     ['free','phantom','shadow'].includes(dataPlan) ? dataPlan : 'free');
-  // Admins always get shadow-level access
-  if(isAdmin()) userPlan = 'shadow';
   window._userPlan=userPlan;
   applyPlanRestrictions(userPlan);
   // Music player only for Shadow plan
   const musicBtn = document.getElementById('music-toggle-btn');
-  if(musicBtn) musicBtn.style.display = (userPlan === 'shadow') ? '' : 'none';
+  if(musicBtn) musicBtn.style.display = (userPlan === 'shadow' || userPlan === 'phantom') ? '' : 'none';
   // Import button only for Phantom+ plans
   const importBtns = document.querySelectorAll('[onclick="go(\'import\')"]');
   importBtns.forEach(b => b.style.display = (userPlan === 'free') ? 'none' : '');
@@ -7558,7 +7608,7 @@ function enterApp(){
   const el2=document.querySelector('.u-role');
   const av=document.querySelector('.u-av');
   if(el)el.textContent=name;
-  const planLabel = userPlan==='shadow' ? '◆ Shadow' : userPlan==='phantom' ? '◈ Phantom' : '◈ Free';
+  const planLabel = userPlan==='shadow' ? '✦ Shadow' : userPlan==='phantom' ? '◇ Phantom' : '○ Free';
   const planColor = userPlan==='shadow' ? 'var(--purple)' : userPlan==='phantom' ? 'var(--gold)' : 'var(--text3)';
   if(el2){
     el2.innerHTML = isAdmin()
@@ -7629,19 +7679,13 @@ function showUpgradeToast(feature){
 async function signOut(){
   const ok=await customConfirm('You will be signed out of your account.','↪','Sign Out','Sign Out','var(--gold)');
   if(ok){
-    const client = (typeof _getSB==='function') ? _getSB() : SB;
-    if(client&&currentUser?.id!=='demo'){ try{ await client.auth.signOut(); }catch(e){} }
+    if(SB&&currentUser?.id!=='demo')await SB.auth.signOut();
     localStorage.removeItem('yz4');
     localStorage.removeItem('yz4_backup');
     localStorage.removeItem('yz4_uid');
-    localStorage.removeItem('yz_sb_url');
-    localStorage.removeItem('yz_sb_key');
     localStorage.removeItem('yzen_google_intent');
     currentUser=null;
-    SB=null;
     showLanding();
-    // Force page reload so fresh auth state is guaranteed
-    setTimeout(()=>location.reload(),300);
   }
 }
 
@@ -7667,8 +7711,8 @@ function clearAuthMessages(){
 function showSpinner(show){
   const el=document.getElementById('auth-spinner');
   if(el)el.style.display=show?'block':'none';
-  const btn=document.getElementById('auth-submit-btn');
-  if(btn)btn.disabled=show;
+}
+  document.getElementById('auth-submit-btn').disabled=show;
 }
 
 // ══════ NAV EDITOR ══════
@@ -7700,47 +7744,45 @@ const NAV_ITEMS=[
 ];
 
 function getHiddenNav(){
-  if(!Array.isArray(S.hiddenNav)) S.hiddenNav=[];
-  return S.hiddenNav;
+  return S.hiddenNav||(S.hiddenNav=[]),S.hiddenNav;
 }
 
 function renderNavItems(){
   const hidden=getHiddenNav();
   const container=document.getElementById('nav-items-container');
   if(!container)return;
-
-  // Build sections with their items, only render section if it has visible items
-  const sections=[];
-  let curSec=null;
-  NAV_ITEMS.forEach(item=>{
-    if(item.section){ curSec={label:item.section,items:[]}; sections.push(curSec); return; }
-    if(!curSec) return;
-    curSec.items.push(item);
-  });
-
   let html='';
-  sections.forEach(sec=>{
-    // Filter to items that should appear
-    const visible=sec.items.filter(item=>{
-      if(item.adminOnly) return isAdmin();
-      if(hidden.includes(item.id)) return false;
-      return true; // show locked items too (with UPGRADE badge)
-    });
-    if(!visible.length) return; // skip empty sections
-
-    html+=`<div class="ns">${sec.label}</div>`;
-    visible.forEach(item=>{
-      if(item.adminOnly){
-        html+=`<div class="ns" style="margin-top:6px;border-top:1px solid rgba(167,139,250,0.15);padding-top:10px;color:rgba(167,139,250,0.5)">Admin</div>`;
-        html+=`<div class="ni admin-nav" onclick="go('${item.id}')"><span class="ni-ic">${item.icon}</span>${item.label}</div>`;
-      } else if(item.planLocked){
-        html+=`<div class="ni ni-locked" onclick="showUpgradeToast('${item.label}')" style="opacity:0.4;cursor:not-allowed;position:relative"><span class="ni-ic">${item.icon}</span>${item.label}<span style="font-family:var(--fm);font-size:7px;letter-spacing:.1em;background:var(--g2);border:1px solid var(--bdr);border-radius:3px;padding:1px 5px;position:absolute;right:8px;top:50%;transform:translateY(-50%);color:var(--text3)">UPGRADE</span></div>`;
-      } else {
-        html+=`<div class="ni" onclick="go('${item.id}')"><span class="ni-ic">${item.icon}</span>${item.label}</div>`;
-      }
-    });
+  let currentSection='';
+  NAV_ITEMS.forEach(item=>{
+    if(item.section){
+      currentSection=item.section;
+      html+=`<div class="ns ne-section-${currentSection.replace(/\s/g,'_')}">${currentSection}</div>`;
+      return;
+    }
+    if(item.adminOnly){
+      if(!isAdmin())return;
+      // Admin nav separator
+      html+=`<div class="ns" style="margin-top:6px;border-top:1px solid rgba(167,139,250,0.15);padding-top:10px;color:rgba(167,139,250,0.5)">Admin</div>`;
+      html+=`<div class="ni admin-nav" onclick="go('${item.id}')"><span class="ni-ic">${item.icon}</span>${item.label}</div>`;
+      return;
+    }
+    if(hidden.includes(item.id))return;
+    if(item.planLocked){
+      html+=`<div class="ni ni-locked" onclick="showUpgradeToast('${item.label}')" style="opacity:0.4;cursor:not-allowed;position:relative"><span class="ni-ic">${item.icon}</span>${item.label}<span style="font-family:var(--fm);font-size:7px;letter-spacing:.1em;background:var(--g2);border:1px solid var(--bdr);border-radius:3px;padding:1px 5px;position:absolute;right:8px;top:50%;transform:translateY(-50%);color:var(--text3)">UPGRADE</span></div>`;
+    } else {
+      html+=`<div class="ni" onclick="go('${item.id}')"><span class="ni-ic">${item.icon}</span>${item.label}</div>`;
+    }
   });
   container.innerHTML=html;
+  NAV_ITEMS.filter(i=>i.section).forEach(sec=>{
+    const cls='ne-section-'+sec.section.replace(/\s/g,'_');
+    const el=container.querySelector('.'+cls);
+    if(!el)return;
+    let next=el.nextElementSibling;
+    let hasVisible=false;
+    while(next&&!next.classList.contains('ns')){hasVisible=true;break;next=next.nextElementSibling;}
+    if(!hasVisible)el.style.display='none';
+  });
 }
 
 function openNavEditorMobile(){
@@ -7832,20 +7874,24 @@ function closeNavEditor(){
 // ── Init Auth on Load ──
 
 function initAuth(){
-  // Boot Supabase client only — do NOT auto-login, user must sign in manually
+  // Landing page handles auth — just boot Supabase
+  localStorage.setItem('yz_sb_url', SUPABASE_URL);
+  localStorage.setItem('yz_sb_key', SUPABASE_KEY);
+  // Guard against old auth elements that no longer exist
   const cfgView = document.getElementById('auth-config-view');
   const loginView = document.getElementById('auth-login-view');
   if(cfgView) cfgView.style.display='none';
   if(loginView) loginView.style.display='none';
+  // Wait for Supabase CDN script to be ready (handles slow/cached loads)
   if(window.supabase){
-    initSupabase(SUPABASE_URL, SUPABASE_KEY, false);
+    initSupabase(SUPABASE_URL, SUPABASE_KEY);
   } else {
     let attempts=0;
     const waitForSB=setInterval(()=>{
       attempts++;
       if(window.supabase){
         clearInterval(waitForSB);
-        initSupabase(SUPABASE_URL, SUPABASE_KEY, false);
+        initSupabase(SUPABASE_URL, SUPABASE_KEY);
       } else if(attempts>20){
         clearInterval(waitForSB);
         console.warn('Supabase CDN failed to load');
@@ -9242,8 +9288,8 @@ function mShuffleSongs(){
 
 function musicToggleMain(){
   const plan = window._userPlan || 'free';
-  if(plan !== 'shadow'){
-    toast('🎵 Music Player is a Shadow plan feature. Upgrade to unlock.');
+  if(plan !== 'shadow' && plan !== 'phantom'){
+    toast('◇ Music Player is a Phantom+ feature. Upgrade to unlock.');
     return;
   }
   // Main toolbar button: just open the overlay
@@ -9574,8 +9620,8 @@ function admRenderUsersList(users){
       <div class="adm-actions">
         <select class="adm-plan-select" onchange="admSetPlan('${u.user_id}','${email}',this.value)" title="Set plan">
           <option value="free" ${userRowPlan==='free'?'selected':''}>◈ Free</option>
-          <option value="phantom" ${userRowPlan==='phantom'?'selected':''}>◈ Phantom</option>
-          <option value="shadow" ${userRowPlan==='shadow'?'selected':''}>◆ Shadow</option>
+          <option value="phantom" ${userRowPlan==='phantom'?'selected':''}>◇ Phantom</option>
+          <option value="shadow" ${userRowPlan==='shadow'?'selected':''}>✦ Shadow</option>
         </select>
         <button class="adm-btn adm-btn-purple" onclick="admViewUser('${u.user_id}')">View</button>
         ${isBanned
@@ -9759,7 +9805,7 @@ async function admSetPlanByEmail(){
   const user = _admAllUsers.find(u=>u.user_email?.toLowerCase()===email);
   if(!user){ if(msgEl){msgEl.style.color='var(--red)';msgEl.textContent='User not found. They must have signed up first.';} return; }
   await admSetPlan(user.user_id, email, plan);
-  const planLabel = plan==='shadow'?'◆ Shadow':plan==='phantom'?'◈ Phantom':'◈ Free';
+  const planLabel = plan==='shadow'?'✦ Shadow':plan==='phantom'?'◇ Phantom':'○ Free';
   if(msgEl){msgEl.style.color='var(--green)';msgEl.textContent=`✓ ${email} is now on ${planLabel}. Takes effect on their next login.`;}
 }
 
@@ -9783,7 +9829,7 @@ async function admSetPlan(userId, email, plan){
     const u = _admAllUsers.find(x=>x.user_id===userId);
     if(u){ if(!u.data) u.data={}; u.data._plan=plan; }
 
-    const planLabel = plan==='shadow'?'◆ Shadow':plan==='phantom'?'◈ Phantom':'◈ Free';
+    const planLabel = plan==='shadow'?'✦ Shadow':plan==='phantom'?'◇ Phantom':'○ Free';
     toast(`✓ ${email.split('@')[0]} → ${planLabel}`);
 
     // Re-render just this row's badges without full reload
@@ -9792,14 +9838,6 @@ async function admSetPlan(userId, email, plan){
       const badges = row2.querySelectorAll('.adm-badge-free,.adm-badge-phantom,.adm-badge-shadow');
       badges.forEach(b=>{ b.className=`adm-badge adm-badge-${plan}`; b.textContent=plan.toUpperCase(); });
     }
-
-    // 4. If changing own plan, apply all feature gates immediately
-    if(userId === currentUser?.id){
-      S._plan = plan;
-      window._userPlan = plan;
-      if(typeof applyPlanRestrictions==='function') applyPlanRestrictions(plan);
-    }
-    // 5. For any user: if their data is live-synced via realtime, it will auto-apply on their end
   }catch(e){ toast('⚠ Plan update failed: '+e.message); }
 }
 
@@ -10953,22 +10991,7 @@ try {
 /* ══ SUPABASE ══ */
 // Landing uses journal's SB — aliased below
 let sb = null;
-function _getSB(){
-  if(typeof SB !== 'undefined' && SB) return SB;
-  if(sb) return sb;
-  // fallback: use supabaseClient initialized in auth script block
-  if(typeof supabaseClient !== 'undefined' && supabaseClient) return supabaseClient;
-  // last resort: try to create a fresh client if supabase CDN is ready
-  if(typeof supabase !== 'undefined' && supabase && typeof SUPABASE_URL !== 'undefined') {
-    try {
-      const key = (typeof SUPABASE_KEY !== 'undefined' && SUPABASE_KEY)
-                    ? SUPABASE_KEY
-                    : (typeof SUPABASE_ANON_KEY !== 'undefined' ? SUPABASE_ANON_KEY : null);
-      if(key) { sb = supabase.createClient(SUPABASE_URL, key, {auth:{persistSession:true,autoRefreshToken:true}}); return sb; }
-    } catch(e) { console.error('_getSB fallback init failed:', e); }
-  }
-  return null;
-}
+function _getSB(){ return (typeof SB !== 'undefined' && SB) ? SB : sb; }
 
 async function handleGoogleReturn(session) {
   const intent = localStorage.getItem('yzen_google_intent');
@@ -10998,15 +11021,22 @@ async function handleGoogleReturn(session) {
 // sb alias set once journal's SB is ready — poll immediately + on DOMContentLoaded
 (function _pollSB(){
   if(typeof SB !== 'undefined' && SB){ sb = SB; return; }
+  let _attempts = 0;
   const _wait = setInterval(() => {
-    if(typeof SB !== 'undefined' && SB){ sb = SB; clearInterval(_wait); }
+    _attempts++;
+    if(typeof SB !== 'undefined' && SB){ sb = SB; clearInterval(_wait); return; }
+    // If SB still null after 3s, try to boot supabase ourselves
+    if(_attempts === 30 && window.supabase && !SB){
+      try { initSupabase(SUPABASE_URL, SUPABASE_KEY); } catch(e){}
+    }
+    if(_attempts > 100) clearInterval(_wait);
   }, 50);
-  // Also hook DOMContentLoaded in case script runs before DOM
   if(document.readyState !== 'loading'){
     if(typeof SB !== 'undefined' && SB) sb = SB;
   } else {
     document.addEventListener('DOMContentLoaded', () => {
       if(typeof SB !== 'undefined' && SB) sb = SB;
+      else if(window.supabase){ try{ initSupabase(SUPABASE_URL, SUPABASE_KEY); }catch(e){} }
     });
   }
 })();
@@ -11014,7 +11044,7 @@ async function handleGoogleReturn(session) {
 /* ══ PLAN CONFIG ══ */
 const PLANS = {
   free: {
-    badge:'◈ Free Plan', badgeCls:'free',
+    badge:'○ Free Plan', badgeCls:'free',
     title:'Start Free', titleCls:'',
     sub:'Join 2,400+ traders. No credit card, no commitment — just your edge.',
     bar:'free', btnCls:'free', btnLabel:'Create Free Account →',
@@ -11023,7 +11053,7 @@ const PLANS = {
     startTab:'up'
   },
   phantom: {
-    badge:'◈ Phantom · $14/mo', badgeCls:'phantom',
+    badge:'◇ Phantom · $14/mo', badgeCls:'phantom',
     title:'Go Phantom', titleCls:'phantom',
     sub:'Unlock unlimited trades, full analytics, cloud sync and broker import.',
     bar:'phantom', btnCls:'phantom', btnLabel:'Start Phantom →',
@@ -11038,7 +11068,7 @@ const PLANS = {
     startTab:'up'
   },
   shadow: {
-    badge:'◆ Shadow · $29/mo', badgeCls:'shadow',
+    badge:'✦ Shadow · $29/mo', badgeCls:'shadow',
     title:'Go Shadow', titleCls:'shadow',
     sub:'The full YzenNq arsenal — AI coach, trade replay, priority support.',
     bar:'shadow', btnCls:'shadow', btnLabel:'Start Shadow →',
@@ -11073,12 +11103,12 @@ function openAuth(plan) {
   const $ = id => document.getElementById(id);
 
   $('auth-badge').textContent = cfg.badge;
-  $('auth-badge').className   = 'auth-plan-badge ' + cfg.badgeCls;
+  $('auth-badge').className   = 'l-auth-badge ' + cfg.badgeCls;
   $('auth-title').textContent = cfg.title;
-  $('auth-title').className   = 'auth-drawer-title ' + cfg.titleCls;
+  $('auth-title').className   = 'l-auth-title ' + cfg.titleCls;
   $('auth-sub').textContent   = cfg.sub;
-  $('auth-plan-bar').className = 'auth-plan-bar ' + cfg.bar;
-  $('auth-submit-btn').className = 'auth-submit ' + cfg.btnCls;
+  $('auth-plan-bar').className = 'l-auth-plan-bar ' + cfg.bar;
+  $('auth-submit-btn').className = 'l-auth-submit ' + cfg.btnCls;
   $('submit-label').textContent  = cfg.btnLabel;
   $('auth-note-txt').textContent = cfg.note;
 
@@ -11086,7 +11116,7 @@ function openAuth(plan) {
   if (cfg.perks) {
     perksEl.style.display = 'block';
     perksEl.innerHTML = cfg.perks.map(p =>
-      `<div class="auth-perk"><div class="auth-perk-ic ${p.ic}">✓</div>${p.t}</div>`
+      `<div class="l-auth-perk"><div class="l-auth-perk-ic ${p.ic}">✓</div>${p.t}</div>`
     ).join('');
   } else {
     perksEl.style.display = 'none';
@@ -11108,8 +11138,8 @@ function closeAuth() {
 function switchTab(tab, silent) {
   curTab = tab;
   const isIn = tab === 'in';
-  document.getElementById('tab-in').className = 'auth-tab' + (isIn?' active':'');
-  document.getElementById('tab-up').className = 'auth-tab' + (!isIn?' active':'');
+  document.getElementById('tab-in').className = 'l-auth-tab' + (isIn?' active':'');
+  document.getElementById('tab-up').className = 'l-auth-tab' + (!isIn?' active':'');
   document.getElementById('name-field').style.display = isIn ? 'none' : 'block';
 
   const cfg = PLANS[curPlan];
@@ -11125,21 +11155,21 @@ function showView(v) {
 }
 
 function setLoading(on) {
-  document.getElementById('auth-spin').className = 'spin' + (on?' on':'');
+  document.getElementById('auth-spin').className = 'l-spin' + (on?' on':'');
   document.getElementById('auth-submit-btn').disabled = on;
 }
 
 function showErr(msg) {
   const el = document.getElementById('auth-err');
-  el.textContent = msg; el.className = 'auth-msg err show';
+  el.textContent = msg; el.className = 'l-auth-msg err show';
 }
 function showOk(msg) {
   const el = document.getElementById('auth-ok');
-  el.textContent = msg; el.className = 'auth-msg ok show';
+  el.textContent = msg; el.className = 'l-auth-msg ok show';
 }
 function clearMsgs() {
-  document.getElementById('auth-err').className = 'auth-msg err';
-  document.getElementById('auth-ok').className  = 'auth-msg ok';
+  document.getElementById('auth-err').className = 'l-auth-msg err';
+  document.getElementById('auth-ok').className  = 'l-auth-msg ok';
   ['inp-email','inp-pass'].forEach(id => document.getElementById(id).classList.remove('err'));
 }
 
@@ -11149,11 +11179,22 @@ async function doSubmit() {
     if (typeof SB !== 'undefined' && SB) { sb = SB; }
     else if (window.supabase) {
       try { initSupabase(SUPABASE_URL, SUPABASE_KEY); } catch(e){}
-      await new Promise(r => setTimeout(r, 400));
+      await new Promise(r => setTimeout(r, 600));
       sb = (typeof SB !== 'undefined' && SB) ? SB : null;
+    } else {
+      // CDN not loaded yet — wait up to 3s
+      for (let i = 0; i < 15; i++) {
+        await new Promise(r => setTimeout(r, 200));
+        if (window.supabase) {
+          try { initSupabase(SUPABASE_URL, SUPABASE_KEY); } catch(e){}
+          await new Promise(r => setTimeout(r, 300));
+          sb = (typeof SB !== 'undefined' && SB) ? SB : null;
+          break;
+        }
+      }
     }
   }
-  if (!_getSB()) return showErr('Auth service unavailable — please refresh.');
+  if (!_getSB()) return showErr('Connection issue — please check your internet and try again.');
   clearMsgs();
   const email = document.getElementById('inp-email').value.trim();
   const pass  = document.getElementById('inp-pass').value;
@@ -11181,35 +11222,10 @@ async function doSubmit() {
       showView('confirm');
       document.getElementById('confirm-addr').textContent = email;
     } else {
-      const { data: signInData, error } = await _getSB().auth.signInWithPassword({ email, password: pass });
+      const { error } = await _getSB().auth.signInWithPassword({ email, password: pass });
       if (error) throw error;
       showOk('✓ Signed in — loading your journal…');
-      if (signInData?.session?.user) {
-        // Ensure the main SB instance (used by checkSession/loadUserData/enterApp) has this session
-        if (typeof SB !== 'undefined' && SB) {
-          try { await SB.auth.setSession({
-            access_token: signInData.session.access_token,
-            refresh_token: signInData.session.refresh_token
-          }); } catch(e) { console.warn('setSession failed:', e); }
-        } else if (typeof initSupabase === 'function') {
-          // SB not initialised yet — boot it now then set session
-          try {
-            const k = (typeof SUPABASE_KEY !== 'undefined') ? SUPABASE_KEY : SUPABASE_ANON_KEY;
-            initSupabase(SUPABASE_URL, k);
-            await new Promise(r => setTimeout(r, 300));
-            if (typeof SB !== 'undefined' && SB) {
-              await SB.auth.setSession({
-                access_token: signInData.session.access_token,
-                refresh_token: signInData.session.refresh_token
-              });
-            }
-          } catch(e) { console.warn('SB init+setSession failed:', e); }
-        }
-        // Now let checkSession() handle everything — it loads data, sets currentUser, calls enterApp
-        if (typeof checkSession === 'function') {
-          try { await checkSession(); } catch(e) { console.error('checkSession error:', e); }
-        }
-      }
+      // journal onAuthStateChange handles redirect
     }
   } catch(err) {
     let m = err.message || 'Something went wrong. Please try again.';
@@ -11257,96 +11273,172 @@ document.getElementById('auth-overlay').addEventListener('click', e => {
 });
 document.addEventListener('keydown', e => { if (e.key === 'Escape') closeAuth(); });
 
-/* ══ CANVAS ══ */
+/* ══ CANVAS — obsidian bg with animated grid + blobs ══ */
 (function(){
-  const cv = document.getElementById('bg-canvas');
-  const ctx = cv.getContext('2d');
-  let W = cv.width = innerWidth, H = cv.height = innerHeight;
-  window.addEventListener('resize', () => { W = cv.width = innerWidth; H = cv.height = innerHeight; });
-  const blobs = [
-    {x:.15,y:.1, r:.28,c:'220,212,200', sp:.00022},
-    {x:.82,y:.78,r:.20,c:'190,182,170', sp:.00028},
-    {x:.5, y:.5, r:.16,c:'210,202,190',sp:.00035},
-    {x:.72,y:.18,r:.14,c:'170,162,150', sp:.00042},
+  const cv=document.getElementById('bg-canvas');
+  if(!cv)return;
+  const ctx=cv.getContext('2d');
+  let W=cv.width=innerWidth,H=cv.height=innerHeight;
+  window.addEventListener('resize',()=>{W=cv.width=innerWidth;H=cv.height=innerHeight;});
+  const blobs=[
+    {x:.12,y:.08,r:.30,c:'200,192,180',sp:.00018,phase:0},
+    {x:.85,y:.75,r:.22,c:'180,172,160',sp:.00024,phase:1.2},
+    {x:.48,y:.52,r:.18,c:'210,202,190',sp:.00031,phase:2.4},
+    {x:.75,y:.15,r:.16,c:'160,152,140',sp:.00038,phase:0.8},
+    {x:.22,y:.80,r:.14,c:'190,185,175',sp:.00042,phase:3.1},
   ];
   let t=0;
   (function frame(ts){
-    t=ts;
+    t=ts*.001;
     ctx.clearRect(0,0,W,H);
+    // Deep obsidian bg
     const bg=ctx.createLinearGradient(0,0,0,H);
-    bg.addColorStop(0,'#141414');bg.addColorStop(.5,'#111111');bg.addColorStop(1,'#141414');
+    bg.addColorStop(0,'#08080a');bg.addColorStop(.5,'#0a0a0c');bg.addColorStop(1,'#08080a');
     ctx.fillStyle=bg;ctx.fillRect(0,0,W,H);
-    ctx.strokeStyle='rgba(255,255,255,0.014)';ctx.lineWidth=1;
-    for(let x=0;x<W;x+=64){ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,H);ctx.stroke();}
-    for(let y=0;y<H;y+=64){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(W,y);ctx.stroke();}
+    // Subtle grid
+    ctx.strokeStyle='rgba(255,255,255,0.022)';ctx.lineWidth=1;
+    const gs=80;
+    for(let x=0;x<W;x+=gs){ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,H);ctx.stroke();}
+    for(let y=0;y<H;y+=gs){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(W,y);ctx.stroke();}
+    // Ambient blobs
     blobs.forEach(b=>{
-      const p=1+.08*Math.sin(t*b.sp), r=W*b.r*p*1.8;
-      const g=ctx.createRadialGradient(b.x*W,b.y*H,0,b.x*W,b.y*H,r);
-      g.addColorStop(0,`rgba(${b.c},.09)`);g.addColorStop(.5,`rgba(${b.c},.04)`);g.addColorStop(1,`rgba(${b.c},0)`);
-      ctx.fillStyle=g;ctx.beginPath();ctx.arc(b.x*W,b.y*H,r,0,Math.PI*2);ctx.fill();
+      const pulse=1+.1*Math.sin(t*b.sp*1000+b.phase);
+      const r=W*b.r*pulse*1.6;
+      const bx=b.x*W+Math.sin(t*0.3+b.phase)*30;
+      const by=b.y*H+Math.cos(t*0.25+b.phase)*20;
+      const g=ctx.createRadialGradient(bx,by,0,bx,by,r);
+      g.addColorStop(0,`rgba(${b.c},.07)`);
+      g.addColorStop(.45,`rgba(${b.c},.03)`);
+      g.addColorStop(1,`rgba(${b.c},0)`);
+      ctx.fillStyle=g;ctx.beginPath();ctx.arc(bx,by,r,0,Math.PI*2);ctx.fill();
     });
+    // Hero center glow
+    const hg=ctx.createRadialGradient(W*.5,H*.35,0,W*.5,H*.35,W*.4);
+    hg.addColorStop(0,'rgba(232,224,208,0.025)');
+    hg.addColorStop(.6,'rgba(232,224,208,0.008)');
+    hg.addColorStop(1,'rgba(232,224,208,0)');
+    ctx.fillStyle=hg;ctx.fillRect(0,0,W,H);
     requestAnimationFrame(frame);
   })(0);
 })();
 
-/* ══ SPARKS ══ */
+/* ══ SPARKS — floating particles ══ */
 (function(){
   const w=document.getElementById('sparks');
-  const cols=['rgba(232,224,208,0.5)','rgba(200,192,178,0.45)','rgba(240,234,216,0.4)','rgba(180,172,160,0.4)','rgba(255,255,255,0.25)'];
-  for(let i=0;i<22;i++){
-    const el=document.createElement('div');el.className='spark';
-    const sz=Math.random()*2.5+1,dur=Math.random()*22+16,del=Math.random()*24,dx=(Math.random()-.5)*130;
-    el.style.cssText=`left:${Math.random()*100}%;width:${sz}px;height:${sz}px;background:${cols[~~(Math.random()*cols.length)]};box-shadow:0 0 ${sz*3}px currentColor;animation-duration:${dur}s;animation-delay:-${del}s;--dx:${dx}px;`;
+  if(!w)return;
+  const cols=[
+    'rgba(232,224,208,0.55)','rgba(200,192,178,0.45)',
+    'rgba(240,234,216,0.35)','rgba(180,172,160,0.40)',
+    'rgba(255,255,255,0.20)','rgba(34,211,160,0.25)',
+    'rgba(96,165,250,0.18)'
+  ];
+  for(let i=0;i<28;i++){
+    const el=document.createElement('div');
+    el.className='spark';
+    const sz=Math.random()*2.2+0.6;
+    const dur=Math.random()*24+14;
+    const del=Math.random()*28;
+    const dx=(Math.random()-.5)*160;
+    el.style.cssText=`left:${Math.random()*100}%;width:${sz}px;height:${sz}px;background:${cols[~~(Math.random()*cols.length)]};box-shadow:0 0 ${sz*4}px currentColor;animation-duration:${dur}s;animation-delay:-${del}s;--dx:${dx}px;border-radius:50%;`;
     w.appendChild(el);
   }
 })();
 
-/* ══ NAV ══ */
-window.addEventListener('scroll',()=>document.getElementById('main-nav').classList.toggle('scrolled',scrollY>40));
+/* ══ NAV scroll ══ */
+window.addEventListener('scroll',()=>{
+  const n=document.getElementById('main-nav');
+  if(n) n.classList.toggle('scrolled', scrollY>50);
+},{ passive:true });
 
-/* ══ SCROLL REVEAL ══ */
+/* ══ SCROLL REVEAL with stagger ══ */
 (function(){
-  const ob=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('vis');ob.unobserve(e.target);}}),{threshold:.07});
-  document.querySelectorAll('.sr').forEach(el=>ob.observe(el));
+  const ob=new IntersectionObserver(entries=>{
+    entries.forEach((e,i)=>{
+      if(e.isIntersecting){
+        setTimeout(()=>e.target.classList.add('vis'), e.target.dataset.delay||0);
+        ob.unobserve(e.target);
+      }
+    });
+  },{threshold:.08,rootMargin:'0px 0px -40px 0px'});
+  // Stagger children in bento grids
+  document.querySelectorAll('.l-bento-grid').forEach(grid=>{
+    grid.querySelectorAll('.l-bento').forEach((el,i)=>{ el.dataset.delay=i*80; });
+  });
+  document.querySelectorAll('.l-sr,.sr').forEach(el=>ob.observe(el));
 })();
 
 /* ══ PLAN CARDS REVEAL ══ */
 (function(){
   const ob=new IntersectionObserver(entries=>{
-    entries.forEach(e=>{if(e.isIntersecting){document.querySelectorAll('.plan-card').forEach((c,i)=>setTimeout(()=>c.classList.add('reveal'),i*140+100));ob.disconnect();}});
-  },{threshold:.1});
+    entries.forEach(e=>{
+      if(e.isIntersecting){
+        document.querySelectorAll('.l-plan-card,.plan-card').forEach((el,i)=>
+          setTimeout(()=>el.classList.add('reveal'),i*160+80));
+        ob.disconnect();
+      }
+    });
+  },{threshold:.08});
   const ps=document.getElementById('pricing');
   if(ps)ob.observe(ps);
 })();
 
-/* ══ COUNTERS ══ */
+/* ══ ANIMATED COUNTERS ══ */
 (function(){
+  function easeOut(t){ return 1-Math.pow(1-t,4); }
   function animCount(el,target){
-    const dur=1800,start=performance.now();
+    const dur=2200,start=performance.now();
+    const isSuffix=el.dataset.suffix;
+    if(isSuffix){el.textContent=isSuffix==='%'?'99.9%':'4.9★';return;}
     (function tick(now){
-      const p=Math.min((now-start)/dur,1),e=1-Math.pow(1-p,3),v=Math.floor(e*target);
+      const p=Math.min((now-start)/dur,1);
+      const v=Math.floor(easeOut(p)*target);
       el.textContent=v>=1000?(v/1000).toFixed(1).replace('.0','')+'k':v;
-      if(p<1)requestAnimationFrame(tick);else el.textContent=target>=1000?(target/1000).toFixed(1).replace('.0','')+'k':target;
+      if(p<1)requestAnimationFrame(tick);
+      else el.textContent=target>=1000?(target/1000).toFixed(1).replace('.0','')+'k':target;
     })(start);
   }
   const ob=new IntersectionObserver(entries=>{
     entries.forEach(e=>{
       if(e.isIntersecting){
         e.target.querySelectorAll('[data-count]').forEach(el=>animCount(el,+el.dataset.count));
-        e.target.querySelectorAll('[data-suffix]').forEach(el=>{el.textContent=el.dataset.suffix==='%'?'99.9%':'4.9★';});
+        e.target.querySelectorAll('[data-suffix]').forEach(el=>animCount(el,0));
         ob.unobserve(e.target);
       }
     });
-  },{threshold:.3});
-  document.querySelectorAll('.stats-belt').forEach(el=>ob.observe(el));
+  },{threshold:.25});
+  document.querySelectorAll('.l-stats,.stats-belt').forEach(el=>ob.observe(el));
 })();
 
+/* ══ BENTO BAR ANIMATION on reveal ══ */
+(function(){
+  const ob=new IntersectionObserver(entries=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){
+        e.target.querySelectorAll('.l-mc-bar').forEach((bar,i)=>{
+          const h=bar.style.height;
+          bar.style.height='0%';
+          setTimeout(()=>{ bar.style.transition=`height ${.5+i*.04}s cubic-bezier(.34,1.3,.64,1) ${i*.06}s`; bar.style.height=h; },80);
+        });
+        ob.unobserve(e.target);
+      }
+    });
+  },{threshold:.2});
+  document.querySelectorAll('.l-bento').forEach(el=>ob.observe(el));
+})();
+
+/* ══ TRUST PILLS hover glow ══ */
+document.querySelectorAll('.l-trust-pill').forEach(pill=>{
+  pill.addEventListener('mouseenter',()=>{ pill.style.boxShadow='0 0 20px rgba(232,224,208,.08)'; });
+  pill.addEventListener('mouseleave',()=>{ pill.style.boxShadow=''; });
+});
+
 /* ══ TOAST ══ */
-function showToast(msg) {
-  const t = document.getElementById('toast');
-  document.getElementById('toast-msg').textContent = msg;
+function showToast(msg){
+  const t=document.getElementById('toast');
+  if(!t)return;
+  document.getElementById('toast-msg').textContent=msg;
   t.classList.add('show');
-  setTimeout(() => t.classList.remove('show'), 3000);
+  setTimeout(()=>t.classList.remove('show'),3200);
 }
 
 </script>
