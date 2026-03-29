@@ -75,14 +75,13 @@ body.auth-open .orb{display:none}
 
 /* ── SIDEBAR ── */
 .sidebar{
-  width:230px;min-width:230px;
+  width:230px;min-width:230px;max-width:230px;flex-shrink:0;
   background:rgba(16,15,14,0.93);
   backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);
   border-right:1px solid rgba(232,224,208,0.08);
   background-image:linear-gradient(180deg,rgba(232,224,208,0.025) 0%,transparent 40%);
   display:flex;flex-direction:column;height:100vh;
-  position:sticky;top:0;overflow-y:auto;z-index:100;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;contain:layout style;
-  contain:layout style;
+  position:sticky;top:0;overflow-y:auto;z-index:100;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;
 }
 
 .logo-wrap{padding:22px 18px 18px;border-bottom:1px solid var(--bdr)}
@@ -6971,29 +6970,17 @@ function copySQL(){
 }
 
 function saveConfig(){
-  const url=document.getElementById('cfg-url').value.trim();
-  const key=document.getElementById('cfg-key').value.trim();
-  const admin=document.getElementById('cfg-admin').value.trim();
-  if(!url||!key){showAuthError('Please enter both Supabase URL and anon key');return;}
-  if(!url.includes('supabase.co')){showAuthError('URL should be like: https://xxxx.supabase.co');return;}
+  // Credentials are hardcoded — this is a no-op in the new version
+  const url = SUPABASE_URL;
+  const key = SUPABASE_KEY;
   localStorage.setItem('yz_sb_url',url);
   localStorage.setItem('yz_sb_key',key);
-  if(admin)localStorage.setItem('yz_admin',admin);
   initSupabase(url,key);
-  document.getElementById('auth-config-view').style.display='none';
-  document.getElementById('auth-login-view').style.display='block';
-  toast('Config saved ✓');
 }
 
 function showConfig(){
-  document.getElementById('auth-config-view').style.display='block';
-  document.getElementById('auth-login-view').style.display='none';
-  const url=localStorage.getItem('yz_sb_url')||'';
-  const key=localStorage.getItem('yz_sb_key')||'';
-  const admin=localStorage.getItem('yz_admin')||'';
-  if(url)document.getElementById('cfg-url').value=url;
-  if(key)document.getElementById('cfg-key').value=key;
-  if(admin)document.getElementById('cfg-admin').value=admin;
+  // No config screen in new version — credentials are hardcoded
+  console.log('Config: URL =', SUPABASE_URL);
 }
 
 function initSupabase(url,key){
@@ -7023,7 +7010,15 @@ function hideLanding(){
 }
 
 async function checkSession(){
-  if(!SB){showLanding();return;}
+  // Wait up to 3s for Supabase CDN to load if SB not ready yet
+  if(!SB){
+    let waited=0;
+    while(!SB && waited<3000){
+      await new Promise(r=>setTimeout(r,100));
+      waited+=100;
+    }
+    if(!SB){showLanding();return;}
+  }
   try{
     const{data:{session}}=await SB.auth.getSession();
     if(session){
@@ -7120,6 +7115,14 @@ function startRealtimeSync(){
       }
       if(remote.settings)S.settings={...S.settings,...remote.settings};
       if(remote.envFields)S.envFields=remote.envFields;
+      // Apply plan change live if admin updated it remotely
+      if(remote._plan && remote._plan !== S._plan){
+        S._plan = remote._plan;
+        const newPlan = isAdmin() ? 'shadow' : remote._plan;
+        window._userPlan = newPlan;
+        if(typeof applyPlanRestrictions==='function') applyPlanRestrictions(newPlan);
+        toast('🔄 Plan updated: '+newPlan.charAt(0).toUpperCase()+newPlan.slice(1));
+      }
       try{localStorage.setItem('yz4',JSON.stringify(S));}catch(e){}
       // Re-render current page instantly
       refreshCurrentPage();
@@ -7215,12 +7218,17 @@ async function signInGoogle(){
   }
 }
 
-function switchTab(tab){
-  document.getElementById('tab-login').classList.toggle('active',tab==='login');
-  document.getElementById('tab-signup').classList.toggle('active',tab==='signup');
-  document.getElementById('auth-submit-btn').textContent=tab==='login'?'Sign In':'Create Account';
-  document.getElementById('auth-name-wrap').style.display=tab==='signup'?'block':'none';
-  clearAuthMessages();
+function switchTab(tab, silent){
+  // New landing page modal tabs — safe guard old element refs
+  const tabIn = document.getElementById('tab-in');
+  const tabUp = document.getElementById('tab-up');
+  const nameField = document.getElementById('name-field');
+  const submitLabel = document.getElementById('submit-label');
+  if(tabIn) tabIn.className = 'auth-tab' + (tab==='in'||tab==='login' ? ' active' : '');
+  if(tabUp) tabUp.className = 'auth-tab' + (tab==='up'||tab==='signup' ? ' active' : '');
+  if(nameField) nameField.style.display = (tab==='up'||tab==='signup') ? 'block' : 'none';
+  curTab = (tab==='login'?'in':tab==='signup'?'up':tab);
+  if(!silent) clearMsgs && clearMsgs();
 }
 
 let _confirmEmail='';
@@ -7228,26 +7236,12 @@ let _confirmPollTimer=null;
 
 function showConfirmScreen(email){
   _confirmEmail=email;
-  document.getElementById('auth-login-view').style.display='none';
-  document.getElementById('auth-confirm-view').style.display='block';
-  document.getElementById('confirm-email-display').textContent=email;
-  document.getElementById('confirm-waiting').style.display='flex';
-  document.getElementById('confirm-verified').style.display='none';
-  document.getElementById('confirm-icon').textContent='✉️';
-  document.getElementById('confirm-title').textContent='Check Your Email';
-  // Animate steps in sequence
-  setTimeout(()=>{
-    const s2=document.getElementById('confirm-step2');
-    s2.style.color='var(--text2)';
-    s2.querySelector('div').style.background='var(--gold)';
-    s2.querySelector('div').style.color='#000';
-  },1500);
-  setTimeout(()=>{
-    const s3=document.getElementById('confirm-step3');
-    s3.style.color='var(--text2)';
-    s3.querySelector('div').style.background='var(--gold)';
-    s3.querySelector('div').style.color='#000';
-  },3000);
+  // Use landing page confirm view
+  if(typeof showView === 'function'){
+    showView('confirm');
+    const addrEl = document.getElementById('confirm-addr');
+    if(addrEl) addrEl.textContent = email;
+  }
   // Start polling every 3 seconds
   _confirmPollTimer=setInterval(()=>pollEmailVerified(email),3000);
 }
@@ -7258,19 +7252,13 @@ async function pollEmailVerified(email){
     const{data,error}=await SB.auth.signInWithPassword({email,password:_confirmPass});
     if(data?.user&&!error){
       clearInterval(_confirmPollTimer);
-      // Show verified UI
-      document.getElementById('confirm-waiting').style.display='none';
-      document.getElementById('confirm-verified').style.display='block';
-      document.getElementById('confirm-icon').textContent='🎉';
-      document.getElementById('confirm-title').textContent='Account Verified!';
-      // Enter app after short delay
+      // Enter app directly
       setTimeout(async()=>{
         currentUser=data.user;
         await loadUserData();
-        // AUTO-SETUP: Run schema initialization for new user
         await _autoSetupUserTables();
         enterApp();
-      },1800);
+      },800);
     }
   }catch(e){}
 }
@@ -7287,9 +7275,8 @@ async function resendConfirmEmail(){
 
 function backFromConfirm(){
   clearInterval(_confirmPollTimer);
-  document.getElementById('auth-confirm-view').style.display='none';
-  document.getElementById('auth-login-view').style.display='block';
-  switchTab('signup');
+  if(typeof showView === 'function') showView('login');
+  if(typeof switchTab === 'function') switchTab('up');
 }
 
 function validateEmailInput(el){
@@ -7317,62 +7304,8 @@ function validateEmailInput(el){
 let _confirmPass='';
 
 async function authSubmit(){
-  // If SB not ready yet, try to init it now (handles slow CDN load)
-  if(!SB){
-    if(window.supabase){
-      initSupabase(SUPABASE_URL, SUPABASE_KEY);
-      // Give it a moment to initialize
-      await new Promise(r=>setTimeout(r,300));
-    }
-    if(!SB){
-      showAuthError('Connection error — please refresh the page and try again.');
-      return;
-    }
-  }
-  const email=document.getElementById('auth-email').value.trim().toLowerCase();
-  const pass=document.getElementById('auth-pass').value;
-  const isSignup=document.getElementById('tab-signup').classList.contains('active');
-  if(!email||!pass){showAuthError('Email and password required');return;}
-  if(pass.length<6){showAuthError('Password must be at least 6 characters');return;}
-
-  // ── Strict email validation ──
-  const emailRegex=/^[^\s@]+@[^\s@]+\.[a-zA-Z]{2,}$/;
-  if(!emailRegex.test(email)){showAuthError('Invalid email address — please check for typos');return;}
-  // Check TLD is valid (not .comp, .gmial, .cmo etc)
-  const tld=email.split('.').pop().toLowerCase();
-  const validTLDs=['com','net','org','edu','gov','io','co','me','app','dev','ai','uk','in','au','ca','de','fr','jp','br','ru','nl','se','no','dk','fi','es','it','pt','nz','sg','hk','za','ae','sa','pk','bd','ng'];
-  if(tld.length>4||!validTLDs.includes(tld)){
-    showAuthError(`Invalid email — ".${tld}" is not a valid domain. Did you mean .com?`);return;
-  }
-  // Update the input with cleaned email
-  document.getElementById('auth-email').value=email;
-
-  showSpinner(true);clearAuthMessages();
-  try{
-    if(isSignup){
-      const name=document.getElementById('auth-name').value.trim()||email.split('@')[0];
-      const{data,error}=await SB.auth.signUp({email,password:pass,options:{data:{full_name:name}}});
-      if(error)throw error;
-      if(data.user&&!data.session&&data.user.identities&&data.user.identities.length===0){
-        showAuthError('This email is already registered. Please sign in instead.');
-        switchTab('login');
-        showSpinner(false);
-        return;
-      }
-      // Show confirm email screen with real-time polling
-      _confirmPass=pass;
-      showSpinner(false);
-      showConfirmScreen(email);
-      return;
-    }else{
-      const{data,error}=await SB.auth.signInWithPassword({email,password:pass});
-      if(error)throw error;
-      currentUser=data.user;
-      await loadUserData();
-      enterApp();
-    }
-  }catch(e){showAuthError(e.message||'Authentication failed');}
-  finally{showSpinner(false);}
+  // Old auth screen is gone — delegate to landing page doSubmit
+  if(typeof doSubmit === 'function') await doSubmit();
 }
 
 async function authDemo(){
@@ -7538,7 +7471,9 @@ const PLAN_FEATURES = {
 };
 
 function applyPlanRestrictions(plan){
-  const allowed = PLAN_FEATURES[plan] || PLAN_FEATURES['free'];
+  // Admins get full access regardless of plan
+  const effectivePlan = (typeof isAdmin === 'function' && isAdmin()) ? 'shadow' : plan;
+  const allowed = PLAN_FEATURES[effectivePlan] || PLAN_FEATURES['free'];
   // Update NAV_ITEMS locked status based on plan
   NAV_ITEMS.forEach(item=>{
     if(!item.id) return;
@@ -7570,8 +7505,10 @@ function enterApp(){
   // ── PLAN GATING — read from user_metadata first, then data column, then default free ──
   const metaPlan = (currentUser?.user_metadata?.plan||'').toLowerCase();
   const dataPlan = (S?._plan||'').toLowerCase();
-  const userPlan = (['free','phantom','shadow'].includes(metaPlan) ? metaPlan :
+  let userPlan = (['free','phantom','shadow'].includes(metaPlan) ? metaPlan :
                     ['free','phantom','shadow'].includes(dataPlan) ? dataPlan : 'free');
+  // Admins always get shadow-level access
+  if(isAdmin()) userPlan = 'shadow';
   window._userPlan=userPlan;
   applyPlanRestrictions(userPlan);
   // Music player only for Shadow plan
@@ -7656,29 +7593,46 @@ function showUpgradeToast(feature){
 async function signOut(){
   const ok=await customConfirm('You will be signed out of your account.','↪','Sign Out','Sign Out','var(--gold)');
   if(ok){
-    if(SB&&currentUser?.id!=='demo')await SB.auth.signOut();
+    const client = (typeof _getSB==='function') ? _getSB() : SB;
+    if(client&&currentUser?.id!=='demo'){ try{ await client.auth.signOut(); }catch(e){} }
     localStorage.removeItem('yz4');
     localStorage.removeItem('yz4_backup');
     localStorage.removeItem('yz4_uid');
+    localStorage.removeItem('yz_sb_url');
+    localStorage.removeItem('yz_sb_key');
     localStorage.removeItem('yzen_google_intent');
     currentUser=null;
+    SB=null;
     showLanding();
+    // Force page reload so fresh auth state is guaranteed
+    setTimeout(()=>location.reload(),300);
   }
 }
 
 function showAuthError(msg){
-  const el=document.getElementById('auth-error');el.textContent=msg;el.classList.add('show');
+  // Route to landing page auth modal error if available
+  if(typeof showErr === 'function'){ showErr(msg); return; }
+  const el=document.getElementById('auth-error');
+  if(el){el.textContent=msg;el.classList.add('show');}
+  else console.warn('Auth error:',msg);
 }
 function showAuthSuccess(msg){
-  const el=document.getElementById('auth-success');el.textContent=msg;el.classList.add('show');
+  if(typeof showOk === 'function'){ showOk(msg); return; }
+  const el=document.getElementById('auth-success');
+  if(el){el.textContent=msg;el.classList.add('show');}
 }
 function clearAuthMessages(){
-  document.getElementById('auth-error').classList.remove('show');
-  document.getElementById('auth-success').classList.remove('show');
+  if(typeof clearMsgs === 'function'){ clearMsgs(); return; }
+  const e=document.getElementById('auth-error');
+  const s=document.getElementById('auth-success');
+  if(e)e.classList.remove('show');
+  if(s)s.classList.remove('show');
 }
 function showSpinner(show){
-  document.getElementById('auth-spinner').style.display=show?'block':'none';
-  document.getElementById('auth-submit-btn').disabled=show;
+  const el=document.getElementById('auth-spinner');
+  if(el)el.style.display=show?'block':'none';
+  const btn=document.getElementById('auth-submit-btn');
+  if(btn)btn.disabled=show;
 }
 
 // ══════ NAV EDITOR ══════
@@ -7710,45 +7664,47 @@ const NAV_ITEMS=[
 ];
 
 function getHiddenNav(){
-  return S.hiddenNav||(S.hiddenNav=[]),S.hiddenNav;
+  if(!Array.isArray(S.hiddenNav)) S.hiddenNav=[];
+  return S.hiddenNav;
 }
 
 function renderNavItems(){
   const hidden=getHiddenNav();
   const container=document.getElementById('nav-items-container');
   if(!container)return;
-  let html='';
-  let currentSection='';
+
+  // Build sections with their items, only render section if it has visible items
+  const sections=[];
+  let curSec=null;
   NAV_ITEMS.forEach(item=>{
-    if(item.section){
-      currentSection=item.section;
-      html+=`<div class="ns ne-section-${currentSection.replace(/\s/g,'_')}">${currentSection}</div>`;
-      return;
-    }
-    if(item.adminOnly){
-      if(!isAdmin())return;
-      // Admin nav separator
-      html+=`<div class="ns" style="margin-top:6px;border-top:1px solid rgba(167,139,250,0.15);padding-top:10px;color:rgba(167,139,250,0.5)">Admin</div>`;
-      html+=`<div class="ni admin-nav" onclick="go('${item.id}')"><span class="ni-ic">${item.icon}</span>${item.label}</div>`;
-      return;
-    }
-    if(hidden.includes(item.id))return;
-    if(item.planLocked){
-      html+=`<div class="ni ni-locked" onclick="showUpgradeToast('${item.label}')" style="opacity:0.4;cursor:not-allowed;position:relative"><span class="ni-ic">${item.icon}</span>${item.label}<span style="font-family:var(--fm);font-size:7px;letter-spacing:.1em;background:var(--g2);border:1px solid var(--bdr);border-radius:3px;padding:1px 5px;position:absolute;right:8px;top:50%;transform:translateY(-50%);color:var(--text3)">UPGRADE</span></div>`;
-    } else {
-      html+=`<div class="ni" onclick="go('${item.id}')"><span class="ni-ic">${item.icon}</span>${item.label}</div>`;
-    }
+    if(item.section){ curSec={label:item.section,items:[]}; sections.push(curSec); return; }
+    if(!curSec) return;
+    curSec.items.push(item);
+  });
+
+  let html='';
+  sections.forEach(sec=>{
+    // Filter to items that should appear
+    const visible=sec.items.filter(item=>{
+      if(item.adminOnly) return isAdmin();
+      if(hidden.includes(item.id)) return false;
+      return true; // show locked items too (with UPGRADE badge)
+    });
+    if(!visible.length) return; // skip empty sections
+
+    html+=`<div class="ns">${sec.label}</div>`;
+    visible.forEach(item=>{
+      if(item.adminOnly){
+        html+=`<div class="ns" style="margin-top:6px;border-top:1px solid rgba(167,139,250,0.15);padding-top:10px;color:rgba(167,139,250,0.5)">Admin</div>`;
+        html+=`<div class="ni admin-nav" onclick="go('${item.id}')"><span class="ni-ic">${item.icon}</span>${item.label}</div>`;
+      } else if(item.planLocked){
+        html+=`<div class="ni ni-locked" onclick="showUpgradeToast('${item.label}')" style="opacity:0.4;cursor:not-allowed;position:relative"><span class="ni-ic">${item.icon}</span>${item.label}<span style="font-family:var(--fm);font-size:7px;letter-spacing:.1em;background:var(--g2);border:1px solid var(--bdr);border-radius:3px;padding:1px 5px;position:absolute;right:8px;top:50%;transform:translateY(-50%);color:var(--text3)">UPGRADE</span></div>`;
+      } else {
+        html+=`<div class="ni" onclick="go('${item.id}')"><span class="ni-ic">${item.icon}</span>${item.label}</div>`;
+      }
+    });
   });
   container.innerHTML=html;
-  NAV_ITEMS.filter(i=>i.section).forEach(sec=>{
-    const cls='ne-section-'+sec.section.replace(/\s/g,'_');
-    const el=container.querySelector('.'+cls);
-    if(!el)return;
-    let next=el.nextElementSibling;
-    let hasVisible=false;
-    while(next&&!next.classList.contains('ns')){hasVisible=true;break;next=next.nextElementSibling;}
-    if(!hasVisible)el.style.display='none';
-  });
 }
 
 function openNavEditorMobile(){
@@ -7840,12 +7796,14 @@ function closeNavEditor(){
 // ── Init Auth on Load ──
 
 function initAuth(){
-  // Always use hardcoded credentials — skip config screen
+  // Landing page handles auth — just boot Supabase
   localStorage.setItem('yz_sb_url', SUPABASE_URL);
   localStorage.setItem('yz_sb_key', SUPABASE_KEY);
-  document.getElementById('auth-config-view').style.display='none';
-  document.getElementById('auth-login-view').style.display='block';
-  document.body.classList.add('auth-open');
+  // Guard against old auth elements that no longer exist
+  const cfgView = document.getElementById('auth-config-view');
+  const loginView = document.getElementById('auth-login-view');
+  if(cfgView) cfgView.style.display='none';
+  if(loginView) loginView.style.display='none';
   // Wait for Supabase CDN script to be ready (handles slow/cached loads)
   if(window.supabase){
     initSupabase(SUPABASE_URL, SUPABASE_KEY);
@@ -7858,7 +7816,7 @@ function initAuth(){
         initSupabase(SUPABASE_URL, SUPABASE_KEY);
       } else if(attempts>20){
         clearInterval(waitForSB);
-        showAuthError('Failed to load — check your internet connection and refresh.');
+        console.warn('Supabase CDN failed to load');
       }
     },200);
   }
@@ -9802,6 +9760,13 @@ async function admSetPlan(userId, email, plan){
       const badges = row2.querySelectorAll('.adm-badge-free,.adm-badge-phantom,.adm-badge-shadow');
       badges.forEach(b=>{ b.className=`adm-badge adm-badge-${plan}`; b.textContent=plan.toUpperCase(); });
     }
+
+    // 4. If changing own plan, apply immediately without reload
+    if(userId === currentUser?.id){
+      S._plan = plan;
+      window._userPlan = plan;
+      if(typeof applyPlanRestrictions==='function') applyPlanRestrictions(plan);
+    }
   }catch(e){ toast('⚠ Plan update failed: '+e.message); }
 }
 
@@ -10955,7 +10920,22 @@ try {
 /* ══ SUPABASE ══ */
 // Landing uses journal's SB — aliased below
 let sb = null;
-function _getSB(){ return (typeof SB !== 'undefined' && SB) ? SB : sb; }
+function _getSB(){
+  if(typeof SB !== 'undefined' && SB) return SB;
+  if(sb) return sb;
+  // fallback: use supabaseClient initialized in auth script block
+  if(typeof supabaseClient !== 'undefined' && supabaseClient) return supabaseClient;
+  // last resort: try to create a fresh client if supabase CDN is ready
+  if(typeof supabase !== 'undefined' && supabase && typeof SUPABASE_URL !== 'undefined') {
+    try {
+      const key = (typeof SUPABASE_KEY !== 'undefined' && SUPABASE_KEY)
+                    ? SUPABASE_KEY
+                    : (typeof SUPABASE_ANON_KEY !== 'undefined' ? SUPABASE_ANON_KEY : null);
+      if(key) { sb = supabase.createClient(SUPABASE_URL, key, {auth:{persistSession:true,autoRefreshToken:true}}); return sb; }
+    } catch(e) { console.error('_getSB fallback init failed:', e); }
+  }
+  return null;
+}
 
 async function handleGoogleReturn(session) {
   const intent = localStorage.getItem('yzen_google_intent');
@@ -11168,10 +11148,35 @@ async function doSubmit() {
       showView('confirm');
       document.getElementById('confirm-addr').textContent = email;
     } else {
-      const { error } = await _getSB().auth.signInWithPassword({ email, password: pass });
+      const { data: signInData, error } = await _getSB().auth.signInWithPassword({ email, password: pass });
       if (error) throw error;
       showOk('✓ Signed in — loading your journal…');
-      // journal onAuthStateChange handles redirect
+      if (signInData?.session?.user) {
+        // Ensure the main SB instance (used by checkSession/loadUserData/enterApp) has this session
+        if (typeof SB !== 'undefined' && SB) {
+          try { await SB.auth.setSession({
+            access_token: signInData.session.access_token,
+            refresh_token: signInData.session.refresh_token
+          }); } catch(e) { console.warn('setSession failed:', e); }
+        } else if (typeof initSupabase === 'function') {
+          // SB not initialised yet — boot it now then set session
+          try {
+            const k = (typeof SUPABASE_KEY !== 'undefined') ? SUPABASE_KEY : SUPABASE_ANON_KEY;
+            initSupabase(SUPABASE_URL, k);
+            await new Promise(r => setTimeout(r, 300));
+            if (typeof SB !== 'undefined' && SB) {
+              await SB.auth.setSession({
+                access_token: signInData.session.access_token,
+                refresh_token: signInData.session.refresh_token
+              });
+            }
+          } catch(e) { console.warn('SB init+setSession failed:', e); }
+        }
+        // Now let checkSession() handle everything — it loads data, sets currentUser, calls enterApp
+        if (typeof checkSession === 'function') {
+          try { await checkSession(); } catch(e) { console.error('checkSession error:', e); }
+        }
+      }
     }
   } catch(err) {
     let m = err.message || 'Something went wrong. Please try again.';
