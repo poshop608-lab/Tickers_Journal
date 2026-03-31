@@ -122,110 +122,54 @@ body{flex-direction:column!important}
   box-shadow:0 12px 50px rgba(0,0,0,0.6),0 1px 0 rgba(255,255,255,0.08) inset,0 0 28px rgba(226,218,206,0.04);
 }
 
-/* ── MOBILE BOTTOM NAV — Hides on desktop, premium pill on mobile ── */
+/* ── MOBILE BOTTOM NAV: Laptop-Style Groups — Hides on desktop ── */
 @media(max-width:1024px){
   #mobile-bottom-nav{
-    display:block!important;
-    position:fixed;bottom:0;left:0;right:0;z-index:999;
-    padding:8px 12px;padding-bottom:max(8px, env(safe-area-inset-bottom));
-    background:transparent;pointer-events:none;
+    display:flex!important;position:fixed;bottom:12px;left:0;right:0;z-index:10000;
+    padding:0 12px;box-sizing:border-box;justify-content:center;
   }
-  #mobile-bottom-nav *{pointer-events:auto;}
   .mbn-pill{
-    background:rgba(18,18,24,0.92);backdrop-filter:blur(32px) saturate(180%);
+    background:rgba(18,18,24,0.96);backdrop-filter:blur(32px) saturate(180%);
     -webkit-backdrop-filter:blur(32px) saturate(180%);
     border:1px solid rgba(255,255,255,0.08);border-radius:24px;
-    box-shadow:0 -10px 40px rgba(0,0,0,0.6),0 1px 0 rgba(255,255,255,0.05) inset;
-    width:100%;display:flex;flex-direction:column;padding:6px;box-sizing:border-box;
+    box-shadow:0 15px 40px rgba(0,0,0,0.7),0 1px 0 rgba(255,255,255,0.05) inset;
+    width:100%;max-width:500px;display:flex;flex-direction:column;padding:8px;box-sizing:border-box;
   }
-  .mbn-groups{display:flex;align-items:center;justify-content:space-between;gap:4px;width:100%;margin-bottom:0;transition:margin-bottom .25s;}
-  .mbn-groups.expanded{margin-bottom:6px;}
-  
+  /* Reposition music player higher on phones so it doesn't block the nav bar */
+  #music-mini{bottom:90px!important;right:16px!important;}
+
+  .mbn-groups{display:flex;align-items:center;justify-content:space-between;gap:6px;width:100%;}
   .mbn-grp-tab{
-    flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;
-    padding:8px 4px;border-radius:18px;border:none;background:none;
-    color:rgba(255,255,255,0.35);font-family:var(--ff);font-size:10px;font-weight:600;
-    transition:background .2s,color .2s;cursor:pointer;-webkit-tap-highlight-color:transparent;
+    flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;
+    padding:8px 4px;border-radius:16px;border:none;background:none;
+    color:rgba(255,255,255,0.3);font-family:var(--ff);font-size:10px;font-weight:600;
+    transition:all .2s;cursor:pointer;-webkit-tap-highlight-color:transparent;
   }
-  .mbn-grp-tab.on{color:var(--gold);background:rgba(255,255,255,0.04);}
-  .mbn-grp-dot{width:4px;height:4px;border-radius:50%;background:var(--gold);opacity:0;transition:opacity .2s;}
-  .mbn-grp-tab.on .mbn-grp-dot{opacity:1;}
+  .mbn-grp-tab.on{color:var(--gold);background:rgba(255,255,255,0.06);}
+  .mbn-grp-dot{width:4px;height:4px;border-radius:50%;background:var(--gold);opacity:0;transform:scale(0.8);transition:all .25s;}
+  .mbn-grp-tab.on .mbn-grp-dot{opacity:1;transform:scale(1.2);}
 
   .mbn-pages{
-    display:flex;align-items:center;gap:4px;width:100%;overflow-x:auto;scrollbar-width:none;
-    max-height:0;opacity:0;overflow-y:hidden;transition:max-height .3s cubic-bezier(.4,0,.2,1),opacity .2s;
+    display:flex;align-items:center;gap:6px;width:100%;overflow-x:auto;scrollbar-width:none;
+    max-height:0;opacity:0;transition:max-height .3s cubic-bezier(.4,0,.2,1),opacity .2s;
   }
-  .mbn-pages.on{max-height:48px;opacity:1;padding:4px 0;}
+  .mbn-pages.on{max-height:60px;opacity:1;padding-bottom:10px;padding-top:4px;}
   .mbn-pages::-webkit-scrollbar{display:none;}
   
   .mbn-item{
     white-space:nowrap;padding:8px 14px;border-radius:12px;border:1px solid transparent;
-    background:rgba(255,255,255,0.03);color:rgba(255,255,255,0.5);
+    background:rgba(255,255,255,0.03);color:rgba(255,255,255,0.45);
     font-family:var(--ff);font-size:11px;font-weight:600;flex-shrink:0;cursor:pointer;
   }
-  .mbn-item.active{background:rgba(226,218,206,0.08);color:var(--gold);border-color:rgba(226,218,206,0.1);}
+  .mbn-item.active{background:rgba(226,218,206,0.08);color:var(--gold);border-color:rgba(226,218,206,0.12);}
   
   .mbn-log-cta{
-    width:38px;height:38px;border-radius:12px;background:var(--gold);color:#000;
-    display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:bold;
-    border:none;box-shadow:0 0 15px rgba(186,155,108,0.3);flex-shrink:0;margin-left:4px;
+    width:40px;height:40px;border-radius:14px;background:var(--gold);color:#000;
+    display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:800;
+    border:none;box-shadow:0 0 20px rgba(186,155,108,0.4);flex-shrink:0;margin-left:4px;
   }
 }
 @media(min-width:1025px){ #mobile-bottom-nav{display:none!important;} }
-  border:none;background:none;
-  transition:color .18s,background .18s;
-  -webkit-tap-highlight-color:transparent;touch-action:manipulation;
-  min-width:0;max-width:72px;
-}
-.mbn-tab svg{width:20px;height:20px;stroke:currentColor;stroke-width:1.8;fill:none;flex-shrink:0;transition:stroke .18s}
-.mbn-tab span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:58px;font-size:9px;}
-.mbn-tab.active{color:var(--gold);}
-.mbn-tab:active{background:rgba(226,218,206,0.06);}
-/* More menu for secondary pages */
-.mbn-more-panel{
-  display:none;position:fixed;bottom:0;left:0;right:0;z-index:501;
-  background:rgba(10,10,14,0.98);
-  backdrop-filter:blur(32px);-webkit-backdrop-filter:blur(32px);
-  border-top:1px solid rgba(255,255,255,0.1);
-  padding:20px 16px;
-  padding-bottom:max(20px,env(safe-area-inset-bottom));
-  animation:mbnMoreIn .22s cubic-bezier(.4,0,.2,1);
-}
-.mbn-more-panel.open{display:block;}
-@keyframes mbnMoreIn{from{transform:translateY(30px);opacity:0}to{transform:translateY(0);opacity:1}}
-.mbn-more-grid{
-  display:grid;grid-template-columns:repeat(4,1fr);gap:10px;
-}
-.mbn-more-item{
-  display:flex;flex-direction:column;align-items:center;gap:5px;
-  padding:12px 8px;border-radius:14px;cursor:pointer;
-  font-family:var(--fm);font-size:9px;letter-spacing:.05em;
-  color:rgba(255,255,255,0.5);
-  background:rgba(255,255,255,0.04);
-  border:1px solid rgba(255,255,255,0.07);
-  transition:all .15s;-webkit-tap-highlight-color:transparent;
-  touch-action:manipulation;
-}
-.mbn-more-item svg{width:22px;height:22px;stroke:currentColor;stroke-width:1.8;fill:none;}
-.mbn-more-item.active{color:var(--gold);background:rgba(226,218,206,0.08);border-color:rgba(226,218,206,0.16);}
-.mbn-more-item:active{background:rgba(255,255,255,0.08);}
-.mbn-more-head{
-  display:flex;align-items:center;justify-content:space-between;
-  margin-bottom:16px;
-}
-.mbn-more-title{font-family:var(--fm);font-size:9px;letter-spacing:.2em;color:var(--text3);text-transform:uppercase;}
-.mbn-more-close{
-  background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);
-  border-radius:50%;width:28px;height:28px;cursor:pointer;color:var(--text3);
-  font-size:14px;display:flex;align-items:center;justify-content:center;
-  transition:all .15s;-webkit-tap-highlight-color:transparent;
-}
-.mbn-more-close:hover{color:var(--text);background:rgba(255,255,255,0.1);}
-.mbn-backdrop{
-  display:none;position:fixed;inset:0;z-index:500;background:rgba(0,0,0,0.5);
-  backdrop-filter:blur(2px);-webkit-backdrop-filter:blur(2px);
-}
-.mbn-backdrop.open{display:block;}
 
 /* Left: logo */
 .tn-logo{
@@ -1356,7 +1300,7 @@ textarea{resize:vertical;min-height:78px;line-height:1.6}
   /* Hide desktop pill on mobile, show bottom nav */
   .tn-pill{display:none!important}
   .topnav{height:calc(56px + env(safe-area-inset-top));padding:0 14px;}
-  #mobile-bottom-nav{display:flex!important;}
+  #mobile-bottom-nav{display:none!important;}
   .tn-logo{gap:7px;}
   .tn-logo-mark{width:28px;height:28px;font-size:12px;border-radius:7px;}
   .tn-logo-text{font-size:13px;}
@@ -10627,7 +10571,7 @@ function resetImport(){
 </style>
 
 <!-- ── NEW MOBILE NAVIGATION — SAME GROUPS AS LAPTOP ── -->
-<nav id="mobile-bottom-nav" class="visible">
+<nav id="mobile-bottom-nav">
   <div class="mbn-pill">
     <!-- Sub-Page Rows (Slide down when parent group is selected) -->
     <div class="mbn-pages" id="mbnp-journal">
@@ -10675,29 +10619,6 @@ function resetImport(){
     </div>
   </div>
 </nav>
-
-<div class="mbn-backdrop" id="mbn-backdrop" onclick="toggleMbnMore()"></div>
-
-<div class="mbn-more-panel" id="mbn-more-panel">
-  <div class="mbn-more-head">
-    <div class="mbn-more-title">Navigation</div>
-    <button class="mbn-more-close" onclick="toggleMbnMore()">✕</button>
-  </div>
-  <div class="mbn-more-grid">
-    <button class="mbn-more-item" onclick="mbnGo('notebook')" type="button">Notebook</button>
-    <button class="mbn-more-item" onclick="mbnGo('replay')" type="button">Replay</button>
-    <button class="mbn-more-item" onclick="mbnGo('analytics')" type="button">Analytics</button>
-    <button class="mbn-more-item" onclick="mbnGo('equity')" type="button">Equity</button>
-    <button class="mbn-more-item" onclick="mbnGo('visualize')" type="button">Visuals</button>
-    <button class="mbn-more-item" onclick="mbnGo('data')" type="button">Data</button>
-    <button class="mbn-more-item" onclick="mbnGo('checklist')" type="button">Checklist</button>
-    <button class="mbn-more-item" onclick="mbnGo('risk')" type="button">Risk Calc</button>
-    <button class="mbn-more-item" onclick="mbnGo('news')" type="button">Econ Cal</button>
-    <button class="mbn-more-item" onclick="mbnGo('aibot')" type="button">YzenBot</button>
-    <button class="mbn-more-item" onclick="mbnGo('report')" type="button">Report</button>
-    <button class="mbn-more-item" onclick="mbnGo('settings')" type="button">Settings</button>
-  </div>
-</div>
 
 <!-- Music Overlay (full picker) -->
 <div id="music-overlay" onclick="if(event.target===this)closeMusicOverlay()">
