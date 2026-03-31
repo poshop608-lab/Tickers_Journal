@@ -122,35 +122,41 @@ body{flex-direction:column!important}
   box-shadow:0 12px 50px rgba(0,0,0,0.6),0 1px 0 rgba(255,255,255,0.08) inset,0 0 28px rgba(226,218,206,0.04);
 }
 
-/* ── MOBILE BOTTOM NAV (iOS / small screens) ── */
+/* ── MOBILE BOTTOM NAV (iOS / small screens only) ── */
 #mobile-bottom-nav{
-  display:none;
+  display:none !important;  /* hidden on desktop — shown only via mobile media query */
   position:fixed;bottom:0;left:0;right:0;z-index:500;
-  background:rgba(10,10,14,0.96);
+  background:rgba(10,10,14,0.97);
   backdrop-filter:blur(28px) saturate(180%);
   -webkit-backdrop-filter:blur(28px) saturate(180%);
   border-top:1px solid rgba(255,255,255,0.08);
-  padding:8px 0;
-  padding-bottom:max(8px, env(safe-area-inset-bottom));
+  padding:6px 0;
+  padding-bottom:max(6px, env(safe-area-inset-bottom));
   box-shadow:0 -8px 32px rgba(0,0,0,0.5),0 -1px 0 rgba(226,218,206,0.06);
 }
-#mobile-bottom-nav.visible{display:flex;}
 .mbn-tabs{
-  display:flex;align-items:flex-end;justify-content:space-around;
-  width:100%;padding:0 4px;
+  display:flex;align-items:center;justify-content:space-around;
+  width:100%;padding:0 6px;
 }
 .mbn-tab{
-  display:flex;flex-direction:column;align-items:center;gap:3px;
-  padding:4px 6px;border-radius:12px;cursor:pointer;flex:1;
-  font-family:var(--fm);font-size:9px;letter-spacing:.06em;color:rgba(255,255,255,0.35);
+  display:flex;flex-direction:column;align-items:center;gap:4px;
+  padding:6px 4px 4px;border-radius:12px;cursor:pointer;flex:1;
+  font-family:var(--ff);font-size:10px;font-weight:500;letter-spacing:-.01em;
+  color:rgba(255,255,255,0.38);
   border:none;background:none;
   transition:color .18s,background .18s;
   -webkit-tap-highlight-color:transparent;touch-action:manipulation;
-  min-width:0;max-width:72px;
+  min-width:0;max-width:76px;
 }
-.mbn-tab svg{width:20px;height:20px;stroke:currentColor;stroke-width:1.8;fill:none;flex-shrink:0;transition:stroke .18s}
-.mbn-tab span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:58px;font-size:9px;}
+.mbn-tab svg{width:21px;height:21px;stroke:currentColor;stroke-width:1.7;fill:none;flex-shrink:0;transition:stroke .18s}
+.mbn-tab span{
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+  max-width:64px;font-size:10px;font-weight:500;
+  font-family:var(--ff);letter-spacing:-.01em;
+  line-height:1;
+}
 .mbn-tab.active{color:var(--gold);}
+.mbn-tab.active svg{filter:drop-shadow(0 0 4px rgba(226,218,206,0.4));}
 .mbn-tab:active{background:rgba(226,218,206,0.06);}
 /* More menu for secondary pages */
 .mbn-more-panel{
@@ -170,8 +176,8 @@ body{flex-direction:column!important}
 .mbn-more-item{
   display:flex;flex-direction:column;align-items:center;gap:5px;
   padding:12px 8px;border-radius:14px;cursor:pointer;
-  font-family:var(--fm);font-size:9px;letter-spacing:.05em;
-  color:rgba(255,255,255,0.5);
+  font-family:var(--ff);font-size:10px;font-weight:500;letter-spacing:-.01em;
+  color:rgba(255,255,255,0.55);
   background:rgba(255,255,255,0.04);
   border:1px solid rgba(255,255,255,0.07);
   transition:all .15s;-webkit-tap-highlight-color:transparent;
@@ -184,7 +190,7 @@ body{flex-direction:column!important}
   display:flex;align-items:center;justify-content:space-between;
   margin-bottom:16px;
 }
-.mbn-more-title{font-family:var(--fm);font-size:9px;letter-spacing:.2em;color:var(--text3);text-transform:uppercase;}
+.mbn-more-title{font-family:var(--ff);font-size:10px;font-weight:600;letter-spacing:.12em;color:var(--text3);text-transform:uppercase;}
 .mbn-more-close{
   background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);
   border-radius:50%;width:28px;height:28px;cursor:pointer;color:var(--text3);
@@ -1327,7 +1333,7 @@ textarea{resize:vertical;min-height:78px;line-height:1.6}
   /* Hide desktop pill on mobile, show bottom nav */
   .tn-pill{display:none!important}
   .topnav{height:calc(56px + env(safe-area-inset-top));padding:0 14px;}
-  #mobile-bottom-nav{display:flex!important;}
+  #mobile-bottom-nav{display:flex !important;}
   .tn-logo{gap:7px;}
   .tn-logo-mark{width:28px;height:28px;font-size:12px;border-radius:7px;}
   .tn-logo-text{font-size:13px;}
@@ -10594,7 +10600,7 @@ function resetImport(){
 
 <!-- ── MOBILE BOTTOM NAV ── -->
 <div id="mbn-backdrop" class="mbn-backdrop" onclick="closeMbnMore()"></div>
-<div id="mobile-bottom-nav" class="visible">
+<div id="mobile-bottom-nav">
   <div class="mbn-tabs">
     <button class="mbn-tab active" id="mbn-calendar" onclick="mbnGo('calendar')" type="button">
       <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
