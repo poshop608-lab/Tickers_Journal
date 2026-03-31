@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="YzenNq">
@@ -31,7 +31,7 @@
   --fm:'DM Mono',monospace;
   --fd:'DM Mono',monospace;
   --fn:'DM Mono',monospace;
-  --topnav-h:72px;
+  --topnav-h:80px;
 }
 *{box-sizing:border-box;margin:0;padding:0}
 html{font-size:14px;overscroll-behavior:none;overflow:hidden;height:100%;}
@@ -84,28 +84,42 @@ body.auth-open .orb{display:none}
 .app-shell{visibility:hidden;opacity:0;}
 .app-shell.app-ready{visibility:visible;opacity:1;transition:opacity .25s ease;}
 
-/* ── TOP NAV ── */
-.sidebar{display:none!important} /* remove old sidebar */
-
-/* Body layout: column now */
+/* ── TOP NAV — FLOATING PILL ── */
+.sidebar{display:none!important}
 body{flex-direction:column!important}
 #app-shell{flex-direction:column!important;width:100%!important;overflow:hidden;height:100%;display:flex!important;}
 
+/* Wrapper that holds the pill above content */
 .topnav{
   width:100%;height:var(--topnav-h);flex-shrink:0;
   display:flex;align-items:center;justify-content:space-between;
-  padding:0 16px;
-  background:rgba(10,10,12,0.72);
-  backdrop-filter:blur(24px) saturate(160%);
-  -webkit-backdrop-filter:blur(24px) saturate(160%);
-  border-bottom:1px solid rgba(255,255,255,0.06);
+  padding:0 20px;
+  padding-top:env(safe-area-inset-top);
+  height:calc(var(--topnav-h) + env(safe-area-inset-top));
+  background:transparent;
   position:sticky;top:0;z-index:200;
-  box-shadow:0 1px 0 rgba(255,255,255,0.03),0 4px 32px rgba(0,0,0,0.4);
-}
-.topnav::after{
-  content:'';position:absolute;bottom:0;left:0;right:0;height:1px;
-  background:linear-gradient(90deg,transparent,rgba(226,218,206,0.15) 25%,rgba(96,165,250,0.10) 75%,transparent);
   pointer-events:none;
+}
+.topnav > *{pointer-events:auto;}
+
+/* Floating pill — center nav */
+.tn-pill{
+  position:absolute;left:50%;transform:translateX(-50%);
+  display:flex;flex-direction:column;align-items:center;
+  background:rgba(14,14,17,0.82);
+  backdrop-filter:blur(28px) saturate(170%);
+  -webkit-backdrop-filter:blur(28px) saturate(170%);
+  border:1px solid rgba(255,255,255,0.09);
+  border-radius:18px;
+  box-shadow:0 8px 40px rgba(0,0,0,0.55),0 1px 0 rgba(255,255,255,0.06) inset,0 0 0 1px rgba(226,218,206,0.04);
+  padding:10px 20px 8px;
+  min-width:480px;
+  transition:box-shadow .25s ease, border-color .25s ease;
+  pointer-events:auto;
+}
+.tn-pill:hover{
+  border-color:rgba(255,255,255,0.13);
+  box-shadow:0 12px 50px rgba(0,0,0,0.6),0 1px 0 rgba(255,255,255,0.08) inset,0 0 28px rgba(226,218,206,0.04);
 }
 
 /* Left: logo */
@@ -113,56 +127,58 @@ body{flex-direction:column!important}
   display:flex;align-items:center;gap:10px;text-decoration:none;flex-shrink:0;
 }
 .tn-logo-mark{
-  width:32px;height:32px;border-radius:8px;
-  background:linear-gradient(135deg,rgba(226,218,206,0.12),rgba(176,168,158,0.06));
-  border:1px solid rgba(226,218,206,0.18);
+  width:32px;height:32px;border-radius:9px;
+  background:linear-gradient(135deg,rgba(226,218,206,0.14),rgba(176,168,158,0.06));
+  border:1px solid rgba(226,218,206,0.2);
   display:flex;align-items:center;justify-content:center;
   font-family:var(--ff);font-size:14px;font-weight:800;color:var(--gold);letter-spacing:-.02em;
+  box-shadow:0 0 16px rgba(226,218,206,0.08);
 }
 .tn-logo-text{font-family:var(--ff);font-size:15px;font-weight:800;letter-spacing:-.03em;color:var(--text)}
 .tn-logo-text em{font-style:italic;font-weight:300;font-family:var(--fm);color:var(--gold2)}
 
-/* ── NAV: 2-tier tab bar ── */
+/* ── NAV: 2-tier inside pill ── */
 .tn-nav-wrap{
-  flex:1;display:flex;flex-direction:column;justify-content:center;
-  overflow:hidden;position:relative;
+  display:flex;flex-direction:column;align-items:center;gap:0;
+  overflow:visible;position:relative;width:100%;
 }
 
 /* Row 1 — group tabs */
 .tn-groups{
   display:flex;align-items:center;justify-content:center;
-  gap:0;position:relative;
+  gap:2px;position:relative;
 }
-/* Animated sliding indicator */
-.tn-groups::after{
-  content:'';position:absolute;bottom:-1px;height:2px;border-radius:2px;
-  background:linear-gradient(90deg,transparent,var(--gold),transparent);
-  transition:left .3s cubic-bezier(.4,0,.2,1),width .3s cubic-bezier(.4,0,.2,1);
-  pointer-events:none;
+/* Sliding bubble indicator */
+.tn-pill-indicator{
+  position:absolute;bottom:0;height:2px;border-radius:99px;
+  background:linear-gradient(90deg,transparent 0%,var(--gold) 40%,var(--gold) 60%,transparent 100%);
+  transition:left .32s cubic-bezier(.4,0,.2,1),width .32s cubic-bezier(.4,0,.2,1),opacity .2s;
+  pointer-events:none;opacity:0;
 }
+.tn-pill-indicator.visible{opacity:1;}
 
 .tn-grp-tab{
   display:flex;align-items:center;gap:5px;
-  padding:5px 14px;cursor:pointer;
+  padding:5px 13px;cursor:pointer;
   font-family:var(--ff);font-size:11.5px;font-weight:500;letter-spacing:-.01em;
-  color:rgba(255,255,255,0.36);
-  background:none;border:none;
-  transition:color .18s;
+  color:rgba(255,255,255,0.34);
+  background:none;border:none;border-radius:10px;
+  transition:color .18s, background .18s;
   white-space:nowrap;flex-shrink:0;position:relative;
   user-select:none;-webkit-user-select:none;
 }
-.tn-grp-tab:hover{color:rgba(255,255,255,0.7);}
+.tn-grp-tab:hover{color:rgba(255,255,255,0.68);background:rgba(255,255,255,0.04);}
 .tn-grp-tab.on{color:var(--gold);}
 .tn-grp-tab-dot{
-  width:5px;height:5px;border-radius:50%;
+  width:4px;height:4px;border-radius:50%;
   background:var(--gold);opacity:0;
-  transition:opacity .18s;flex-shrink:0;
+  transition:opacity .2s, transform .2s;flex-shrink:0;
 }
-.tn-grp-tab.on .tn-grp-tab-dot{opacity:1;}
+.tn-grp-tab.on .tn-grp-tab-dot{opacity:1;transform:scale(1.2);}
 
 /* Vertical divider between groups */
 .tn-grp-div{
-  width:1px;height:14px;
+  width:1px;height:12px;
   background:rgba(255,255,255,0.07);
   flex-shrink:0;
 }
@@ -170,114 +186,202 @@ body{flex-direction:column!important}
 /* Row 2 — page items for active group */
 .tn-pages{
   display:flex;align-items:center;justify-content:center;
-  gap:1px;
+  gap:2px;
   max-height:0;overflow:hidden;
-  transition:max-height .28s cubic-bezier(.4,0,.2,1),opacity .22s ease;
+  transition:max-height .3s cubic-bezier(.4,0,.2,1),opacity .24s ease;
   opacity:0;
 }
 .tn-pages.on{
-  max-height:36px;opacity:1;
+  max-height:38px;opacity:1;
 }
 
 /* Individual page items */
 .tn-item{
   display:flex;align-items:center;gap:5px;
-  padding:4px 10px;border-radius:6px;cursor:pointer;
+  padding:4px 11px;border-radius:8px;cursor:pointer;
   font-family:var(--ff);font-size:11px;font-weight:500;letter-spacing:-.01em;
-  color:rgba(255,255,255,0.42);
-  transition:color .14s,background .14s;
+  color:rgba(255,255,255,0.4);
+  transition:color .14s,background .14s,border-color .14s;
   white-space:nowrap;border:1px solid transparent;
   position:relative;flex-shrink:0;background:none;
 }
-.tn-item:hover{color:rgba(255,255,255,0.82);background:rgba(255,255,255,0.05);}
+.tn-item:hover{color:rgba(255,255,255,0.8);background:rgba(255,255,255,0.05);}
 .tn-item.active{
   color:var(--gold);
   background:rgba(226,218,206,0.08);
-  border-color:rgba(226,218,206,0.12);
+  border-color:rgba(226,218,206,0.13);
+  box-shadow:0 0 12px rgba(226,218,206,0.06);
 }
 .tn-item.active::after{
-  content:'';position:absolute;bottom:-2px;left:25%;right:25%;height:1.5px;
-  background:var(--gold);border-radius:2px;opacity:.7;
+  content:'';position:absolute;bottom:-2px;left:28%;right:28%;height:1.5px;
+  background:var(--gold);border-radius:2px;opacity:.6;
 }
 .tn-icon{width:13px;height:13px;opacity:.55;flex-shrink:0;}
 .tn-item.active .tn-icon{opacity:1;}
 .tn-item:hover .tn-icon{opacity:.8;}
 
-/* Calendar direct-access tab (always visible, no group) */
+/* Calendar direct-access tab */
 .tn-cal-tab{
-  display:flex;align-items:center;gap:5px;
-  padding:5px 14px;cursor:pointer;
+  display:flex;align-items:center;gap:6px;
+  padding:5px 13px;cursor:pointer;
   font-family:var(--ff);font-size:11.5px;font-weight:600;letter-spacing:-.01em;
-  color:rgba(255,255,255,0.45);
-  background:none;border:none;border-right:1px solid rgba(255,255,255,0.07);
-  transition:color .18s;
+  color:rgba(255,255,255,0.42);
+  background:none;border:none;border-radius:10px;
+  border-right:1px solid rgba(255,255,255,0.07);
+  transition:color .18s, background .18s;
   white-space:nowrap;flex-shrink:0;position:relative;
-  user-select:none;-webkit-user-select:none;margin-right:4px;padding-right:16px;
+  user-select:none;-webkit-user-select:none;margin-right:6px;padding-right:16px;
 }
-.tn-cal-tab:hover{color:rgba(255,255,255,0.78);}
+.tn-cal-tab:hover{color:rgba(255,255,255,0.78);background:rgba(255,255,255,0.04);}
 .tn-cal-tab.active{color:var(--gold);}
 .tn-cal-tab.active::after{
-  content:'';position:absolute;bottom:-1px;left:20%;right:20%;height:2px;
+  content:'';position:absolute;bottom:-2px;left:18%;right:18%;height:1.5px;
   background:linear-gradient(90deg,transparent,var(--gold),transparent);
-  border-radius:2px;
+  border-radius:2px;opacity:.7;
 }
 
-.tn-sep{display:none;} /* no longer used */
-
+.tn-sep{display:none;}
 
 /* Right: actions */
 .tn-right{
-  display:flex;align-items:center;gap:6px;flex-shrink:0;
+  display:flex;align-items:center;gap:8px;flex-shrink:0;
 }
 
-/* Account pill */
+/* Account pill — redesigned */
 .tn-acct{
-  display:flex;align-items:center;gap:7px;
-  padding:5px 10px 5px 7px;
-  background:rgba(255,255,255,0.04);
-  border:1px solid rgba(255,255,255,0.07);
-  border-radius:8px;cursor:pointer;
-  font-family:var(--ff);font-size:11px;font-weight:600;letter-spacing:-.01em;
-  color:var(--text);transition:background .15s,border-color .15s;
+  display:flex;align-items:center;gap:8px;
+  padding:6px 12px 6px 9px;
+  background:rgba(14,14,18,0.75);
+  border:1px solid rgba(226,218,206,0.12);
+  border-radius:12px;cursor:pointer;
+  font-family:var(--ff);font-size:11.5px;font-weight:600;letter-spacing:-.02em;
+  color:var(--text);
+  transition:background .2s,border-color .2s,box-shadow .2s;
+  position:relative;
+  backdrop-filter:blur(16px);
+  -webkit-backdrop-filter:blur(16px);
+  box-shadow:0 4px 20px rgba(0,0,0,0.35),0 0 0 1px rgba(226,218,206,0.04) inset;
+}
+.tn-acct:hover{
+  background:rgba(20,20,24,0.9);
+  border-color:rgba(226,218,206,0.24);
+  box-shadow:0 6px 28px rgba(0,0,0,0.45),0 0 16px rgba(226,218,206,0.06);
+}
+.tn-acct-dot{
+  width:7px;height:7px;border-radius:50%;
+  background:var(--green);
+  box-shadow:0 0 0 2px rgba(31,212,160,0.18),0 0 10px var(--green);
+  flex-shrink:0;
+}
+.tn-acct-chevron{
+  font-size:8px;color:rgba(255,255,255,0.3);margin-left:1px;
+  transition:transform .2s, color .18s;
+}
+.tn-acct.open .tn-acct-chevron{transform:rotate(180deg);color:var(--gold2);}
+
+/* Account dropdown — premium redesign */
+.tn-acct-drop{
+  display:none;position:absolute;right:0;top:calc(100% + 8px);
+  min-width:220px;z-index:400;
+  background:rgba(11,11,14,0.97);
+  border:1px solid rgba(255,255,255,0.1);
+  border-radius:16px;
+  box-shadow:0 24px 70px rgba(0,0,0,0.85),0 0 0 1px rgba(226,218,206,0.04) inset;
+  overflow:hidden;
+  backdrop-filter:blur(32px);
+  -webkit-backdrop-filter:blur(32px);
+}
+.tn-acct-drop.open{display:block;animation:acctDropIn .2s cubic-bezier(.2,.8,.3,1)}
+@keyframes acctDropIn{
+  from{opacity:0;transform:translateY(-6px) scale(.97);}
+  to{opacity:1;transform:translateY(0) scale(1);}
+}
+
+/* Dropdown header */
+.tn-drop-header{
+  padding:14px 16px 10px;
+  border-bottom:1px solid rgba(255,255,255,0.06);
+}
+.tn-drop-label{
+  font-family:var(--fm);font-size:8px;letter-spacing:.2em;color:var(--text3);
+  text-transform:uppercase;margin-bottom:4px;
+}
+.tn-drop-cur{
+  font-size:13px;font-weight:700;color:var(--gold);letter-spacing:-.02em;
+}
+
+/* Account options list */
+#ac-list .a-opt{
+  display:flex;align-items:center;gap:10px;
+  padding:9px 16px;cursor:pointer;
+  font-size:12px;font-weight:500;color:var(--text2);
+  transition:background .14s,color .14s;
   position:relative;
 }
-.tn-acct:hover{background:rgba(255,255,255,0.08);border-color:rgba(226,218,206,0.25)}
-.tn-acct-dot{width:6px;height:6px;border-radius:50%;background:var(--green);box-shadow:0 0 8px var(--green);flex-shrink:0}
-.tn-acct-chevron{font-size:9px;color:var(--text3);margin-left:2px}
-
-/* Account dropdown attached to .tn-acct */
-.tn-acct-drop{
-  display:none;position:absolute;right:0;top:calc(100% + 6px);
-  min-width:180px;z-index:300;
-  background:rgba(12,12,15,0.98);
-  border:1px solid rgba(255,255,255,0.1);border-radius:var(--r);
-  box-shadow:0 20px 60px rgba(0,0,0,0.8),0 0 0 1px rgba(255,255,255,0.03);
-  overflow:hidden;
+#ac-list .a-opt::before{
+  content:'';width:5px;height:5px;border-radius:50%;
+  background:rgba(255,255,255,0.15);flex-shrink:0;
+  transition:background .14s, box-shadow .14s;
 }
-.tn-acct-drop.open{display:block;animation:dropIn .15s ease}
+#ac-list .a-opt:hover{background:rgba(255,255,255,0.05);color:var(--text);}
+#ac-list .a-opt.active{color:var(--gold);}
+#ac-list .a-opt.active::before{background:var(--green);box-shadow:0 0 8px var(--green);}
+
+/* Dropdown actions footer */
+.tn-drop-footer{
+  padding:8px;
+  border-top:1px solid rgba(255,255,255,0.06);
+  display:flex;gap:4px;
+}
+.a-sep{display:none !important;}
+.a-action{
+  flex:1;display:flex;align-items:center;justify-content:center;gap:5px;
+  padding:7px 10px;border-radius:9px;cursor:pointer;
+  font-family:var(--ff);font-size:10.5px;font-weight:600;
+  color:rgba(255,255,255,0.45);
+  transition:background .14s,color .14s;
+  background:none;
+}
+.a-action:hover{background:rgba(255,255,255,0.07);color:var(--text);}
+.a-action.primary{color:var(--gold);}
+.a-action.primary:hover{background:rgba(226,218,206,0.08);color:var(--gold);}
+.a-action.danger{color:rgba(248,113,113,0.55);}
+.a-action.danger:hover{background:rgba(248,113,113,0.08);color:var(--red);}
 
 /* Small icon buttons on right */
 .tn-btn{
-  width:34px;height:34px;border-radius:8px;border:1px solid rgba(255,255,255,0.07);
+  width:36px;height:36px;border-radius:10px;
+  border:1px solid rgba(255,255,255,0.08);
   background:rgba(255,255,255,0.04);
   display:flex;align-items:center;justify-content:center;cursor:pointer;
-  color:rgba(255,255,255,0.5);transition:color .15s,background .15s,border-color .15s;
+  color:rgba(255,255,255,0.45);
+  transition:color .15s,background .15s,border-color .15s,transform .12s;
   font-size:13px;
 }
-.tn-btn:hover{background:rgba(255,255,255,0.09);color:var(--text);border-color:rgba(255,255,255,0.14)}
+.tn-btn:hover{
+  background:rgba(255,255,255,0.09);
+  color:var(--text);
+  border-color:rgba(255,255,255,0.15);
+  transform:translateY(-1px);
+}
+.tn-btn:active{transform:translateY(0);}
 .tn-btn svg{width:15px;height:15px;stroke:currentColor}
 
 /* Log trade CTA */
 .tn-cta{
-  display:flex;align-items:center;gap:5px;
-  padding:6px 14px;border-radius:8px;border:none;cursor:pointer;
-  font-family:var(--ff);font-size:12px;font-weight:700;letter-spacing:-.01em;
-  background:linear-gradient(135deg,rgba(176,168,158,0.9),rgba(226,218,206,0.95));
+  display:flex;align-items:center;gap:6px;
+  padding:7px 16px;border-radius:10px;border:none;cursor:pointer;
+  font-family:var(--ff);font-size:12px;font-weight:700;letter-spacing:-.02em;
+  background:linear-gradient(135deg,rgba(176,168,158,0.92),rgba(226,218,206,0.97));
   color:rgba(10,10,12,0.95);
-  box-shadow:0 0 18px rgba(226,218,206,0.22),0 2px 8px rgba(0,0,0,0.3);
-  transition:box-shadow .15s,transform .15s;
+  box-shadow:0 0 20px rgba(226,218,206,0.2),0 3px 10px rgba(0,0,0,0.35);
+  transition:box-shadow .18s,transform .15s;
 }
-.tn-cta:hover{box-shadow:0 0 28px rgba(226,218,206,0.35),0 4px 14px rgba(0,0,0,0.4);transform:translateY(-1px)}
+.tn-cta:hover{
+  box-shadow:0 0 32px rgba(226,218,206,0.32),0 5px 16px rgba(0,0,0,0.4);
+  transform:translateY(-1px);
+}
+.tn-cta:active{transform:translateY(0);}
 .tn-cta svg{width:12px;height:12px;stroke:currentColor;stroke-width:2.5}
 
 /* Save indicator */
@@ -287,8 +391,15 @@ body{flex-direction:column!important}
 }
 
 /* ── MAIN ── */
-/* ── MAIN ── */
-.main{flex:1;min-height:0;overflow-y:auto;overflow-x:hidden;position:relative;z-index:1;overscroll-behavior:none;scroll-behavior:auto;-webkit-overflow-scrolling:touch;will-change:scroll-position;}
+.main{
+  flex:1;min-height:0;
+  overflow-y:auto;overflow-x:hidden;
+  position:relative;z-index:1;
+  overscroll-behavior:none;
+  scroll-behavior:auto;
+  -webkit-overflow-scrolling:touch;
+  will-change:scroll-position;
+}
 .topbar{display:none!important}
 .topbar::after{
   content:'';position:absolute;bottom:0;left:0;width:100%;height:1px;
@@ -297,8 +408,16 @@ body{flex-direction:column!important}
 }
 .tb-title{display:none}.tb-right{display:none}
 
-.page{display:none;padding:22px 24px;box-sizing:border-box;contain:layout style}
-.page.active{display:block}
+/* Page: constrained max-width, vertical breathing room */
+.page{
+  display:none;
+  padding:28px 32px;
+  box-sizing:border-box;
+  max-width:1280px;
+  margin:0 auto;
+  width:100%;
+}
+.page.active{display:block;animation:pageIn .22s ease both;}
 @keyframes pageIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
 
 /* ── BUTTONS ── */
@@ -1109,7 +1228,10 @@ textarea{resize:vertical;min-height:78px;line-height:1.6}
 .mobile-overlay.show{display:block}
 
 @media(max-width:768px){
+  /* iOS safe area + font zoom fix */
   input,select,textarea{font-size:16px!important}
+  body{padding-bottom:env(safe-area-inset-bottom);}
+
   .fg{min-width:0}
   body{flex-direction:column}
   .sidebar{
@@ -1118,42 +1240,81 @@ textarea{resize:vertical;min-height:78px;line-height:1.6}
     box-shadow:8px 0 32px rgba(0,0,0,.7);
   }
   .sidebar.mob-open{left:0!important}
-  .main{width:100%;height:100dvh;overflow-y:auto;overscroll-behavior:contain;}
+  .main{width:100%;height:100dvh;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;}
   .topbar{display:none!important}
   .hamburger{display:flex!important}
-  .page{padding:12px 14px}
+
+  /* Page padding tighter on mobile */
+  .page{padding:14px 14px 28px;max-width:100%;}
+
+  /* Floating pill — shrink gracefully on mobile */
+  .tn-pill{
+    min-width:0;
+    max-width:calc(100vw - 200px);
+    padding:8px 12px 6px;
+    border-radius:14px;
+  }
+  .tn-grp-tab{padding:4px 8px;font-size:10.5px;}
+  .tn-cal-tab{padding:4px 10px;font-size:10.5px;padding-right:12px;}
+  .tn-item{padding:3px 8px;font-size:10px;}
+  .tn-pages.on{max-height:32px;}
+
+  /* Right actions — tighter */
+  .tn-right{gap:5px;}
+  .tn-btn{width:32px;height:32px;border-radius:8px;}
+  .tn-cta{padding:6px 11px;font-size:11px;}
+  .tn-acct{padding:5px 9px 5px 7px;font-size:10.5px;}
+
+  /* Grids collapse */
   .g2,.g3,.g4,.g5,.g6{grid-template-columns:1fr!important;gap:10px}
   .form-grid,.form-grid3{grid-template-columns:1fr!important;gap:10px}
+
+  /* Calendar */
   .cal-cells,.cal-dows{gap:2px}
-  .cc{min-height:48px;padding:5px}
+  .cc{min-height:52px;padding:5px}
   .cc-num{font-size:9px}
   .cc-pnl{font-size:8px}
   .cc-info,.cc-bar{display:none}
   .cal-dow{font-size:7px}
   .cal-month{font-size:22px}
+
+  /* Cards & stats */
   .sc{padding:14px}
   .sc .sv{font-size:24px!important}
+  .card{padding:14px}
+
+  /* Modals */
   .modal{width:95vw!important;border-radius:14px}
-  .mb{max-height:72vh;padding:14px 16px}
+  .mb{max-height:72dvh;padding:14px 16px}
   .mh{padding:14px 16px}
-  .sticky-foot{padding:10px 14px}
+  .sticky-foot{padding:10px 14px;padding-bottom:calc(10px + env(safe-area-inset-bottom));}
+
+  /* Misc */
   .heatmap-grid{grid-template-columns:repeat(12,1fr)}
   table{font-size:11px;min-width:600px}
   .tw{overflow-x:auto;}
   .tb-title{font-size:15px;letter-spacing:-.02em}
   .btn-gold{padding:7px 14px;font-size:12px}
-  .card{padding:14px}
   .risk-display{font-size:28px;padding:14px}
   .orb{display:none}
   .news-item{flex-wrap:wrap;gap:6px}
   .replay-entry{flex-wrap:wrap}
   .settings-grade-grid{grid-template-columns:1fr 1fr!important}
   .settings-rules-grid{grid-template-columns:1fr!important}
+
+  /* Touch targets — minimum 44px */
+  .tn-btn,.btn,.tn-cta,.yna,.rating-dot,.tn-grp-tab,.tn-item,.tn-cal-tab{
+    min-height:36px;
+    -webkit-tap-highlight-color:transparent;
+    touch-action:manipulation;
+  }
 }
 @media(max-width:400px){
-  .cc{min-height:36px;padding:3px}
+  .cc{min-height:38px;padding:3px}
   .cc-num{font-size:8px}
   .cc-pnl{font-size:7px}
+  .tn-pill{max-width:calc(100vw - 160px);}
+  .tn-grp-tab{padding:3px 6px;font-size:10px;}
 }
 
 /* ════════════════════════════════════════
@@ -1732,42 +1893,70 @@ input:focus,select:focus,textarea:focus{border-color:var(--gold)!important;box-s
 
 
 <nav class="topnav">
-  <!-- Logo -->
+  <!-- Logo — left -->
   <div class="tn-logo" onclick="go('calendar')" style="cursor:pointer">
     <div class="tn-logo-mark">Y</div>
     <span class="tn-logo-text">Yzen<em>Nq</em></span>
   </div>
 
-  <!-- Nav links -->
-  <div class="tn-nav-wrap" id="tn-nav">
-    <!-- Row 1: Calendar + Group tabs -->
-    <div style="display:flex;align-items:center;justify-content:center;gap:0;">
-      <button class="tn-cal-tab" id="tni-calendar-tab" onclick="go('calendar')" type="button"><span class="tn-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></span>Calendar</button>
-      <div class="tn-groups" id="tn-groups">
-        
-        <button class="tn-grp-tab" id="tgt-journal" onclick="switchNavGroup('journal')" type="button"><span class="tn-grp-tab-dot"></span>Journal</button>
-        <div class="tn-grp-div"></div>
-        <button class="tn-grp-tab" id="tgt-analytics" onclick="switchNavGroup('analytics')" type="button"><span class="tn-grp-tab-dot"></span>Analytics</button>
-        <div class="tn-grp-div"></div>
-        <button class="tn-grp-tab" id="tgt-edge" onclick="switchNavGroup('edge')" type="button"><span class="tn-grp-tab-dot"></span>Edge</button>
-        <div class="tn-grp-div"></div>
-        <button class="tn-grp-tab" id="tgt-account" onclick="switchNavGroup('account')" type="button"><span class="tn-grp-tab-dot"></span>Account</button>
-        <div class="tn-grp-div"></div>
-        <button class="tn-grp-tab" id="tgt-settings" onclick="switchNavGroup('settings')" type="button"><span class="tn-grp-tab-dot"></span>Settings</button>
-        <div class="tn-grp-div"></div>
-        <button class="tn-grp-tab" id="tgt-aibot" onclick="switchNavGroup('aibot')" type="button"><span class="tn-grp-tab-dot"></span>YzenBot</button>
+  <!-- Floating Pill — center -->
+  <div class="tn-pill" id="tn-pill">
+    <div class="tn-nav-wrap" id="tn-nav">
+      <!-- Row 1: Calendar + Group tabs -->
+      <div style="display:flex;align-items:center;justify-content:center;gap:0;position:relative;">
+        <button class="tn-cal-tab" id="tni-calendar-tab" onclick="go('calendar')" type="button">
+          <span class="tn-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></span>Calendar
+        </button>
+        <div class="tn-groups" id="tn-groups">
+          <div class="tn-pill-indicator" id="tn-pill-ind"></div>
+          <button class="tn-grp-tab" id="tgt-journal" onclick="switchNavGroup('journal')" type="button"><span class="tn-grp-tab-dot"></span>Journal</button>
+          <div class="tn-grp-div"></div>
+          <button class="tn-grp-tab" id="tgt-analytics" onclick="switchNavGroup('analytics')" type="button"><span class="tn-grp-tab-dot"></span>Analytics</button>
+          <div class="tn-grp-div"></div>
+          <button class="tn-grp-tab" id="tgt-edge" onclick="switchNavGroup('edge')" type="button"><span class="tn-grp-tab-dot"></span>Edge</button>
+          <div class="tn-grp-div"></div>
+          <button class="tn-grp-tab" id="tgt-account" onclick="switchNavGroup('account')" type="button"><span class="tn-grp-tab-dot"></span>Account</button>
+          <div class="tn-grp-div"></div>
+          <button class="tn-grp-tab" id="tgt-aibot" onclick="switchNavGroup('aibot')" type="button"><span class="tn-grp-tab-dot"></span>YzenBot</button>
+          <div class="tn-grp-div"></div>
+          <button class="tn-grp-tab" id="tgt-settings" onclick="switchNavGroup('settings')" type="button"><span class="tn-grp-tab-dot"></span>Settings</button>
+        </div>
+      </div>
+      <!-- Row 2: Active group pages (animated) -->
+      <div class="tn-pages" id="tnp-journal">
+        <div class="tn-item" id="tni-trades" onclick="go('trades')" role="menuitem"><span class="tn-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg></span>Trades</div>
+        <div class="tn-item" id="tni-notebook" onclick="go('notebook')" role="menuitem"><span class="tn-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg></span>Notebook</div>
+        <div class="tn-item" id="tni-replay" onclick="go('replay')" role="menuitem"><span class="tn-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg></span>Replay</div>
+        <div class="tn-item" id="tni-import" onclick="go('import')" role="menuitem"><span class="tn-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg></span>Import</div>
+      </div>
+      <div class="tn-pages" id="tnp-analytics">
+        <div class="tn-item" id="tni-summary" onclick="go('summary')" role="menuitem"><span class="tn-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg></span>Summary</div>
+        <div class="tn-item" id="tni-analytics" onclick="go('analytics')" role="menuitem"><span class="tn-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></span>Deep Analytics</div>
+        <div class="tn-item" id="tni-equity" onclick="go('equity')" role="menuitem"><span class="tn-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="2 17 7 12 11 16 16 10 22 14"/><line x1="2" y1="7" x2="2" y2="17"/></svg></span>Equity Curve</div>
+        <div class="tn-item" id="tni-visualize" onclick="go('visualize')" role="menuitem"><span class="tn-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/><line x1="2" y1="12" x2="22" y2="12"/></svg></span>Visuals</div>
+        <div class="tn-item" id="tni-data" onclick="go('data')" role="menuitem"><span class="tn-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg></span>Data</div>
+      </div>
+      <div class="tn-pages" id="tnp-edge">
+        <div class="tn-item" id="tni-checklist" onclick="go('checklist')" role="menuitem"><span class="tn-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg></span>Checklist</div>
+        <div class="tn-item" id="tni-risk" onclick="go('risk')" role="menuitem"><span class="tn-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></span>Risk Calc</div>
+        <div class="tn-item" id="tni-news" onclick="go('news')" role="menuitem"><span class="tn-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 0-2 2Zm0 0a2 2 0 0 1-2-2v-9c0-1.1.9-2 2-2h2"/><path d="M18 14h-8"/><path d="M15 18h-5"/><path d="M10 6h8v4h-8V6z"/></svg></span>Econ Cal</div>
+      </div>
+      <div class="tn-pages" id="tnp-account">
+        <div class="tn-item" id="tni-report" onclick="go('report')" role="menuitem"><span class="tn-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></span>Weekly Report</div>
+        <div class="tn-item" id="tni-deposit" onclick="go('deposit')" role="menuitem"><span class="tn-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></span>Deposit / Payout</div>
+      </div>
+      <div class="tn-pages" id="tnp-aibot">
+        <div class="tn-item" id="tni-aibot" onclick="go('aibot')" role="menuitem"><span class="tn-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/><line x1="12" y1="3" x2="12" y2="1"/><circle cx="12" cy="1" r="1" fill="currentColor"/></svg></span>YzenBot AI</div>
+      </div>
+      <div class="tn-pages" id="tnp-settings">
+        <div class="tn-item" id="tni-settings" onclick="go('settings')" role="menuitem"><span class="tn-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></span>Settings</div>
+        <div class="tn-item" id="tni-feedback" onclick="go('feedback')" role="menuitem"><span class="tn-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></span>Feedback</div>
       </div>
     </div>
-    <!-- Row 2: Active group pages (animated) -->
-    
-      <div class="tn-pages" id="tnp-journal"><div class="tn-item" id="tni-trades" onclick="go('trades')" role="menuitem"><span class="tn-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg></span>Trades</div><div class="tn-item" id="tni-notebook" onclick="go('notebook')" role="menuitem"><span class="tn-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg></span>Notebook</div><div class="tn-item" id="tni-replay" onclick="go('replay')" role="menuitem"><span class="tn-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg></span>Replay</div><div class="tn-item" id="tni-import" onclick="go('import')" role="menuitem"><span class="tn-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg></span>Import</div></div>
-      <div class="tn-pages" id="tnp-analytics"><div class="tn-item" id="tni-summary" onclick="go('summary')" role="menuitem"><span class="tn-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg></span>Summary</div><div class="tn-item" id="tni-analytics" onclick="go('analytics')" role="menuitem"><span class="tn-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></span>Deep Analytics</div><div class="tn-item" id="tni-equity" onclick="go('equity')" role="menuitem"><span class="tn-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="2 17 7 12 11 16 16 10 22 14"/><polyline points="2 7 7 7"/><line x1="2" y1="7" x2="2" y2="17"/></svg></span>Equity Curve</div><div class="tn-item" id="tni-visualize" onclick="go('visualize')" role="menuitem"><span class="tn-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/><line x1="2" y1="12" x2="22" y2="12"/></svg></span>Visuals</div><div class="tn-item" id="tni-data" onclick="go('data')" role="menuitem"><span class="tn-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg></span>Data</div></div>
-      <div class="tn-pages" id="tnp-edge"><div class="tn-item" id="tni-checklist" onclick="go('checklist')" role="menuitem"><span class="tn-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg></span>Checklist</div><div class="tn-item" id="tni-risk" onclick="go('risk')" role="menuitem"><span class="tn-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></span>Risk Calc</div><div class="tn-item" id="tni-news" onclick="go('news')" role="menuitem"><span class="tn-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 0-2 2Zm0 0a2 2 0 0 1-2-2v-9c0-1.1.9-2 2-2h2"/><path d="M18 14h-8"/><path d="M15 18h-5"/><path d="M10 6h8v4h-8V6z"/></svg></span>Econ Cal</div></div>
-      <div class="tn-pages" id="tnp-account"><div class="tn-item" id="tni-report" onclick="go('report')" role="menuitem"><span class="tn-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg></span>Weekly Report</div><div class="tn-item" id="tni-deposit" onclick="go('deposit')" role="menuitem"><span class="tn-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></span>Deposit / Payout</div><div class="tn-item" id="tni-feedback" onclick="go('feedback')" role="menuitem"><span class="tn-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></span>Feedback</div></div>
-      <div class="tn-pages" id="tnp-settings"><div class="tn-item" id="tni-settings" onclick="go('settings')" role="menuitem"><span class="tn-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></span>Settings</div></div>
-      <div class="tn-pages" id="tnp-aibot"><div class="tn-item" id="tni-aibot" onclick="go('aibot')" role="menuitem"><span class="tn-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/><line x1="12" y1="3" x2="12" y2="1"/><circle cx="12" cy="1" r="1" fill="currentColor"/></svg></span>YzenBot AI</div></div>
   </div>
-  <div id="tni-calendar" style="display:none"></div>- Right actions -->
+
+  <div id="tni-calendar" style="display:none"></div>
+  <!-- Right actions -->
   <div class="tn-right">
     <span class="tn-save" id="save-indicator">
       <span id="save-ind-icon">✓</span><span id="save-ind-text"> SAVED</span>
@@ -1779,11 +1968,16 @@ input:focus,select:focus,textarea:focus{border-color:var(--gold)!important;box-s
       <span id="ac-name">50K Lucid</span>
       <span class="tn-acct-chevron">▾</span>
       <div class="tn-acct-drop" id="ac-drop">
+        <div class="tn-drop-header">
+          <div class="tn-drop-label">Active Account</div>
+          <div class="tn-drop-cur" id="ac-drop-cur">—</div>
+        </div>
         <div id="ac-list"></div>
-        <div class="a-sep"></div>
-        <div class="a-action primary" onclick="event.stopPropagation();openAddAcct()">＋ Add Account</div>
-        <div class="a-action" onclick="event.stopPropagation();renameAcct()">✏ Rename</div>
-        <div class="a-action danger" onclick="event.stopPropagation();delAcct()">🗑 Delete</div>
+        <div class="tn-drop-footer">
+          <div class="a-action primary" onclick="event.stopPropagation();openAddAcct()">＋ Add</div>
+          <div class="a-action" onclick="event.stopPropagation();renameAcct()">✏ Rename</div>
+          <div class="a-action danger" onclick="event.stopPropagation();delAcct()">🗑 Delete</div>
+        </div>
       </div>
     </div>
 
@@ -3376,9 +3570,14 @@ function rp(p){
 }
 function toggleAcct(){
   const d=document.getElementById('ac-drop');
+  const btn=document.getElementById('ab');
   const isOpen=d.classList.contains('open');
-  if(isOpen){d.classList.remove('open');return;}
+  if(isOpen){d.classList.remove('open');btn.classList.remove('open');return;}
+  // Update dropdown header with current account
+  const curEl=document.getElementById('ac-drop-cur');
+  if(curEl)curEl.textContent=S.cur||'—';
   d.classList.add('open');
+  btn.classList.add('open');
   document.getElementById('ac-list').innerHTML=S.accounts.map(a=>`
     <div class="a-opt${a===S.cur?' active':''}" onclick="switchAcct('${a}')">${a}${a===S.cur?' <span style="color:var(--gold)">●</span>':''}</div>`).join('');
   // Close on outside click - use capture to catch iOS taps
@@ -3388,6 +3587,7 @@ function toggleAcct(){
       const drop=document.getElementById('ac-drop');
       if(btn&&!btn.contains(e.target)&&drop&&!drop.contains(e.target)){
         drop.classList.remove('open');
+        document.getElementById('ab').classList.remove('open');
         document.removeEventListener('click',handler,true);
         document.removeEventListener('touchend',handler,true);
       }
@@ -3396,7 +3596,7 @@ function toggleAcct(){
     document.addEventListener('touchend',handler,true);
   },50);
 }
-function switchAcct(a){S.cur=a;document.getElementById('ac-name').textContent=a;document.getElementById('ac-drop').classList.remove('open');save();toast('→ '+a);rCalendar();}
+function switchAcct(a){S.cur=a;document.getElementById('ac-name').textContent=a;document.getElementById('ac-drop').classList.remove('open');document.getElementById('ab').classList.remove('open');save();toast('→ '+a);rCalendar();}
 function selectAcctType(type){
   document.getElementById('am-type').value=type;
   const cash=document.getElementById('am-type-cash');
@@ -6217,7 +6417,8 @@ const _NAV_GROUP_MAP = {
   trades:'journal',notebook:'journal',replay:'journal',import:'journal',
   summary:'analytics',analytics:'analytics',equity:'analytics',visualize:'analytics',data:'analytics',
   checklist:'edge',risk:'edge',news:'edge',
-  report:'account',deposit:'account',feedback:'account',
+  report:'account',deposit:'account',
+  feedback:'settings',
   settings:'settings',
   aibot:'aibot'
 };
@@ -6249,21 +6450,24 @@ function switchNavGroup(gid){
 }
 
 function _moveNavIndicator(tabEl){
+  const ind = document.getElementById('tn-pill-ind');
   const groups = document.getElementById('tn-groups');
-  if(!groups) return;
-  if(!tabEl){ groups.style.setProperty('--ind-w','0px'); return; }
+  if(!ind || !groups) return;
+  if(!tabEl){
+    ind.classList.remove('visible');
+    return;
+  }
   const gr = groups.getBoundingClientRect();
   const tr = tabEl.getBoundingClientRect();
-  groups.style.setProperty('--ind-left', (tr.left - gr.left + tr.width*0.2)+'px');
-  groups.style.setProperty('--ind-w', (tr.width*0.6)+'px');
+  const left = tr.left - gr.left;
+  const width = tr.width;
+  ind.style.left = left + 'px';
+  ind.style.width = width + 'px';
+  ind.classList.add('visible');
 }
 
-// Update indicator using CSS vars
-(function(){
-  const style = document.createElement('style');
-  style.textContent = '#tn-groups::after{left:var(--ind-left,0px);width:var(--ind-w,0px);}';
-  document.head.appendChild(style);
-})();
+// No longer needed — indicator is a real element now
+(function(){ /* pill indicator init — handled by _moveNavIndicator */ })();
 
 function _updateNavGroupActive(pg){
   const gid = _NAV_GROUP_MAP[pg];
@@ -6533,6 +6737,18 @@ setTimeout(showDailyQuote,1800);
       e.preventDefault();
     }
   }, {passive: false});
+})();
+
+// ── Pill indicator: reposition on resize ──
+(function(){
+  var _resizeTimer;
+  window.addEventListener('resize', function(){
+    clearTimeout(_resizeTimer);
+    _resizeTimer = setTimeout(function(){
+      var activeTab = document.querySelector('.tn-grp-tab.on');
+      if(activeTab) _moveNavIndicator(activeTab);
+    }, 80);
+  }, {passive: true});
 })();
 
 // ══════════════════════════════════════
