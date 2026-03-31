@@ -122,52 +122,66 @@ body{flex-direction:column!important}
   box-shadow:0 12px 50px rgba(0,0,0,0.6),0 1px 0 rgba(255,255,255,0.08) inset,0 0 28px rgba(226,218,206,0.04);
 }
 
-/* ── MOBILE NAV: Laptop-Style Groups & Sub-pages ── */
+/* ── MOBILE NAV: Premium Mirror of Laptop Nav ── */
 @media(max-width:1024px){
   #mobile-bottom-nav{
-    display:flex!important;position:fixed;bottom:16px;left:0;right:0;z-index:999999;
+    display:flex!important;position:fixed;bottom:12px;left:0;right:0;z-index:999999;
     padding:0 12px;box-sizing:border-box;justify-content:center;
-    pointer-events:auto!important;
+    pointer-events:none;
   }
   .mbn-pill{
-    background:rgba(18,18,24,0.96);backdrop-filter:blur(32px) saturate(200%);
-    -webkit-backdrop-filter:blur(32px) saturate(200%);
-    border:1px solid rgba(255,255,255,0.08);border-radius:24px;
-    box-shadow:0 12px 50px rgba(0,0,0,0.85),0 1px 0 rgba(255,255,255,0.05) inset;
-    width:100%;max-width:480px;display:flex;flex-direction:column;padding:8px;box-sizing:border-box;
-    pointer-events:auto!important;
+    pointer-events:auto;
+    background:rgba(14,14,17,0.85);backdrop-filter:blur(28px) saturate(170%);
+    -webkit-backdrop-filter:blur(28px) saturate(170%);
+    border:1px solid rgba(255,255,255,0.09);border-radius:18px;
+    box-shadow:0 8px 40px rgba(0,0,0,0.6),0 1px 0 rgba(255,255,255,0.06) inset;
+    width:100%;max-width:520px;display:flex;flex-direction:column;padding:10px 16px 8px;
+    position:relative;transition:box-shadow .25s ease;
   }
-  .mbn-groups{display:flex;align-items:center;justify-content:space-between;gap:6px;width:100%;}
-  .mbn-grp-tab{
-    flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;
-    padding:10px 4px;border-radius:18px;border:none;background:none;
-    color:rgba(255,255,255,0.3);font-family:var(--ff);font-size:10px;font-weight:700;
-    letter-spacing:0.04em;text-transform:uppercase;transition:all .25s ease;cursor:pointer;-webkit-tap-highlight-color:transparent;
-  }
-  .mbn-grp-tab.on{color:var(--gold);background:rgba(226,218,206,0.08);}
-  .mbn-grp-dot{width:4px;height:4px;border-radius:50%;background:var(--gold);opacity:0;transform:translateY(4px);transition:all .3s cubic-bezier(.34,1.56,.64,1);}
-  .mbn-grp-tab.on .mbn-grp-dot{opacity:1;transform:translateY(2px);}
-
   .mbn-pages{
-    display:flex;align-items:center;gap:6px;width:100%;overflow-x:auto;scrollbar-width:none;
-    max-height:0;opacity:0;transition:max-height .35s cubic-bezier(.4,0,.2,1),opacity .2s;
+    display:flex;align-items:center;justify-content:center;gap:4px;width:100%;
+    max-height:0;opacity:0;overflow:hidden;transition:max-height .3s cubic-bezier(.4,0,.2,1),opacity .2s;
   }
-  .mbn-pages.on{max-height:64px;opacity:1;padding:8px 0 12px 0;}
-  .mbn-pages::-webkit-scrollbar{display:none;}
-  
+  .mbn-pages.on{max-height:48px;opacity:1;padding-bottom:8px;}
   .mbn-item{
-    white-space:nowrap;padding:8px 16px;border-radius:12px;border:1px solid rgba(255,255,255,0.06);
-    background:rgba(255,255,255,0.03);color:rgba(255,255,255,0.4);
-    font-family:var(--ff);font-size:11px;font-weight:600;flex-shrink:0;cursor:pointer;transition:all .18s;
+    white-space:nowrap;padding:5px 12px;border-radius:8px;border:1px solid transparent;
+    background:none;color:rgba(255,255,255,0.4);
+    font-family:var(--ff);font-size:11px;font-weight:500;cursor:pointer;transition:all .18s;
   }
-  .mbn-item.active{background:rgba(226,218,206,0.09);color:var(--gold);border-color:rgba(226,218,206,0.16);box-shadow:0 0 15px rgba(186,155,108,0.1);}
-  
+  .mbn-item.active{background:rgba(226,218,206,0.08);color:var(--gold);border-color:rgba(226,218,206,0.13);}
+
+  .mbn-groups{display:flex;align-items:center;justify-content:center;gap:4px;width:100%;position:relative;}
+  .mbn-grp-tab{
+    display:flex;align-items:center;gap:5px;
+    padding:6px 12px;cursor:pointer;
+    font-family:var(--ff);font-size:11.5px;font-weight:500;letter-spacing:-.01em;
+    color:rgba(255,255,255,0.34);
+    background:none;border:none;border-radius:10px;
+    transition:color .18s, background .18s;
+    position:relative;user-select:none;-webkit-tap-highlight-color:transparent;
+  }
+  .mbn-grp-tab.on{color:var(--gold);}
+  .mbn-grp-dot{width:4px;height:4px;border-radius:50%;background:var(--gold);opacity:0;transition:opacity .2s, transform .2s;}
+  .mbn-grp-tab.on .mbn-grp-dot{opacity:1;transform:scale(1.2);}
+
   .mbn-log-cta{
-    width:42px;height:42px;border-radius:16px;background:var(--gold);color:#000;
-    display:flex;align-items:center;justify-content:center;font-size:24px;font-weight:900;
-    border:none;box-shadow:0 0 25px rgba(186,155,108,0.45);flex-shrink:0;margin-left:4px;cursor:pointer;
+    width:36px;height:36px;border-radius:10px;background:var(--gold);color:#000;
+    display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:800;
+    border:none;box-shadow:0 0 20px rgba(226,218,206,0.3);margin-left:8px;cursor:pointer;
   }
-  #music-mini{bottom:110px!important;right:16px!important;}
+
+  /* Sliding Indicator */
+  #mbn-indicator {
+    position:absolute;bottom:-4px;height:2px;border-radius:99px;
+    background:linear-gradient(90deg,transparent,var(--gold),transparent);
+    transition:left .32s cubic-bezier(.4,0,.2,1),width .32s cubic-bezier(.4,0,.2,1),opacity .2s;
+    pointer-events:none;opacity:0;
+  }
+  #mbn-indicator.visible{opacity:1;}
+  
+  #music-mini{bottom:90px!important;right:12px!important;}
+  .page{display:none;width:100%;opacity:0;}
+  .page.active{display:block!important;opacity:1!important;animation:pageIn .2s ease forwards;}
 }
 @media(min-width:1025px){ #mobile-bottom-nav{display:none!important;} }
 
@@ -10573,7 +10587,7 @@ function resetImport(){
 <!-- ── NEW MOBILE NAVIGATION — SAME GROUPS AS LAPTOP ── -->
 <nav id="mobile-bottom-nav">
   <div class="mbn-pill">
-    <!-- Sub-Page Rows (Slide down when parent group is selected) -->
+    <!-- Sub-Page Rows -->
     <div class="mbn-pages" id="mbnp-journal">
       <button class="mbn-item" id="mbni-trades" onclick="go('trades')" type="button">Trades</button>
       <button class="mbn-item" id="mbni-notebook" onclick="go('notebook')" type="button">Notebook</button>
@@ -10600,7 +10614,7 @@ function resetImport(){
     </div>
 
     <!-- Main Group Tabs -->
-    <div class="mbn-groups" id="mbn-groups-bar">
+    <div class="mbn-groups" id="mbn-groups-bar" style="position:relative;">
       <button class="mbn-grp-tab" id="mbgt-calendar" onclick="mbnSetGroup('calendar');go('calendar')" type="button">
         <span class="mbn-grp-dot"></span>Cal
       </button>
@@ -10617,6 +10631,7 @@ function resetImport(){
         <span class="mbn-grp-dot"></span>More
       </button>
       <button class="mbn-log-cta" onclick="openTradeForm()" type="button">+</button>
+      <div id="mbn-indicator"></div>
     </div>
   </div>
 </nav>
@@ -10745,15 +10760,25 @@ const MBN_MAP = {
 };
 
 function mbnSetGroup(group){
+  const bar = document.getElementById('mbn-groups-bar');
+  const ind = document.getElementById('mbn-indicator');
   document.querySelectorAll('.mbn-grp-tab').forEach(t => t.classList.remove('on'));
   document.querySelectorAll('.mbn-pages').forEach(p => p.classList.remove('on'));
-  if(group === 'calendar') {
-    document.getElementById('mbgt-calendar')?.classList.add('on');
-    return;
-  }
+  
   const pg = document.getElementById('mbnp-' + group);
   const gt = document.getElementById('mbgt-' + group);
-  if(pg && gt) { pg.classList.add('on'); gt.classList.add('on'); }
+  
+  if(gt) {
+    gt.classList.add('on');
+    if(ind && bar) {
+      const rect = gt.getBoundingClientRect();
+      const barRect = bar.getBoundingClientRect();
+      ind.style.width = rect.width + 'px';
+      ind.style.left = (rect.left - barRect.left) + 'px';
+      ind.classList.add('visible');
+    }
+  }
+  if(pg) pg.classList.add('on');
 }
 
 function mbnSyncPage(page){
@@ -10762,6 +10787,14 @@ function mbnSyncPage(page){
   if(item) item.classList.add('active');
   const group = MBN_MAP[page] || (page === 'calendar' ? 'calendar' : null);
   if(group) mbnSetGroup(group);
+  
+  // FORCE VISIBILITY: Resolve Black Screen Glitch
+  const targetPage = document.getElementById('page-' + page);
+  if(targetPage) {
+    document.querySelectorAll('.page').forEach(p => { p.style.display = 'none'; p.style.opacity = '0'; });
+    targetPage.style.display = 'block';
+    setTimeout(() => { targetPage.style.opacity = '1'; }, 10);
+  }
 }
 
 (function(){
