@@ -122,87 +122,166 @@ body{flex-direction:column!important}
   box-shadow:0 12px 50px rgba(0,0,0,0.6),0 1px 0 rgba(255,255,255,0.08) inset,0 0 28px rgba(226,218,206,0.04);
 }
 
-/* ── MOBILE BOTTOM NAV (iOS / small screens only) ── */
+/* ══ MOBILE BOTTOM NAV — desktop: never show ══ */
 #mobile-bottom-nav{
-  display:none !important;  /* hidden on desktop — shown only via mobile media query */
+  display:none !important;
   position:fixed;bottom:0;left:0;right:0;z-index:500;
-  background:rgba(10,10,14,0.97);
-  backdrop-filter:blur(28px) saturate(180%);
-  -webkit-backdrop-filter:blur(28px) saturate(180%);
-  border-top:1px solid rgba(255,255,255,0.08);
-  padding:6px 0;
-  padding-bottom:max(6px, env(safe-area-inset-bottom));
-  box-shadow:0 -8px 32px rgba(0,0,0,0.5),0 -1px 0 rgba(226,218,206,0.06);
+  background:rgba(8,8,11,0.97);
+  backdrop-filter:blur(32px) saturate(200%);
+  -webkit-backdrop-filter:blur(32px) saturate(200%);
+  border-top:1px solid rgba(255,255,255,0.07);
+  padding:8px 0 0;
+  padding-bottom:max(10px, env(safe-area-inset-bottom));
+  box-shadow:0 -1px 0 rgba(226,218,206,0.05), 0 -16px 48px rgba(0,0,0,0.6);
 }
+/* ── tab row ── */
 .mbn-tabs{
   display:flex;align-items:center;justify-content:space-around;
-  width:100%;padding:0 6px;
+  width:100%;padding:0 4px;
 }
 .mbn-tab{
-  display:flex;flex-direction:column;align-items:center;gap:4px;
-  padding:6px 4px 4px;border-radius:12px;cursor:pointer;flex:1;
+  display:flex;flex-direction:column;align-items:center;gap:3px;
+  padding:6px 6px 5px;border-radius:14px;cursor:pointer;flex:1;
   font-family:var(--ff);font-size:10px;font-weight:500;letter-spacing:-.01em;
-  color:rgba(255,255,255,0.38);
+  color:rgba(255,255,255,0.32);
   border:none;background:none;
-  transition:color .18s,background .18s;
+  transition:color .2s ease, background .2s ease, transform .15s ease;
   -webkit-tap-highlight-color:transparent;touch-action:manipulation;
-  min-width:0;max-width:76px;
+  min-width:0;max-width:80px;position:relative;
 }
-.mbn-tab svg{width:21px;height:21px;stroke:currentColor;stroke-width:1.7;fill:none;flex-shrink:0;transition:stroke .18s}
-.mbn-tab span{
-  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
-  max-width:64px;font-size:10px;font-weight:500;
-  font-family:var(--ff);letter-spacing:-.01em;
-  line-height:1;
+/* icon wrapper for bounce */
+.mbn-tab .mbn-icon{
+  display:flex;align-items:center;justify-content:center;
+  width:36px;height:30px;border-radius:10px;
+  transition:background .2s ease, transform .2s cubic-bezier(.34,1.6,.64,1);
 }
+.mbn-tab svg{
+  width:20px;height:20px;stroke:currentColor;stroke-width:1.8;fill:none;
+  flex-shrink:0;transition:inherit;
+}
+/* center FAB button special */
+.mbn-tab.mbn-fab .mbn-icon{
+  width:46px;height:38px;border-radius:14px;
+  background:linear-gradient(135deg,var(--gold2),var(--gold));
+  box-shadow:0 0 20px rgba(226,218,206,0.28), 0 4px 14px rgba(0,0,0,0.4);
+  transition:box-shadow .2s ease, transform .2s cubic-bezier(.34,1.6,.64,1);
+}
+.mbn-tab.mbn-fab svg{stroke:rgba(10,10,12,0.95);stroke-width:2.5;}
+.mbn-tab.mbn-fab span{color:rgba(255,255,255,0.38);}
+.mbn-tab.mbn-fab:active .mbn-icon{
+  transform:scale(0.9);
+  box-shadow:0 0 12px rgba(226,218,206,0.2);
+}
+/* active state */
 .mbn-tab.active{color:var(--gold);}
-.mbn-tab.active svg{filter:drop-shadow(0 0 4px rgba(226,218,206,0.4));}
-.mbn-tab:active{background:rgba(226,218,206,0.06);}
-/* More menu for secondary pages */
+.mbn-tab.active .mbn-icon{
+  background:rgba(226,218,206,0.09);
+  transform:translateY(-2px) scale(1.08);
+}
+/* label */
+.mbn-tab span{
+  font-size:10px;font-weight:500;font-family:var(--ff);
+  letter-spacing:-.01em;line-height:1;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:66px;
+  transition:color .2s ease;
+}
+/* tap ripple */
+.mbn-tab:active .mbn-icon{transform:scale(0.88) !important;}
+
+/* active indicator dot */
+.mbn-tab.active::after{
+  content:'';position:absolute;bottom:-3px;left:50%;transform:translateX(-50%);
+  width:4px;height:4px;border-radius:50%;
+  background:var(--gold);
+  box-shadow:0 0 6px rgba(226,218,206,0.6);
+  animation:mbnDotIn .25s cubic-bezier(.34,1.6,.64,1) forwards;
+}
+@keyframes mbnDotIn{from{opacity:0;transform:translateX(-50%) scale(0)}to{opacity:1;transform:translateX(-50%) scale(1)}}
+
+/* ── More sheet ── */
 .mbn-more-panel{
-  display:none;position:fixed;bottom:0;left:0;right:0;z-index:501;
-  background:rgba(10,10,14,0.98);
-  backdrop-filter:blur(32px);-webkit-backdrop-filter:blur(32px);
+  position:fixed;bottom:0;left:0;right:0;z-index:502;
+  background:rgba(10,10,14,0.99);
+  backdrop-filter:blur(40px) saturate(200%);
+  -webkit-backdrop-filter:blur(40px) saturate(200%);
   border-top:1px solid rgba(255,255,255,0.1);
-  padding:20px 16px;
-  padding-bottom:max(20px,env(safe-area-inset-bottom));
-  animation:mbnMoreIn .22s cubic-bezier(.4,0,.2,1);
+  border-radius:22px 22px 0 0;
+  padding:0 14px 0;
+  padding-bottom:max(18px,env(safe-area-inset-bottom));
+  transform:translateY(100%);
+  transition:transform .32s cubic-bezier(.4,0,.2,1);
+  box-shadow:0 -24px 80px rgba(0,0,0,0.7);
+  /* drag handle area */
 }
-.mbn-more-panel.open{display:block;}
-@keyframes mbnMoreIn{from{transform:translateY(30px);opacity:0}to{transform:translateY(0);opacity:1}}
-.mbn-more-grid{
-  display:grid;grid-template-columns:repeat(4,1fr);gap:10px;
+.mbn-more-panel.open{transform:translateY(0);}
+/* drag handle */
+.mbn-more-panel::before{
+  content:'';display:block;width:36px;height:4px;border-radius:2px;
+  background:rgba(255,255,255,0.14);margin:12px auto 16px;
 }
-.mbn-more-item{
-  display:flex;flex-direction:column;align-items:center;gap:5px;
-  padding:12px 8px;border-radius:14px;cursor:pointer;
-  font-family:var(--ff);font-size:10px;font-weight:500;letter-spacing:-.01em;
-  color:rgba(255,255,255,0.55);
-  background:rgba(255,255,255,0.04);
-  border:1px solid rgba(255,255,255,0.07);
-  transition:all .15s;-webkit-tap-highlight-color:transparent;
-  touch-action:manipulation;
-}
-.mbn-more-item svg{width:22px;height:22px;stroke:currentColor;stroke-width:1.8;fill:none;}
-.mbn-more-item.active{color:var(--gold);background:rgba(226,218,206,0.08);border-color:rgba(226,218,206,0.16);}
-.mbn-more-item:active{background:rgba(255,255,255,0.08);}
 .mbn-more-head{
   display:flex;align-items:center;justify-content:space-between;
-  margin-bottom:16px;
+  margin-bottom:14px;padding:0 2px;
 }
-.mbn-more-title{font-family:var(--ff);font-size:10px;font-weight:600;letter-spacing:.12em;color:var(--text3);text-transform:uppercase;}
+.mbn-more-title{
+  font-family:var(--ff);font-size:12px;font-weight:700;
+  letter-spacing:-.02em;color:var(--text);
+}
 .mbn-more-close{
-  background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);
-  border-radius:50%;width:28px;height:28px;cursor:pointer;color:var(--text3);
+  background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.1);
+  border-radius:50%;width:30px;height:30px;cursor:pointer;color:var(--text2);
   font-size:14px;display:flex;align-items:center;justify-content:center;
   transition:all .15s;-webkit-tap-highlight-color:transparent;
 }
-.mbn-more-close:hover{color:var(--text);background:rgba(255,255,255,0.1);}
-.mbn-backdrop{
-  display:none;position:fixed;inset:0;z-index:500;background:rgba(0,0,0,0.5);
-  backdrop-filter:blur(2px);-webkit-backdrop-filter:blur(2px);
+.mbn-more-close:active{background:rgba(255,255,255,0.14);}
+.mbn-more-grid{
+  display:grid;grid-template-columns:repeat(4,1fr);gap:8px;
+  padding-bottom:4px;
 }
-.mbn-backdrop.open{display:block;}
+.mbn-more-item{
+  display:flex;flex-direction:column;align-items:center;gap:6px;
+  padding:14px 6px 12px;border-radius:16px;cursor:pointer;
+  font-family:var(--ff);font-size:10px;font-weight:500;letter-spacing:-.01em;
+  color:rgba(255,255,255,0.5);
+  background:rgba(255,255,255,0.04);
+  border:1px solid rgba(255,255,255,0.06);
+  transition:background .15s, border-color .15s, color .15s, transform .15s;
+  -webkit-tap-highlight-color:transparent;touch-action:manipulation;
+}
+.mbn-more-item svg{width:22px;height:22px;stroke:currentColor;stroke-width:1.7;fill:none;transition:inherit;}
+.mbn-more-item.active{
+  color:var(--gold);background:rgba(226,218,206,0.07);
+  border-color:rgba(226,218,206,0.15);
+}
+.mbn-more-item:active{background:rgba(255,255,255,0.09);transform:scale(0.94);}
+
+/* staggered entrance for more grid items */
+.mbn-more-panel.open .mbn-more-item{
+  animation:mbnItemIn .3s cubic-bezier(.34,1.4,.64,1) both;
+}
+.mbn-more-panel.open .mbn-more-item:nth-child(1){animation-delay:.03s}
+.mbn-more-panel.open .mbn-more-item:nth-child(2){animation-delay:.06s}
+.mbn-more-panel.open .mbn-more-item:nth-child(3){animation-delay:.09s}
+.mbn-more-panel.open .mbn-more-item:nth-child(4){animation-delay:.12s}
+.mbn-more-panel.open .mbn-more-item:nth-child(5){animation-delay:.15s}
+.mbn-more-panel.open .mbn-more-item:nth-child(6){animation-delay:.18s}
+.mbn-more-panel.open .mbn-more-item:nth-child(7){animation-delay:.21s}
+.mbn-more-panel.open .mbn-more-item:nth-child(8){animation-delay:.24s}
+.mbn-more-panel.open .mbn-more-item:nth-child(9){animation-delay:.27s}
+.mbn-more-panel.open .mbn-more-item:nth-child(10){animation-delay:.30s}
+.mbn-more-panel.open .mbn-more-item:nth-child(11){animation-delay:.33s}
+.mbn-more-panel.open .mbn-more-item:nth-child(12){animation-delay:.36s}
+@keyframes mbnItemIn{from{opacity:0;transform:translateY(14px) scale(.92)}to{opacity:1;transform:translateY(0) scale(1)}}
+
+.mbn-backdrop{
+  display:none;position:fixed;inset:0;z-index:501;background:rgba(0,0,0,0);
+  backdrop-filter:blur(0px);-webkit-backdrop-filter:blur(0px);
+  transition:background .3s ease, backdrop-filter .3s ease;
+}
+.mbn-backdrop.open{
+  display:block;background:rgba(0,0,0,0.55);
+  backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px);
+}
 
 /* Left: logo */
 .tn-logo{
@@ -10602,26 +10681,34 @@ function resetImport(){
 <div id="mbn-backdrop" class="mbn-backdrop" onclick="closeMbnMore()"></div>
 <div id="mobile-bottom-nav">
   <div class="mbn-tabs">
-    <button class="mbn-tab active" id="mbn-calendar" onclick="mbnGo('calendar')" type="button">
-      <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+    <button class="mbn-tab active" id="mbn-calendar" onclick="mbnNavigate('calendar')" type="button">
+      <div class="mbn-icon">
+        <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+      </div>
       <span>Calendar</span>
     </button>
-    <button class="mbn-tab" id="mbn-trades" onclick="mbnGo('trades')" type="button">
-      <svg viewBox="0 0 24 24"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg>
+    <button class="mbn-tab" id="mbn-trades" onclick="mbnNavigate('trades')" type="button">
+      <div class="mbn-icon">
+        <svg viewBox="0 0 24 24"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg>
+      </div>
       <span>Trades</span>
     </button>
-    <button class="mbn-tab" id="mbn-log" onclick="openTradeForm()" type="button" style="color:var(--gold)">
-      <div style="width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,var(--gold2),var(--gold));display:flex;align-items:center;justify-content:center;box-shadow:0 0 18px rgba(226,218,206,0.3);margin-bottom:-2px">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="rgba(10,10,12,0.95)" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+    <button class="mbn-tab mbn-fab" id="mbn-log" onclick="openTradeForm()" type="button">
+      <div class="mbn-icon">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
       </div>
       <span>Log</span>
     </button>
-    <button class="mbn-tab" id="mbn-summary" onclick="mbnGo('summary')" type="button">
-      <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+    <button class="mbn-tab" id="mbn-summary" onclick="mbnNavigate('summary')" type="button">
+      <div class="mbn-icon">
+        <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+      </div>
       <span>Summary</span>
     </button>
     <button class="mbn-tab" id="mbn-more-btn" onclick="toggleMbnMore()" type="button">
-      <svg viewBox="0 0 24 24"><circle cx="12" cy="5" r="1" fill="currentColor"/><circle cx="12" cy="12" r="1" fill="currentColor"/><circle cx="12" cy="19" r="1" fill="currentColor"/></svg>
+      <div class="mbn-icon">
+        <svg viewBox="0 0 24 24"><circle cx="5" cy="12" r="1.5" fill="currentColor" stroke="none"/><circle cx="12" cy="12" r="1.5" fill="currentColor" stroke="none"/><circle cx="19" cy="12" r="1.5" fill="currentColor" stroke="none"/></svg>
+      </div>
       <span>More</span>
     </button>
   </div>
@@ -10630,21 +10717,21 @@ function resetImport(){
 <div id="mbn-more-panel" class="mbn-more-panel">
   <div class="mbn-more-head">
     <div class="mbn-more-title">All Pages</div>
-    <div class="mbn-more-close" onclick="closeMbnMore()">✕</div>
+    <button class="mbn-more-close" onclick="closeMbnMore()" type="button">✕</button>
   </div>
   <div class="mbn-more-grid">
-    <div class="mbn-more-item" onclick="mbnGo('notebook')"><svg viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg><span>Notebook</span></div>
-    <div class="mbn-more-item" onclick="mbnGo('replay')"><svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg><span>Replay</span></div>
-    <div class="mbn-more-item" onclick="mbnGo('analytics')"><svg viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg><span>Analytics</span></div>
-    <div class="mbn-more-item" onclick="mbnGo('equity')"><svg viewBox="0 0 24 24"><polyline points="2 17 7 12 11 16 16 10 22 14"/><line x1="2" y1="7" x2="2" y2="17"/></svg><span>Equity</span></div>
-    <div class="mbn-more-item" onclick="mbnGo('checklist')"><svg viewBox="0 0 24 24"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg><span>Checklist</span></div>
-    <div class="mbn-more-item" onclick="mbnGo('risk')"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg><span>Risk Calc</span></div>
-    <div class="mbn-more-item" onclick="mbnGo('news')"><svg viewBox="0 0 24 24"><path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 0-2 2Zm0 0a2 2 0 0 1-2-2v-9c0-1.1.9-2 2-2h2"/></svg><span>Econ Cal</span></div>
-    <div class="mbn-more-item" onclick="mbnGo('aibot')"><svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg><span>YzenBot</span></div>
-    <div class="mbn-more-item" onclick="mbnGo('report')"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg><span>Report</span></div>
-    <div class="mbn-more-item" onclick="mbnGo('visualize')"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/><line x1="2" y1="12" x2="22" y2="12"/></svg><span>Visualize</span></div>
-    <div class="mbn-more-item" onclick="mbnGo('settings')"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg><span>Settings</span></div>
-    <div class="mbn-more-item" onclick="mbnGo('import')"><svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg><span>Import</span></div>
+    <div class="mbn-more-item" onclick="mbnGoMore('notebook')"><svg viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg><span>Notebook</span></div>
+    <div class="mbn-more-item" onclick="mbnGoMore('replay')"><svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg><span>Replay</span></div>
+    <div class="mbn-more-item" onclick="mbnGoMore('analytics')"><svg viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg><span>Analytics</span></div>
+    <div class="mbn-more-item" onclick="mbnGoMore('equity')"><svg viewBox="0 0 24 24"><polyline points="2 17 7 12 11 16 16 10 22 14"/><line x1="2" y1="7" x2="2" y2="17"/></svg><span>Equity</span></div>
+    <div class="mbn-more-item" onclick="mbnGoMore('checklist')"><svg viewBox="0 0 24 24"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg><span>Checklist</span></div>
+    <div class="mbn-more-item" onclick="mbnGoMore('risk')"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg><span>Risk Calc</span></div>
+    <div class="mbn-more-item" onclick="mbnGoMore('news')"><svg viewBox="0 0 24 24"><path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 0-2 2Zm0 0a2 2 0 0 1-2-2v-9c0-1.1.9-2 2-2h2"/></svg><span>Econ Cal</span></div>
+    <div class="mbn-more-item" onclick="mbnGoMore('aibot')"><svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg><span>YzenBot</span></div>
+    <div class="mbn-more-item" onclick="mbnGoMore('report')"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg><span>Report</span></div>
+    <div class="mbn-more-item" onclick="mbnGoMore('visualize')"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/><line x1="2" y1="12" x2="22" y2="12"/></svg><span>Visualize</span></div>
+    <div class="mbn-more-item" onclick="mbnGoMore('settings')"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg><span>Settings</span></div>
+    <div class="mbn-more-item" onclick="mbnGoMore('import')"><svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg><span>Import</span></div>
   </div>
 </div>
 
@@ -10762,50 +10849,80 @@ function _seekTo(e, bar){
   const pct = (e.clientX - rect.left) / rect.width;
   if(_mAudio && _mAudio.duration){ _mAudio.currentTime = pct * _mAudio.duration; }
 }
-// ── MOBILE BOTTOM NAV ──
-function mbnGo(page){
-  closeMbnMore();
-  if(typeof go==='function') go(page);
-  // Highlight active tab
-  const map={calendar:'mbn-calendar',trades:'mbn-trades',summary:'mbn-summary'};
+// ── MOBILE BOTTOM NAV — clean, no circular calls ──
+
+// PRIMARY tab→id map (tabs that have their own button in the bar)
+const MBN_PRIMARY = {calendar:'mbn-calendar', trades:'mbn-trades', summary:'mbn-summary'};
+
+/** Sync bottom nav highlight only — never calls go() */
+function mbnSync(page){
   document.querySelectorAll('.mbn-tab').forEach(t=>t.classList.remove('active'));
-  if(map[page]){
-    const el=document.getElementById(map[page]);
+  document.querySelectorAll('.mbn-more-item').forEach(i=>i.classList.remove('active'));
+  if(MBN_PRIMARY[page]){
+    const el=document.getElementById(MBN_PRIMARY[page]);
     if(el) el.classList.add('active');
-  } else {
+  } else if(page){
+    // secondary page — highlight More btn + its grid item
     const moreBtn=document.getElementById('mbn-more-btn');
     if(moreBtn) moreBtn.classList.add('active');
+    document.querySelectorAll('.mbn-more-item').forEach(i=>{
+      if(i.getAttribute('onclick')?.includes("'"+page+"'")) i.classList.add('active');
+    });
   }
-  // Also update more grid items
-  document.querySelectorAll('.mbn-more-item').forEach(i=>i.classList.remove('active'));
 }
+
+/** Called by tab buttons — navigates and syncs */
+function mbnNavigate(page){
+  closeMbnMore();
+  if(typeof go==='function') go(page);
+  mbnSync(page);
+}
+
 function toggleMbnMore(){
   const panel=document.getElementById('mbn-more-panel');
   const backdrop=document.getElementById('mbn-backdrop');
-  panel.classList.toggle('open');
-  backdrop.classList.toggle('open');
+  const isOpen=panel.classList.contains('open');
+  if(isOpen){
+    panel.classList.remove('open');
+    backdrop.classList.remove('open');
+  } else {
+    panel.classList.add('open');
+    backdrop.classList.add('open');
+  }
 }
 function closeMbnMore(){
   document.getElementById('mbn-more-panel')?.classList.remove('open');
   document.getElementById('mbn-backdrop')?.classList.remove('open');
 }
-// Keep bottom nav in sync when go() is called globally
-(function(){
-  const origGo=window.go;
-  if(typeof origGo==='function'){
+
+/** Called by More grid items */
+function mbnGoMore(page){
+  closeMbnMore();
+  if(typeof go==='function') go(page);
+  mbnSync(page);
+}
+
+// Patch go() once — so any desktop nav call also syncs the mobile bar
+// Guard: only patch once, check we haven't already
+if(!window._mbnPatched){
+  window._mbnPatched=true;
+  const _origGo=window.go;
+  if(typeof _origGo==='function'){
     window.go=function(page,...args){
-      origGo(page,...args);
-      mbnGo(page);
+      _origGo.call(this,page,...args);
+      mbnSync(page);
     };
+  } else {
+    // go() may be defined later — patch after DOM ready
+    document.addEventListener('DOMContentLoaded',()=>{
+      if(typeof go==='function' && !go._mbnWrapped){
+        const _g=go;
+        window.go=function(page,...args){_g.call(this,page,...args);mbnSync(page);};
+        window.go._mbnWrapped=true;
+      }
+    });
   }
-  // Patch after DOMContentLoaded in case go() is defined later
-  document.addEventListener('DOMContentLoaded',()=>{
-    if(typeof go==='function' && go!==window.go){
-      const _go=go;
-      window.go=function(page,...args){_go(page,...args);mbnGo(page);};
-    }
-  });
-})();
+}
   const vs = document.querySelector('.mo-vol input[type=range]');
   if(vs){
     vs.value = ML.volume;
