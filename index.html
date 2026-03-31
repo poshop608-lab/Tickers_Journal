@@ -125,15 +125,17 @@ body{flex-direction:column!important}
 /* ── MOBILE NAV: Laptop-Style Groups & Sub-pages ── */
 @media(max-width:1024px){
   #mobile-bottom-nav{
-    display:flex!important;position:fixed;bottom:16px;left:0;right:0;z-index:10000;
+    display:flex!important;position:fixed;bottom:16px;left:0;right:0;z-index:999999;
     padding:0 12px;box-sizing:border-box;justify-content:center;
+    pointer-events:auto!important;
   }
   .mbn-pill{
-    background:rgba(18,18,24,0.95);backdrop-filter:blur(32px) saturate(200%);
+    background:rgba(18,18,24,0.96);backdrop-filter:blur(32px) saturate(200%);
     -webkit-backdrop-filter:blur(32px) saturate(200%);
     border:1px solid rgba(255,255,255,0.08);border-radius:24px;
-    box-shadow:0 12px 50px rgba(0,0,0,0.8),0 1px 0 rgba(255,255,255,0.05) inset;
+    box-shadow:0 12px 50px rgba(0,0,0,0.85),0 1px 0 rgba(255,255,255,0.05) inset;
     width:100%;max-width:480px;display:flex;flex-direction:column;padding:8px;box-sizing:border-box;
+    pointer-events:auto!important;
   }
   .mbn-groups{display:flex;align-items:center;justify-content:space-between;gap:6px;width:100%;}
   .mbn-grp-tab{
@@ -142,7 +144,7 @@ body{flex-direction:column!important}
     color:rgba(255,255,255,0.3);font-family:var(--ff);font-size:10px;font-weight:700;
     letter-spacing:0.04em;text-transform:uppercase;transition:all .25s ease;cursor:pointer;-webkit-tap-highlight-color:transparent;
   }
-  .mbn-grp-tab.on{color:var(--gold);background:rgba(226,218,206,0.06);}
+  .mbn-grp-tab.on{color:var(--gold);background:rgba(226,218,206,0.08);}
   .mbn-grp-dot{width:4px;height:4px;border-radius:50%;background:var(--gold);opacity:0;transform:translateY(4px);transition:all .3s cubic-bezier(.34,1.56,.64,1);}
   .mbn-grp-tab.on .mbn-grp-dot{opacity:1;transform:translateY(2px);}
 
@@ -165,7 +167,7 @@ body{flex-direction:column!important}
     display:flex;align-items:center;justify-content:center;font-size:24px;font-weight:900;
     border:none;box-shadow:0 0 25px rgba(186,155,108,0.45);flex-shrink:0;margin-left:4px;cursor:pointer;
   }
-  #music-mini{bottom:100px!important;right:16px!important;}
+  #music-mini{bottom:110px!important;right:16px!important;}
 }
 @media(min-width:1025px){ #mobile-bottom-nav{display:none!important;} }
 
@@ -10594,6 +10596,7 @@ function resetImport(){
       <button class="mbn-item" id="mbni-aibot" onclick="go('aibot')" type="button">YzenBot</button>
       <button class="mbn-item" id="mbni-report" onclick="go('report')" type="button">Report</button>
       <button class="mbn-item" id="mbni-settings" onclick="go('settings')" type="button">Settings</button>
+      <button class="mbn-item" id="mbni-account" onclick="go('account')" type="button">Account</button>
     </div>
 
     <!-- Main Group Tabs -->
@@ -10601,13 +10604,13 @@ function resetImport(){
       <button class="mbn-grp-tab" id="mbgt-calendar" onclick="mbnSetGroup('calendar');go('calendar')" type="button">
         <span class="mbn-grp-dot"></span>Cal
       </button>
-      <button class="mbn-grp-tab" id="mbgt-journal" onclick="mbnSetGroup('journal')" type="button">
+      <button class="mbn-grp-tab" id="mbgt-journal" onclick="mbnSetGroup('journal');go('trades')" type="button">
         <span class="mbn-grp-dot"></span>Journal
       </button>
-      <button class="mbn-grp-tab" id="mbgt-analytics" onclick="mbnSetGroup('analytics')" type="button">
+      <button class="mbn-grp-tab" id="mbgt-analytics" onclick="mbnSetGroup('analytics');go('summary')" type="button">
         <span class="mbn-grp-dot"></span>Analytics
       </button>
-      <button class="mbn-grp-tab" id="mbgt-edge" onclick="mbnSetGroup('edge')" type="button">
+      <button class="mbn-grp-tab" id="mbgt-edge" onclick="mbnSetGroup('edge');go('checklist')" type="button">
         <span class="mbn-grp-dot"></span>Edge
       </button>
       <button class="mbn-grp-tab" id="mbgt-more" onclick="mbnSetGroup('more')" type="button">
@@ -10724,8 +10727,8 @@ function resetImport(){
 // ═══════════════════════════════════════════════════════════════════════════
 // ☁️  CLOUD STORAGE CONFIG - SUPABASE (Using your existing credentials)
 // ═══════════════════════════════════════════════════════════════════════════
-const SUPABASE_URL = 'https://odevhkdsaqombrpinuli.supabase.co';
-const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9kZXZoa2RzYXFvbWJycGludWxpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM5MjQ3MDgsImV4cCI6MjA4OTUwMDcwOH0.XexvkFqREctui3U-1EwjX6Pz6kPU_QBdzQMHV9BhKrE';
+window.SUPABASE_URL = window.SUPABASE_URL || 'https://odevhkdsaqombrpinuli.supabase.co';
+window.SUPABASE_ANON_KEY = window.SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9kZXZoa2RzYXFvbWJycGludWxpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM5MjQ3MDgsImV4cCI6MjA4OTUwMDcwOH0.XexvkFqREctui3U-1EwjX6Pz6kPU_QBdzQMHV9BhKrE';
 
 function _seekTo(e, bar){
   const rect = bar.getBoundingClientRect();
