@@ -10590,57 +10590,186 @@ function resetImport(){
     background:rgba(201,168,76,.08);
   }
 }
+
+/* ══ NEW MOBILE BOTTOM NAV — mirrors desktop floating pill ══ */
+@media(max-width:768px){
+  #mobile-bottom-nav{
+    display:block!important;
+    position:fixed;bottom:0;left:0;right:0;z-index:500;
+    padding:6px 10px;
+    padding-bottom:max(6px,env(safe-area-inset-bottom));
+    background:transparent;pointer-events:none;
+  }
+  #mobile-bottom-nav>*{pointer-events:auto;}
+  .mbn-pill{
+    background:rgba(14,14,17,0.92);
+    backdrop-filter:blur(28px) saturate(170%);
+    -webkit-backdrop-filter:blur(28px) saturate(170%);
+    border:1px solid rgba(255,255,255,0.09);
+    border-radius:18px;
+    box-shadow:0 -8px 40px rgba(0,0,0,0.55),0 1px 0 rgba(255,255,255,0.06) inset,0 0 0 1px rgba(226,218,206,0.04);
+    padding:8px 12px 6px;
+    width:100%;display:flex;flex-direction:column;align-items:center;
+    box-sizing:border-box;
+  }
+  .mbn-nav-wrap{display:flex;flex-direction:column;align-items:center;gap:0;width:100%;}
+  .mbn-groups-row{display:flex;align-items:center;justify-content:space-between;gap:0;width:100%;overflow:hidden;}
+  /* Calendar direct tab */
+  .mbn-cal-tab{
+    display:flex;align-items:center;gap:5px;
+    padding:5px 12px 5px 6px;cursor:pointer;
+    font-family:var(--ff);font-size:10.5px;font-weight:600;letter-spacing:-.01em;
+    color:rgba(255,255,255,0.42);
+    background:none;border:none;border-radius:10px;
+    border-right:1px solid rgba(255,255,255,0.07);
+    transition:color .18s,background .18s;
+    white-space:nowrap;flex-shrink:0;position:relative;margin-right:4px;
+    -webkit-tap-highlight-color:transparent;touch-action:manipulation;min-height:36px;
+  }
+  .mbn-cal-tab.active{color:var(--gold);}
+  .mbn-cal-tab:active{background:rgba(255,255,255,0.06);}
+  .mbn-cal-tab .mbn-icon{opacity:.6;}
+  .mbn-cal-tab.active .mbn-icon{opacity:1;}
+  /* Groups */
+  .mbn-groups{
+    display:flex;align-items:center;justify-content:center;
+    gap:0;position:relative;flex:1;min-width:0;
+    overflow-x:auto;scrollbar-width:none;
+  }
+  .mbn-groups::-webkit-scrollbar{display:none;}
+  .mbn-pill-indicator{
+    position:absolute;bottom:0;height:2px;border-radius:99px;
+    background:linear-gradient(90deg,transparent 0%,var(--gold) 40%,var(--gold) 60%,transparent 100%);
+    transition:left .32s cubic-bezier(.4,0,.2,1),width .32s cubic-bezier(.4,0,.2,1),opacity .2s;
+    pointer-events:none;opacity:0;
+  }
+  .mbn-pill-indicator.visible{opacity:1;}
+  .mbn-grp-tab{
+    display:flex;align-items:center;gap:4px;
+    padding:5px 8px;cursor:pointer;
+    font-family:var(--ff);font-size:10px;font-weight:500;letter-spacing:-.01em;
+    color:rgba(255,255,255,0.34);
+    background:none;border:none;border-radius:10px;
+    transition:color .18s,background .18s;
+    white-space:nowrap;flex-shrink:0;position:relative;
+    -webkit-user-select:none;user-select:none;
+    -webkit-tap-highlight-color:transparent;touch-action:manipulation;min-height:36px;
+  }
+  .mbn-grp-tab.on{color:var(--gold);}
+  .mbn-grp-tab:active{background:rgba(255,255,255,0.06);}
+  .mbn-grp-dot{width:4px;height:4px;border-radius:50%;background:var(--gold);opacity:0;transition:opacity .2s,transform .2s;flex-shrink:0;}
+  .mbn-grp-tab.on .mbn-grp-dot{opacity:1;transform:scale(1.2);}
+  .mbn-grp-div{width:1px;height:10px;background:rgba(255,255,255,0.07);flex-shrink:0;}
+  /* Log CTA button */
+  .mbn-cta{
+    display:flex;align-items:center;gap:4px;
+    padding:6px 11px;border-radius:9px;border:none;cursor:pointer;
+    font-family:var(--ff);font-size:11px;font-weight:700;letter-spacing:-.02em;
+    background:linear-gradient(135deg,rgba(176,168,158,0.92),rgba(226,218,206,0.97));
+    color:rgba(10,10,12,0.95);
+    box-shadow:0 0 14px rgba(226,218,206,0.18),0 2px 8px rgba(0,0,0,0.35);
+    transition:box-shadow .18s,transform .15s;
+    -webkit-tap-highlight-color:transparent;touch-action:manipulation;
+    flex-shrink:0;margin-left:6px;border-left:1px solid rgba(255,255,255,0.07);
+  }
+  .mbn-cta svg{width:10px;height:10px;stroke:rgba(10,10,12,0.95);stroke-width:2.5;fill:none;flex-shrink:0;}
+  .mbn-cta:active{transform:scale(0.97);}
+  /* Sub-page rows */
+  .mbn-pages{
+    display:flex;align-items:center;justify-content:flex-start;
+    gap:2px;max-height:0;overflow:hidden;
+    transition:max-height .3s cubic-bezier(.4,0,.2,1),opacity .24s ease;
+    opacity:0;width:100%;scrollbar-width:none;
+  }
+  .mbn-pages::-webkit-scrollbar{display:none;}
+  .mbn-pages.on{max-height:40px;opacity:1;overflow-x:auto;padding-top:3px;}
+  /* Page items */
+  .mbn-item{
+    display:flex;align-items:center;gap:4px;
+    padding:4px 10px;border-radius:8px;cursor:pointer;
+    font-family:var(--ff);font-size:10.5px;font-weight:500;letter-spacing:-.01em;
+    color:rgba(255,255,255,0.4);
+    transition:color .14s,background .14s,border-color .14s;
+    white-space:nowrap;border:1px solid transparent;
+    position:relative;flex-shrink:0;background:none;
+    -webkit-tap-highlight-color:transparent;touch-action:manipulation;min-height:34px;
+  }
+  .mbn-item:active{background:rgba(255,255,255,0.07);}
+  .mbn-item.active{
+    color:var(--gold);background:rgba(226,218,206,0.08);
+    border-color:rgba(226,218,206,0.13);box-shadow:0 0 10px rgba(226,218,206,0.06);
+  }
+  .mbn-item.active::after{
+    content:'';position:absolute;bottom:-1px;left:28%;right:28%;height:1.5px;
+    background:var(--gold);border-radius:2px;opacity:.6;
+  }
+  .mbn-icon{
+    width:12px;height:12px;opacity:.55;flex-shrink:0;
+    display:flex;align-items:center;justify-content:center;
+  }
+  .mbn-icon svg{width:12px;height:12px;stroke:currentColor;stroke-width:1.8;fill:none;}
+  .mbn-item.active .mbn-icon{opacity:1;}
+  /* Pad main content so it clears the nav */
+  .main{padding-bottom:calc(100px + env(safe-area-inset-bottom))!important;}
+}
 </style>
 
-<!-- ── MOBILE BOTTOM NAV ── -->
-<div id="mbn-backdrop" class="mbn-backdrop" onclick="closeMbnMore()"></div>
-<div id="mobile-bottom-nav">
-  <div class="mbn-tabs">
-    <button class="mbn-tab active" id="mbn-calendar" onclick="mbnGo('calendar')" type="button">
-      <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-      <span>Calendar</span>
-    </button>
-    <button class="mbn-tab" id="mbn-trades" onclick="mbnGo('trades')" type="button">
-      <svg viewBox="0 0 24 24"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg>
-      <span>Trades</span>
-    </button>
-    <button class="mbn-tab" id="mbn-log" onclick="openTradeForm()" type="button" style="color:var(--gold)">
-      <div style="width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,var(--gold2),var(--gold));display:flex;align-items:center;justify-content:center;box-shadow:0 0 18px rgba(226,218,206,0.3);margin-bottom:-2px">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="rgba(10,10,12,0.95)" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+<!-- ── NEW MOBILE BOTTOM NAV — matches desktop pill style ── -->
+<nav id="mobile-bottom-nav">
+  <div class="mbn-pill">
+    <div class="mbn-nav-wrap">
+      <!-- Row 1: Calendar + Group tabs + Log CTA -->
+      <div class="mbn-groups-row">
+        <button class="mbn-cal-tab active" id="mbni-calendar-tab" onclick="go('calendar')" type="button">
+          <span class="mbn-icon"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></span>
+          Cal
+        </button>
+        <div class="mbn-groups" id="mbn-groups">
+          <div class="mbn-pill-indicator" id="mbn-pill-ind"></div>
+          <button class="mbn-grp-tab" id="mbgt-journal" onclick="mbnSwitchGroup('journal')" type="button"><span class="mbn-grp-dot"></span>Journal</button>
+          <div class="mbn-grp-div"></div>
+          <button class="mbn-grp-tab" id="mbgt-analytics" onclick="mbnSwitchGroup('analytics')" type="button"><span class="mbn-grp-dot"></span>Analytics</button>
+          <div class="mbn-grp-div"></div>
+          <button class="mbn-grp-tab" id="mbgt-edge" onclick="mbnSwitchGroup('edge')" type="button"><span class="mbn-grp-dot"></span>Edge</button>
+          <div class="mbn-grp-div"></div>
+          <button class="mbn-grp-tab" id="mbgt-more" onclick="mbnSwitchGroup('more')" type="button"><span class="mbn-grp-dot"></span>More</button>
+        </div>
+        <button class="mbn-cta" onclick="openTradeForm()" type="button">
+          <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Log
+        </button>
       </div>
-      <span>Log</span>
-    </button>
-    <button class="mbn-tab" id="mbn-summary" onclick="mbnGo('summary')" type="button">
-      <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
-      <span>Summary</span>
-    </button>
-    <button class="mbn-tab" id="mbn-more-btn" onclick="toggleMbnMore()" type="button">
-      <svg viewBox="0 0 24 24"><circle cx="12" cy="5" r="1" fill="currentColor"/><circle cx="12" cy="12" r="1" fill="currentColor"/><circle cx="12" cy="19" r="1" fill="currentColor"/></svg>
-      <span>More</span>
-    </button>
+      <!-- Row 2: Journal pages -->
+      <div class="mbn-pages" id="mbnp-journal">
+        <div class="mbn-item" id="mbni-trades" onclick="go('trades')"><span class="mbn-icon"><svg viewBox="0 0 24 24"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg></span>Trades</div>
+        <div class="mbn-item" id="mbni-notebook" onclick="go('notebook')"><span class="mbn-icon"><svg viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg></span>Notebook</div>
+        <div class="mbn-item" id="mbni-replay" onclick="go('replay')"><span class="mbn-icon"><svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg></span>Replay</div>
+        <div class="mbn-item" id="mbni-import" onclick="go('import')"><span class="mbn-icon"><svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg></span>Import</div>
+      </div>
+      <!-- Row 2: Analytics pages -->
+      <div class="mbn-pages" id="mbnp-analytics">
+        <div class="mbn-item" id="mbni-summary" onclick="go('summary')"><span class="mbn-icon"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg></span>Summary</div>
+        <div class="mbn-item" id="mbni-analytics" onclick="go('analytics')"><span class="mbn-icon"><svg viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></span>Analytics</div>
+        <div class="mbn-item" id="mbni-equity" onclick="go('equity')"><span class="mbn-icon"><svg viewBox="0 0 24 24"><polyline points="2 17 7 12 11 16 16 10 22 14"/><line x1="2" y1="7" x2="2" y2="17"/></svg></span>Equity</div>
+        <div class="mbn-item" id="mbni-visualize" onclick="go('visualize')"><span class="mbn-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/></svg></span>Visuals</div>
+        <div class="mbn-item" id="mbni-data" onclick="go('data')"><span class="mbn-icon"><svg viewBox="0 0 24 24"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg></span>Data</div>
+      </div>
+      <!-- Row 2: Edge pages -->
+      <div class="mbn-pages" id="mbnp-edge">
+        <div class="mbn-item" id="mbni-checklist" onclick="go('checklist')"><span class="mbn-icon"><svg viewBox="0 0 24 24"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg></span>Checklist</div>
+        <div class="mbn-item" id="mbni-risk" onclick="go('risk')"><span class="mbn-icon"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></span>Risk Calc</div>
+        <div class="mbn-item" id="mbni-news" onclick="go('news')"><span class="mbn-icon"><svg viewBox="0 0 24 24"><path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 0-2 2Zm0 0a2 2 0 0 1-2-2v-9c0-1.1.9-2 2-2h2"/></svg></span>Econ Cal</div>
+      </div>
+      <!-- Row 2: More pages -->
+      <div class="mbn-pages" id="mbnp-more">
+        <div class="mbn-item" id="mbni-aibot" onclick="go('aibot')"><span class="mbn-icon"><svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></span>YzenBot</div>
+        <div class="mbn-item" id="mbni-report" onclick="go('report')"><span class="mbn-icon"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></span>Report</div>
+        <div class="mbn-item" id="mbni-deposit" onclick="go('deposit')"><span class="mbn-icon"><svg viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></span>Deposit</div>
+        <div class="mbn-item" id="mbni-settings" onclick="go('settings')"><span class="mbn-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></span>Settings</div>
+        <div class="mbn-item" id="mbni-feedback" onclick="go('feedback')"><span class="mbn-icon"><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></span>Feedback</div>
+      </div>
+    </div>
   </div>
-</div>
-<!-- More panel -->
-<div id="mbn-more-panel" class="mbn-more-panel">
-  <div class="mbn-more-head">
-    <div class="mbn-more-title">All Pages</div>
-    <div class="mbn-more-close" onclick="closeMbnMore()">✕</div>
-  </div>
-  <div class="mbn-more-grid">
-    <div class="mbn-more-item" onclick="mbnGo('notebook')"><svg viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg><span>Notebook</span></div>
-    <div class="mbn-more-item" onclick="mbnGo('replay')"><svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg><span>Replay</span></div>
-    <div class="mbn-more-item" onclick="mbnGo('analytics')"><svg viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg><span>Analytics</span></div>
-    <div class="mbn-more-item" onclick="mbnGo('equity')"><svg viewBox="0 0 24 24"><polyline points="2 17 7 12 11 16 16 10 22 14"/><line x1="2" y1="7" x2="2" y2="17"/></svg><span>Equity</span></div>
-    <div class="mbn-more-item" onclick="mbnGo('checklist')"><svg viewBox="0 0 24 24"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg><span>Checklist</span></div>
-    <div class="mbn-more-item" onclick="mbnGo('risk')"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg><span>Risk Calc</span></div>
-    <div class="mbn-more-item" onclick="mbnGo('news')"><svg viewBox="0 0 24 24"><path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 0-2 2Zm0 0a2 2 0 0 1-2-2v-9c0-1.1.9-2 2-2h2"/></svg><span>Econ Cal</span></div>
-    <div class="mbn-more-item" onclick="mbnGo('aibot')"><svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg><span>YzenBot</span></div>
-    <div class="mbn-more-item" onclick="mbnGo('report')"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg><span>Report</span></div>
-    <div class="mbn-more-item" onclick="mbnGo('visualize')"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/><line x1="2" y1="12" x2="22" y2="12"/></svg><span>Visualize</span></div>
-    <div class="mbn-more-item" onclick="mbnGo('settings')"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg><span>Settings</span></div>
-    <div class="mbn-more-item" onclick="mbnGo('import')"><svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg><span>Import</span></div>
-  </div>
-</div>
+</nav>
 
 <!-- Music Overlay (full picker) -->
 <div id="music-overlay" onclick="if(event.target===this)closeMusicOverlay()">
@@ -10756,52 +10885,66 @@ function _seekTo(e, bar){
   const pct = (e.clientX - rect.left) / rect.width;
   if(_mAudio && _mAudio.duration){ _mAudio.currentTime = pct * _mAudio.duration; }
 }
-// ── MOBILE BOTTOM NAV ──
-// ── MOBILE BOTTOM NAV — tab UI updater (no navigation, no recursion) ──
-function updateMbnTabUI(page){
-  document.querySelectorAll('.mbn-tab').forEach(t=>t.classList.remove('active'));
-  document.querySelectorAll('.mbn-more-item').forEach(i=>i.classList.remove('active'));
-  const map={calendar:'mbn-calendar',trades:'mbn-trades',summary:'mbn-summary'};
-  if(map[page]){
-    const el=document.getElementById(map[page]);
-    if(el) el.classList.add('active');
+// ── MOBILE BOTTOM NAV — pill style matching desktop ──
+const MBN_GROUP_MAP={
+  calendar:'calendar',
+  trades:'journal',notebook:'journal',replay:'journal',import:'journal',
+  summary:'analytics',analytics:'analytics',equity:'analytics',visualize:'analytics',data:'analytics',
+  checklist:'edge',risk:'edge',news:'edge',
+  aibot:'more',report:'more',deposit:'more',settings:'more',feedback:'more',admin:'more'
+};
+let _mbnGroup=null;
+
+function mbnSwitchGroup(group){
+  _mbnGroup=group;
+  document.querySelectorAll('.mbn-grp-tab').forEach(t=>t.classList.remove('on'));
+  document.querySelectorAll('.mbn-pages').forEach(p=>p.classList.remove('on'));
+  const gt=document.getElementById('mbgt-'+group);
+  if(gt) gt.classList.add('on');
+  const pg=document.getElementById('mbnp-'+group);
+  if(pg) pg.classList.add('on');
+  // Animate indicator
+  requestAnimationFrame(()=>{
+    const ind=document.getElementById('mbn-pill-ind');
+    if(!ind||!gt) return;
+    const groups=document.getElementById('mbn-groups');
+    if(!groups) return;
+    const gr=groups.getBoundingClientRect(),tr=gt.getBoundingClientRect();
+    ind.style.left=(tr.left-gr.left)+'px';ind.style.width=tr.width+'px';
+    ind.classList.add('visible');
+  });
+}
+
+function mbnSyncNav(page){
+  const group=MBN_GROUP_MAP[page]||'journal';
+  // Calendar tab active state
+  const calTab=document.getElementById('mbni-calendar-tab');
+  if(calTab) calTab.classList.toggle('active',page==='calendar');
+  if(page==='calendar'){
+    document.querySelectorAll('.mbn-grp-tab').forEach(t=>t.classList.remove('on'));
+    document.querySelectorAll('.mbn-pages').forEach(p=>p.classList.remove('on'));
+    document.getElementById('mbn-pill-ind')?.classList.remove('visible');
+    _mbnGroup=null;
   } else {
-    // page lives in the "More" panel — mark the More button active
-    const moreBtn=document.getElementById('mbn-more-btn');
-    if(moreBtn) moreBtn.classList.add('active');
+    if(_mbnGroup!==group) mbnSwitchGroup(group);
   }
+  // Active page item
+  document.querySelectorAll('.mbn-item').forEach(i=>i.classList.remove('active'));
+  const item=document.getElementById('mbni-'+page);
+  if(item) item.classList.add('active');
 }
-// Called by bottom nav tabs — navigates AND updates tab highlight
-function mbnGo(page){
-  closeMbnMore();
-  if(typeof go==='function') go(page);  // go() is the original un-patched fn here
-  updateMbnTabUI(page);
-}
-function toggleMbnMore(){
-  const panel=document.getElementById('mbn-more-panel');
-  const backdrop=document.getElementById('mbn-backdrop');
-  panel.classList.toggle('open');
-  backdrop.classList.toggle('open');
-}
-function closeMbnMore(){
-  document.getElementById('mbn-more-panel')?.classList.remove('open');
-  document.getElementById('mbn-backdrop')?.classList.remove('open');
-}
-// Keep bottom nav tab highlight in sync when go() is called from the desktop nav
-// IMPORTANT: patch calls updateMbnTabUI, NOT mbnGo — avoids infinite recursion
+
+// Patch go() once — calls original then syncs mobile nav (no recursion)
 (function(){
-  function _patch(originalGo){
-    window.go=function(page,...args){
-      originalGo.call(this,page,...args);
-      updateMbnTabUI(page);
-    };
-  }
-  if(typeof window.go==='function') _patch(window.go);
+  const _orig=window.go;
+  if(typeof _orig!=='function') return;
+  window.go=function(page,...args){
+    _orig.call(this,page,...args);
+    if(typeof mbnSyncNav==='function') mbnSyncNav(page);
+  };
   document.addEventListener('DOMContentLoaded',()=>{
-    // If go() was re-assigned after the IIFE ran (shouldn't happen but be safe)
-    if(typeof window.go==='function' && window.go.name!=='patched'){
-      _patch(window.go);
-    }
+    const ap=document.querySelector('.page.active');
+    if(ap){ const pg=ap.id.replace('page-',''); mbnSyncNav(pg); }
   });
 })();
   const vs = document.querySelector('.mo-vol input[type=range]');
