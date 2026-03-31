@@ -10732,110 +10732,64 @@ function _seekTo(e, bar){
   const pct = (e.clientX - rect.left) / rect.width;
   if(_mAudio && _mAudio.duration){ _mAudio.currentTime = pct * _mAudio.duration; }
 }
-// ── MOBILE NAVIGATION LOGIC — Grouped exactly like laptop ──
+
+/* ── MOBILE NAV LOGIC ── */
 const MBN_MAP = {
   trades:'journal', notebook:'journal', replay:'journal', import:'journal',
   summary:'analytics', analytics:'analytics', equity:'analytics', visualize:'analytics', data:'analytics',
   checklist:'edge', risk:'edge', news:'edge',
-  aibot:'more', report:'more', settings:'more'
+  aibot:'more', report:'more', settings:'more', account:'more'
 };
 
 function mbnSetGroup(group){
   document.querySelectorAll('.mbn-grp-tab').forEach(t => t.classList.remove('on'));
   document.querySelectorAll('.mbn-pages').forEach(p => p.classList.remove('on'));
-  document.getElementById('mbn-groups-bar')?.classList.remove('expanded');
-  
   if(group === 'calendar') {
     document.getElementById('mbgt-calendar')?.classList.add('on');
     return;
   }
-  
   const pg = document.getElementById('mbnp-' + group);
   const gt = document.getElementById('mbgt-' + group);
-  if(pg && gt) {
-    pg.classList.add('on');
-    gt.classList.add('on');
-    document.getElementById('mbn-groups-bar').classList.add('expanded');
-  }
+  if(pg && gt) { pg.classList.add('on'); gt.classList.add('on'); }
 }
 
 function mbnSyncPage(page){
   document.querySelectorAll('.mbn-item').forEach(i => i.classList.remove('active'));
   const item = document.getElementById('mbni-' + page);
   if(item) item.classList.add('active');
-  
   const group = MBN_MAP[page] || (page === 'calendar' ? 'calendar' : null);
   if(group) mbnSetGroup(group);
 }
 
 (function(){
   const _orig = window.go;
-  if(typeof _orig !== 'function') return;
-  window.go = function(page, ...args){
-    _orig.call(this, page, ...args);
-    if(typeof mbnSyncPage === 'function') mbnSyncPage(page);
-  };
-  // Initial sync on load
+  if(typeof _orig === 'function') {
+    window.go = function(page, ...args){
+      _orig.call(this, page, ...args);
+      if(typeof mbnSyncPage === 'function') mbnSyncPage(page);
+    };
+  }
   document.addEventListener('DOMContentLoaded', () => { setTimeout(() => {
     const active = document.querySelector('.page.active');
-    if(active) { const pg = active.id.replace('page-',''); mbnSyncPage(pg); }
+    if(active) mbnSyncPage(active.id.replace('page-',''));
   }, 1000); });
 })();
-  const vs = document.querySelector('.mo-vol input[type=range]');
-  if(vs){
-    vs.value = ML.volume;
-    vs.style.setProperty('--value', (ML.volume * 100) + '%');
-    
-    // Add change event listener for real-time progress update
-    vs.addEventListener('input', (e)=>{
-      e.target.style.setProperty('--value', (e.target.value * 100) + '%');
-    });
-  }
-  
-  // keep disc animation in sync
-  setInterval(()=>{
-    const ring = document.getElementById('mo-disc-ring');
-    if(ring){ ring.classList.toggle('paused', !ML.playing); }
-  }, 400);
-});
 </script>
-<script>
-// Initialize Supabase client (already loaded via CDN in <head>)
-let supabaseClient = null;
-try {
-  if(typeof supabase !== 'undefined') {
-    supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-  }
-} catch(e) {
-  console.warn('⚠️ Supabase not initialized. Using local storage fallback.');
-}
 
+<script>
+// Supabase & Audio
 (function() {
   function wireAudio() {
-    console.log('wireAudio called, checking if ready...');
     if(typeof _songFileURLs !== 'undefined' && typeof DEFAULT_SONGS !== 'undefined') {
-      console.log('✅ wireAudio: populating _songFileURLs');
-      DEFAULT_SONGS.forEach(function(song) {
-        if(AUDIO_DATA[song.id]) {
-          _songFileURLs[song.id] = AUDIO_DATA[song.id];
-          console.log('Set URL for', song.id, ':', _songFileURLs[song.id]);
-        } else {
-          console.warn('⚠️ No AUDIO_DATA for:', song.id);
-          _songFileURLs[song.id] = 'music/' + song.id + '.mp3';
-        }
+      DEFAULT_SONGS.forEach(s => {
+        if(AUDIO_DATA[s.id]) _songFileURLs[s.id] = AUDIO_DATA[s.id];
+        else _songFileURLs[s.id] = 'music/' + s.id + '.mp3';
       });
-      console.log('✅ Calling _loadML');
       if(typeof _loadML === 'function') _loadML();
-      console.log('✅ Calling _showMini');
       if(typeof _showMini === 'function') setTimeout(_showMini, 650);
-    } else {
-      console.log('⏳ Waiting for _songFileURLs and DEFAULT_SONGS...');
-      setTimeout(wireAudio, 100);
-    }
+    } else { setTimeout(wireAudio, 100); }
   }
-  // Run immediately AND on DOMContentLoaded
   wireAudio();
-  document.addEventListener('DOMContentLoaded', wireAudio);
 })();
 </script>
 </body>
