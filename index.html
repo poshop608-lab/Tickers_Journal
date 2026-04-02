@@ -1494,6 +1494,343 @@ section{padding:110px 0}
 .plan.rv.on.plan-shadow { transform:scale(1.03) !important; }
 .plan.rv.on.plan-shadow:hover { transform:scale(1.03) translateY(-8px) !important; }
 
+
+/* ═══════════════════════════════════════════════════════════
+   V8 MASTER PATCH: Showcase · Pricing · Mobile · Fonts
+═══════════════════════════════════════════════════════════ */
+
+/* ── CLASH DISPLAY applied globally to headers ── */
+.sec-title, .hero-title, .sc-title, .fg-title, .how-title,
+.plan-name, .cta-title, .wf-title, .exp-h {
+  font-family: 'Clash Display', var(--fd), sans-serif !important;
+}
+.hero-desc, .sc-desc, .fg-desc, .how-desc, .sec-sub, .fg-pill-desc {
+  font-family: 'Plus Jakarta Sans', var(--ff), sans-serif !important;
+}
+
+/* ══════════════════════════════════
+   SHOWCASE SCROLL — FILLED PANELS
+══════════════════════════════════ */
+
+/* Make the left panel taller & richer */
+.sc-panels { height: 480px; }
+
+/* Giant ghost step number VISIBLE behind text */
+.sc-step-n {
+  font-family: 'Clash Display', var(--fd), sans-serif !important;
+  font-size: clamp(120px, 18vw, 200px) !important;
+  color: transparent !important;
+  -webkit-text-stroke: 1px rgba(244,241,236,0.08) !important;
+  top: -30px !important; left: -20px !important;
+}
+
+/* Title bigger */
+.sc-title {
+  font-size: clamp(44px, 5.5vw, 68px) !important;
+  line-height: .9 !important;
+  margin-bottom: 22px !important;
+}
+
+/* Live stats row (already added, make bigger) */
+.sc-live-stats { margin-top: 32px; padding-top: 24px; }
+.sc-live-n {
+  font-family: 'Clash Display', var(--fd), sans-serif !important;
+  font-size: 32px !important;
+}
+
+/* Accent line under step label */
+.sc-panel-step {
+  position: relative;
+  padding-bottom: 20px;
+  margin-bottom: 20px;
+}
+.sc-panel-step::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0;
+  width: 32px; height: 1px;
+  background: rgba(244,241,236,0.25);
+}
+
+/* Mock window taller */
+.sc-mocks { height: 580px !important; }
+.sc-img-body { min-height: 540px !important; }
+
+/* Overlay block — bigger ghost number */
+.sc-ov-num {
+  font-family: 'Clash Display', var(--fd), sans-serif !important;
+  font-size: 96px !important;
+  color: rgba(244,241,236,0.08) !important;
+  line-height: .85 !important;
+}
+.sc-ov-head {
+  font-family: 'Clash Display', var(--fd), sans-serif !important;
+  font-size: 28px !important;
+  letter-spacing: .06em !important;
+}
+
+/* Floating accent glow behind the mock */
+.sc-mock::after {
+  content: '';
+  position: absolute;
+  bottom: -60px; left: 50%;
+  transform: translateX(-50%);
+  width: 300px; height: 150px;
+  border-radius: 50%;
+  background: var(--mock-glow, rgba(31,212,160,0.08));
+  filter: blur(50px);
+  pointer-events: none;
+  z-index: -1;
+  transition: background .8s;
+}
+.sc-mock[data-sc="0"]::after { --mock-glow: rgba(31,212,160,0.10); }
+.sc-mock[data-sc="1"]::after { --mock-glow: rgba(96,165,250,0.10); }
+.sc-mock[data-sc="2"]::after { --mock-glow: rgba(226,218,206,0.07); }
+.sc-mock[data-sc="3"]::after { --mock-glow: rgba(167,139,250,0.10); }
+
+/* Accent color bar on active mock */
+.mock-win::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: var(--mock-bar, linear-gradient(90deg,#1fd4a0,transparent));
+  opacity: 0;
+  transition: opacity .6s, background .6s;
+  z-index: 5;
+}
+.sc-mock.sc-active .mock-win::after { opacity: 1; }
+.sc-mock[data-sc="0"].sc-active .mock-win::after { background: linear-gradient(90deg,#1fd4a0 0%,transparent 70%); }
+.sc-mock[data-sc="1"].sc-active .mock-win::after { background: linear-gradient(90deg,#60a5fa 0%,transparent 70%); }
+.sc-mock[data-sc="2"].sc-active .mock-win::after { background: linear-gradient(90deg,#E2DACE 0%,transparent 70%); }
+.sc-mock[data-sc="3"].sc-active .mock-win::after { background: linear-gradient(90deg,#a78bfa 0%,transparent 70%); }
+
+/* Progress bar colored */
+.sc-progress-fill {
+  background: linear-gradient(to bottom, #1fd4a0, #60a5fa, #a78bfa) !important;
+  width: 3px !important;
+}
+.sc-progress { width: 3px !important; }
+
+/* ══════════════════════════════════
+   PRICING — VIBE UPGRADE
+══════════════════════════════════ */
+#pricing { overflow: hidden; }
+
+/* Giant PRICING ghost word */
+.pricing-ghost {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%,-50%);
+  font-family: 'Clash Display', var(--fd), sans-serif;
+  font-size: clamp(80px,15vw,220px);
+  font-weight: 700;
+  letter-spacing: -.02em;
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(244,241,236,0.04);
+  white-space: nowrap;
+  pointer-events: none;
+  user-select: none;
+  z-index: 0;
+}
+
+/* Plan cards — richer */
+.plan {
+  position: relative;
+  overflow: hidden;
+}
+/* Animated shimmer on shadow plan */
+@keyframes shimmer {
+  0%   { transform: translateX(-150%) rotate(-15deg); }
+  100% { transform: translateX(350%) rotate(-15deg); }
+}
+.plan-shadow::after {
+  content: '';
+  position: absolute;
+  top: -50%; left: -50%;
+  width: 60%; height: 200%;
+  background: linear-gradient(90deg,transparent,rgba(244,241,236,0.04),transparent);
+  transform: translateX(-150%) rotate(-15deg);
+  animation: shimmer 4s ease-in-out 2s infinite;
+  pointer-events: none;
+  z-index: 1;
+}
+/* Price number bigger */
+.plan-amt {
+  font-family: 'Clash Display', var(--fd), sans-serif !important;
+  font-size: 64px !important;
+  letter-spacing: -.01em !important;
+}
+.plan-name {
+  font-size: 32px !important;
+  letter-spacing: .05em !important;
+}
+/* Features list better spacing */
+.plan-feats { gap: 12px !important; }
+.plan-feats li { font-size: 13.5px !important; line-height: 1.5 !important; }
+/* Glowing border on shadow plan */
+.plan-shadow {
+  box-shadow:
+    0 0 0 1px rgba(244,241,236,0.15),
+    0 30px 80px rgba(0,0,0,.6),
+    0 0 60px -20px rgba(244,241,236,0.08) !important;
+}
+
+/* ══════════════════════════════════
+   MOBILE — iOS RESPONSIVE FIX
+══════════════════════════════════ */
+@media (max-width: 768px) {
+
+  /* SHOWCASE: stack vertically on mobile */
+  .showcase-pin-inner {
+    grid-template-columns: 1fr !important;
+    gap: 24px !important;
+    padding: 16px 20px !important;
+    align-items: flex-start !important;
+    overflow-y: auto !important;
+  }
+  .sc-panels { height: auto !important; min-height: 280px !important; }
+  .sc-panel { position: relative !important; inset: auto !important; opacity: 1 !important; transform: none !important; }
+  .sc-panel:not(.sc-active) { display: none !important; }
+  .sc-mocks { height: 320px !important; }
+  .sc-img-body { min-height: 280px !important; }
+  .sc-step-n { font-size: 80px !important; top: -10px !important; }
+  .sc-title { font-size: 36px !important; }
+  .sc-live-n { font-size: 22px !important; }
+  .sc-live-stat { padding: 0 12px 0 0 !important; }
+  .showcase-scroll-zone { height: auto !important; }
+  .showcase-pin { position: relative !important; height: auto !important; padding: 40px 0 !important; }
+
+  /* Scroll navigation on mobile */
+  .sc-sidenav { display: none !important; }
+  .sc-progress { display: none !important; }
+
+  /* Mobile scroll buttons */
+  .sc-mobile-nav {
+    display: flex !important;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 20px;
+    padding: 0 20px;
+  }
+  .sc-mob-btn {
+    width: 40px; height: 40px;
+    border-radius: 50%;
+    background: rgba(244,241,236,0.06);
+    border: 1px solid rgba(244,241,236,0.12);
+    color: var(--w2);
+    font-size: 16px;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: background .2s;
+  }
+  .sc-mob-btn:hover { background: rgba(244,241,236,0.12); }
+
+  /* FEATURE GRID mobile */
+  .fg-row-1, .fg-row-2, .fg-row-3 { grid-template-columns: 1fr !important; }
+  .fg-hero .fg-img-wrap, .fg-tall .fg-img-wrap, .fg-med .fg-img-wrap { height: 200px !important; }
+  .fg-title { font-size: 22px !important; }
+
+  /* HOW IT WORKS mobile */
+  .how-grid { grid-template-columns: 1fr !important; }
+  .how-card { padding: 28px 22px !important; }
+  .how-num { font-size: 60px !important; top: 10px !important; right: 14px !important; }
+  .how-title { font-size: 24px !important; }
+  .how-bottom {
+    flex-direction: column !important;
+    gap: 24px !important;
+    padding: 28px 20px !important;
+  }
+  .how-bottom-div { width: 60px !important; height: 1px !important; }
+  .how-b-n { font-size: 28px !important; }
+
+  /* PRICING mobile */
+  .plans { grid-template-columns: 1fr !important; max-width: 400px !important; margin: 0 auto !important; }
+  .plan-shadow { transform: none !important; }
+  .plan-shadow:hover { transform: translateY(-6px) !important; }
+  .plan-amt { font-size: 52px !important; }
+  .pricing-ghost { display: none; }
+
+  /* BENTO PILL cards */
+  .fg-row-3 { grid-template-columns: 1fr !important; }
+  .fg-pill { flex-direction: column !important; gap: 12px !important; }
+  .fg-pill-badge { display: none; }
+
+  /* NAV mobile */
+  .nav-links { display: none !important; }
+  .nav-inner { grid-template-columns: 1fr auto !important; }
+
+  /* Hero mobile */
+  .hero-title { font-size: clamp(52px, 12vw, 80px) !important; }
+  .hero-italic { font-size: clamp(44px, 10vw, 68px) !important; }
+  .hero-ctas { flex-direction: column !important; align-items: center !important; }
+  .btn-primary, .btn-ghost { width: 100% !important; justify-content: center !important; max-width: 320px !important; }
+
+  /* STAT BAND mobile */
+  .stat-inner { gap: 20px !important; justify-content: center !important; }
+  .stat-n { font-size: 36px !important; }
+
+  /* SECTION padding */
+  section, .band { padding: 72px 0 !important; }
+  .wrap { padding: 0 20px !important; }
+
+  /* TESTI grid mobile */
+  .testi-grid { grid-template-columns: 1fr !important; }
+
+  /* FEAT showcase */
+  .feat-showcase { padding: 72px 0 !important; }
+  .feat-showcase > div { padding: 0 20px !important; }
+}
+
+@media (max-width: 480px) {
+  .sc-title { font-size: 30px !important; }
+  .how-title { font-size: 22px !important; }
+  .hero-title { font-size: clamp(44px, 14vw, 64px) !important; }
+  .fg-card { border-radius: 16px !important; }
+  .fg-content { padding: 16px 18px 18px !important; }
+}
+
+
+/* Plan entry animation */
+.plan.rv { opacity:0 !important; transform:translateY(28px) !important; transition: opacity .7s cubic-bezier(.22,.68,0,1), transform .7s cubic-bezier(.22,.68,0,1), box-shadow .4s, border-color .4s !important; }
+.plan.rv.fsc-on { opacity:1 !important; transform:translateY(0) !important; }
+.plan-shadow.rv.fsc-on { transform:scale(1.03) !important; }
+.plan-shadow.rv.fsc-on:hover { transform:scale(1.03) translateY(-8px) !important; }
+
+/* Pricing visual accent strips */
+.plan::before {
+  content:'';position:absolute;top:0;left:0;right:0;height:3px;
+  border-radius:22px 22px 0 0;
+  opacity:0;transition:opacity .5s;
+}
+.plan:hover::before { opacity:1; }
+.plan-free::before   { background:linear-gradient(90deg,rgba(244,241,236,0.15),transparent); }
+.plan-phantom::before{ background:linear-gradient(90deg,rgba(96,165,250,0.5),transparent); }
+.plan-shadow::before { background:linear-gradient(90deg,#E2DACE,rgba(226,218,206,0.3)); opacity:.6; }
+
+/* Pricing bottom CTA section */
+.pricing-bottom-cta {
+  margin-top: 60px;
+  text-align: center;
+  padding: 36px;
+  border: 1px solid rgba(244,241,236,0.07);
+  border-radius: 20px;
+  background: rgba(18,18,26,0.6);
+  backdrop-filter: blur(10px);
+  position: relative; z-index: 1;
+}
+.pricing-bottom-cta h3 {
+  font-family: 'Clash Display', var(--fd), sans-serif;
+  font-size: clamp(28px,4vw,42px);
+  letter-spacing:.04em;
+  color:var(--w1);
+  margin-bottom:10px;
+}
+.pricing-bottom-cta p {
+  font-family: 'Plus Jakarta Sans', var(--ff), sans-serif;
+  font-size:14px;color:var(--text2);margin-bottom:22px;
+}
+
 </style>
 </head>
 <body>
@@ -1634,6 +1971,7 @@ section{padding:110px 0}
         <div class="sc-panels" id="scPanels">
 
 <div class="sc-panel sc-active" data-sc="0">
+            <div class="sc-step-n">01</div>
             <div class="sc-panel-step">01 — Calendar View</div>
             <h3 class="sc-title">YOUR MONTH<br><span>AT A GLANCE</span></h3>
             <p class="sc-desc">Every winning and losing day painted across your calendar. Spot losing streaks, overtrading patterns, and your peak performance days — the moment you open it.</p>
@@ -1641,6 +1979,7 @@ section{padding:110px 0}
           </div>
 
 <div class="sc-panel" data-sc="1">
+            <div class="sc-step-n">02</div>
             <div class="sc-panel-step">02 — Equity Curve</div>
             <h3 class="sc-title">WATCH YOUR<br><span>EDGE GROW</span></h3>
             <p class="sc-desc">Your equity curve drawn in real-time as you log trades. Peak balance, max drawdown, cumulative P&L — all calculated automatically. No spreadsheets ever.</p>
@@ -1648,6 +1987,7 @@ section{padding:110px 0}
           </div>
 
 <div class="sc-panel" data-sc="2">
+            <div class="sc-step-n">03</div>
             <div class="sc-panel-step">03 — Trade Logging</div>
             <h3 class="sc-title">LOG IN<br><span>UNDER 60s</span></h3>
             <p class="sc-desc">Entry, exit, session, grade, outcome — captured with zero friction. Click your session, grade your execution, hit save. The journal does the rest.</p>
@@ -1655,6 +1995,7 @@ section{padding:110px 0}
           </div>
 
 <div class="sc-panel" data-sc="3">
+            <div class="sc-step-n">04</div>
             <div class="sc-panel-step">04 — YzenBot AI</div>
             <h3 class="sc-title">ASK YOUR<br><span>DATA ANYTHING</span></h3>
             <p class="sc-desc">YzenBot reads your actual trade history. Ask "why am I losing on Thursdays?" — get a real data-backed answer. Your AI. Your data. Your edge.</p>
@@ -1757,6 +2098,18 @@ section{padding:110px 0}
     
   </div>
 
+
+  <!-- Mobile showcase nav -->
+  <div class="sc-mobile-nav" style="display:none;">
+    <button class="sc-mob-btn" onclick="scGoTo(Math.max(0,window._scCurrent-1))">←</button>
+    <div style="display:flex;gap:8px;align-items:center;" id="scMobDots">
+      <div style="width:6px;height:6px;border-radius:50%;background:rgba(244,241,236,0.55);" class="sc-mob-dot"></div>
+      <div style="width:6px;height:6px;border-radius:50%;background:rgba(244,241,236,0.18);" class="sc-mob-dot"></div>
+      <div style="width:6px;height:6px;border-radius:50%;background:rgba(244,241,236,0.18);" class="sc-mob-dot"></div>
+      <div style="width:6px;height:6px;border-radius:50%;background:rgba(244,241,236,0.18);" class="sc-mob-dot"></div>
+    </div>
+    <button class="sc-mob-btn" onclick="scGoTo(Math.min(3,window._scCurrent+1))">→</button>
+  </div>
 </section>
 
 <!-- ══════════════════════════════════════════
@@ -2035,15 +2388,18 @@ section{padding:110px 0}
   <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none;z-index:0;overflow:hidden;">
     <div style="font-family:var(--fc,var(--fd));font-size:clamp(100px,18vw,260px);letter-spacing:-.02em;color:rgba(244,241,236,0.025);user-select:none;white-space:nowrap;font-weight:700;">PRICING</div>
   </div>
+  <div class="pricing-ghost">PRICING</div>
   <div class="wrap">
-    <div class="sec-hd ctr rv">
+    <div class="sec-hd ctr rv" style="position:relative;z-index:1;">
       <div class="kicker">Pricing</div>
-      <h2 class="sec-title" style="font-family:var(--fc,var(--fd));position:relative;">PICK YOUR<br><span class="glo">PLAN</span></h2>
+      <h2 class="sec-title">PICK YOUR<br><span class="glo">PLAN</span></h2>
+      <p class="sec-sub">Start free. Upgrade when you're ready to go deeper.</p>
+    </div>
       <p class="sec-sub">Start free. Upgrade when you're ready to go deeper.</p>
     </div>
     <div class="plans">
 
-      <div class="plan plan-free rv">
+      <div class="plan plan-free rv" style="transition-delay:.05s;opacity:0;transform:translateY(28px);">
         <span class="plan-sym">⬡</span>
         <div class="plan-name">FREE</div><div class="plan-tag">The beginning</div>
         <div class="plan-price"><span class="plan-amt">$0</span></div>
@@ -2109,7 +2465,13 @@ section{padding:110px 0}
       </div>
 
     </div>
-  </div>
+  
+    <div class="pricing-bottom-cta rv" style="transition-delay:.35s;opacity:0;transform:translateY(20px);">
+      <h3>STILL ON THE FENCE?</h3>
+      <p>Start free — no card required. Upgrade to Shadow when you're ready to go all in.</p>
+      <a href="index.html" class="btn-primary" style="display:inline-flex;">Start 7-Day Free Trial ✦</a>
+    </div>
+</div>
 </section>
 
 <!-- TESTIMONIALS -->
@@ -2539,7 +2901,7 @@ function faqToggle(btn){
   const dots = document.querySelectorAll('.sc-sdot');
   const progressFill = document.getElementById('scProgressFill');
   const TOTAL = panels.length;
-  let current = 0;
+  let current = 0; window._scCurrent = 0;
   let ticking = false;
 
   function setActive(idx){
@@ -2564,6 +2926,11 @@ function faqToggle(btn){
 
     // dots
     dots.forEach((d,i)=> d.classList.toggle('on', i===current));
+    window._scCurrent = current;
+    // mobile dots
+    document.querySelectorAll('.sc-mob-dot').forEach((d,i)=>{
+      d.style.background = i===current ? 'rgba(244,241,236,0.55)' : 'rgba(244,241,236,0.18)';
+    });
 
     // trigger bot animations on panel 3
     if(current === 3){
@@ -2582,9 +2949,13 @@ function faqToggle(btn){
   }
 
   window.scGoTo = function(idx){
-    // scroll zone to correct position
+    if(window.innerWidth <= 768){
+      // mobile: direct panel switch
+      setActive(Math.max(0,Math.min(3,idx)));
+      return;
+    }
     const zoneTop = zone.offsetTop;
-    const scrollTarget = zoneTop + (window.innerHeight * idx) + 10;
+    const scrollTarget = zoneTop + (window.innerHeight * 0.7 * idx) + 10;
     window.scrollTo({ top: scrollTarget, behavior:'smooth' });
   };
 
@@ -2621,7 +2992,7 @@ function faqToggle(btn){
    FEATURE CARDS — staggered scroll reveal
 ═══════════════════════════════════════════ */
 (function(){
-  const cards = document.querySelectorAll('.fsc, .fg-card, .fg-pill');
+  const cards = document.querySelectorAll('.fsc, .fg-card, .fg-pill, .plan, .pricing-bottom-cta, .rv');
   if(!cards.length) return;
   const obs = new IntersectionObserver((entries)=>{
     entries.forEach(e=>{
